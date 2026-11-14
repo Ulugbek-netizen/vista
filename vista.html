@@ -723,7 +723,7 @@ legend{font-weight:650;font-size:.95rem;padding:0;margin-bottom:8px}
       <li>NASA-STD-3001 Volume 1 Rev C: career radiation limit 600 mSv, strength at least 80% of baseline (<a href="https://www.nasa.gov/wp-content/uploads/2023/11/nasa-std-3001-vol-1-rev-c-with-signature.pdf">PDF</a>)</li>
       <li>NASA OCHMO technical briefs: carbon dioxide (<a href="https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-004-carbon-dioxide.pdf">TB-004</a>), radiation protection (<a href="https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-020-radiation-protection.pdf">TB-020</a>), SANS (<a href="https://www.nasa.gov/wp-content/uploads/2024/02/ochmo-mtb-001-sans.pdf">MTB-001</a>)</li>
       <li>NASA exploration nutrition requirements JSC-67378: fluids 32 mL per kg (<a href="https://ntrs.nasa.gov/api/citations/20205008306/downloads/JSC67378%20Expl%20Nutr%20Reqs%20042020.pdf">PDF</a>)</li>
-      <li>Canadian Space Agency: <a href="https://www.asc-csa.gc.ca/eng/news/articles/2026/2026-02-26-monitoring-radiation-astronaut-health.asp">Monitoring radiation and astronaut health</a> (2026) and <a href="https://www.asc-csa.gc.ca/eng/iss/science/why-do-we-conduct-science-experiments-in-space.asp">Why do we conduct science experiments in space?</a></li>
+      <li>Canadian Space Agency: <a href="https://www.asc-csa.gc.ca/eng/news/articles/2026/2026-02-26-monitoring-radiation-astronaut-health.asp">Monitoring radiation for astronaut health</a> (2026) and <a href="https://www.asc-csa.gc.ca/eng/iss/science/why-do-we-conduct-science-experiments-in-space.asp">Why do we conduct science experiments in space?</a></li>
       <li>Royal College of Physicians NEWS2 early-warning score; AHA/ACC 2025 blood-pressure guideline; ADA Standards of Care 2026, sections 2 and 6 (<a href="https://doi.org/10.2337/dc26-S006">doi</a>)</li>
       <li>Sleep: Watson et al. 2015, AASM/SRS (<a href="https://doi.org/10.5665/sleep.4716">doi</a>); Barger et al. 2014, astronaut sleep (<a href="https://doi.org/10.1016/S1474-4422(14)70122-X">doi</a>); Jones et al. 2022, ISS Reaction Self-Test (<a href="https://doi.org/10.1093/sleep/zsac006">doi</a>)</li>
       <li>Reaction and wellbeing: Basner et al. 2011, PVT-B (<a href="https://doi.org/10.1016/j.actaastro.2011.07.015">doi</a>); Kroenke et al. 2009, PHQ-4 (<a href="https://doi.org/10.1176/appi.psy.50.6.613">doi</a>)</li>
@@ -1619,7 +1619,7 @@ function linkMapSVG(L, t) {
   if (L.kind === 'leo') {
     const a = (t / (92.9 * 6e4)) % 1 * 2 * Math.PI, x = 110 + 76 * Math.cos(a), y = 110 - 76 * Math.sin(a);
     g = `<circle class="lk-earth" cx="110" cy="110" r="70" opacity=".85"/><circle class="lk-orbit" cx="110" cy="110" r="76"/><circle class="lk-craft" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5"/>`;
-    label = 'Schematic: the station circles Earth about every 93 minutes, a few hundred kilometres up.';
+    label = 'Schematic: the station circles Earth about every 90 minutes, a few hundred kilometres up.';
   } else if (L.kind === 'moon') {
     const T = (t - J2000) / DAY / 36525, lam = (218.3164477 + 481267.88123421 * T) * RAD, x = 110 + 82 * Math.cos(lam), y = 110 - 82 * Math.sin(lam);
     g = `<circle class="lk-orbit" cx="110" cy="110" r="82"/><circle class="lk-earth" cx="110" cy="110" r="10"/><line class="lk-sig" x1="110" y1="110" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"/><circle class="lk-moon" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5"/>`;

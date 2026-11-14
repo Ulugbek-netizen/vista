@@ -7,6 +7,7 @@ Vista gives astronauts a clear view of their own health, far from Earth. In this
 
 - **Live app:** https://vista-health.vercel.app (Vercel) · mirror on Azure Static Web Apps: https://black-sky-0803de80f.8.azurestaticapps.net
 - **Source:** https://github.com/Ulugbek-netizen/vista (one HTML file, no dependencies, works offline)
+- **Research documentation:** [docs/Vista-Research-Documentation.docx](docs/Vista-Research-Documentation.docx) (26 pages: methods, every threshold and its source, the bone and Mission link models, validation, privacy and limitations)
 
 ## Why it matters
 
@@ -60,7 +61,7 @@ The app's **Privacy charter** makes six commitments: health data stays on the de
 - "Check space weather": a date range goes to api.nasa.gov.
 - "Send report to flight surgeon": the previewed report goes to the team's Supabase inbox (EU, Frankfurt).
 
-All three requests are made with cookies switched off and without a referrer. A strict Content-Security-Policy allows the app's own script and these three services only. The full policy is on the app's Privacy page (`#privacy`).
+All three requests are made with cookies switched off and without a referrer. A strict Content-Security-Policy allows the app's own script and these three services only. The full charter is on the app's Privacy charter page (`#privacy`).
 
 ## Run it
 
