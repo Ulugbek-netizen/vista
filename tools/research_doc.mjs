@@ -11,6 +11,11 @@ import {
 const here = path.dirname(fileURLToPath(import.meta.url));
 const OUT = process.argv[2] || path.join(here, '..', 'docs', 'Vista-Research-Documentation.docx');
 const TXT = process.argv[3] || null;
+/* The Library tables are read from vista.html, so the document always matches the app. */
+const KB = JSON.parse(fs.readFileSync(path.join(here, '..', 'vista.html'), 'utf8').match(/\/\*KB\*\/(.*?)\/\*\/KB\*\//s)[1].replace(/<\\!--/g, '<!--'));
+const SYSN = {mind: 'Brain & behaviour', eyes: 'Eyes', cardio: 'Heart & circulation', resp: 'Lungs & cabin air', immune: 'Immune system', metab: 'Metabolism & kidneys', msk: 'Bones & muscles', rad: 'Radiation exposure'};
+const CHKN = {hr: 'heart rate', bp: 'blood pressure', spo2: 'SpO₂', co2: 'cabin CO₂', temp: 'temperature', sleep: 'sleep', mood: 'mood', phq4: 'PHQ-4', react: 'reaction test', vision: 'vision', water: 'fluids', exercise: 'exercise', mass: 'body mass', glucose: 'glucose', dose: 'radiation dose'};
+const NC = KB.c.length, NM = KB.m.length;
 
 /* ---------- look ---------- */
 const FONT = 'Arial', MONO = 'Consolas';
@@ -84,7 +89,7 @@ H1('1 Summary');
 P('Vista gives astronauts a clear view of their own health, far from Earth. A crew member logs most readings in under a minute (the reaction test itself takes 3 minutes) and gets a plain-language verdict with a colour, a shape and a word. The app then says exactly what to do: look after yourself, tell your crew medical officer, or call the flight surgeon. The advice changes with the mission: a low-Earth-orbit station, a Moon base, the cruise to Mars or a Mars base, where a reply from Earth can take 44 minutes.');
 P('Vista covers 15 checks that a crew member can do alone, from resting heart rate and blood pressure to a 3-minute reaction test, an Amsler grid and the radiation dosimeter. Each reading is placed in one of four levels: Nominal, Watch, Act and Urgent. Thresholds come from clinical early-warning ranges (NEWS2, AHA/ACC 2025, ADA 2026, AASM/SRS) and NASA limits (NASA-STD-3001). Where no fixed number exists, Vista compares the reading with the crew member’s own baseline. Red-flag symptoms raise the level. Rules that no source prescribes are marked **design choice** in this document and need flight-surgeon sign-off.');
 P('The research behind the thresholds is kept in six evidence files. Three AI verifier agents then re-checked the evidence files against their sources with live web access: of 332 items checked, 307 were confirmed, 22 corrected and 3 marked unsupported (Section 8.2). A few items and sources were not re-opened (see each file’s Verification log).');
-P('Three features are new in this version: **Mission link**, which shows today’s distance from Earth and the signal delay for the selected environment; a **Status-colour view** of the body map; and the **Privacy Charter**, six commitments on how data is handled.');
+P(`New in version 1.1: the **Library**, a searchable knowledge base of ${NC} space-health conditions and a guide to ${NM} medicines that crews use or carry, every entry with its sources and no doses by design (Section 4.7, Appendix A), and three Home sections: How to use Vista, Who it’s for and Who we are. Version 1.0 added **Mission link**, which shows today’s distance from Earth and the signal delay for the selected environment, a **Status-colour view** of the body map and the **Privacy Charter**, six commitments on how data is handled.`);
 P('Vista is one HTML file with no dependencies and works offline. It keeps readings on the device, sets no cookies and sends data only when the user presses one of three buttons. It is a research and training prototype, not a medical device.');
 
 /* ---------- 2 The problem ---------- */
@@ -122,16 +127,16 @@ TABLE('Mission environments in Vista (ENVS in vista.html)', [1300, 1250, 1150, 1
 
 /* ---------- 3 What Vista does ---------- */
 H1('3 What Vista does');
-P('Vista is a single web page with five views: Home, Today, Trends, Guide and the Privacy Charter. The Today view holds the daily routine and most of the features in Table 3. Everything the crew member logs is saved only in the browser on the device. Current readings and findings leave the device only if the crew member presses “Send report to flight surgeon” and confirms the report preview. The Guide is generated from the same IND definitions that hold each check’s classifier, so the how-to steps and source notes sit next to the rule they describe. The notes are written by hand, so they must be kept in step with the classifier code; the self-test checks the classifiers, not the Guide text.');
-TABLE('Vista features (new in this version: Mission link, Status-colour view, Privacy Charter)', [2050, 6976], ['Feature', 'What it does'], [
+P('Vista is a single web page with six views: Home, Today, Trends, Library, Guide and the Privacy Charter. The Today view holds the daily routine and most of the features in Table 3. Everything the crew member logs is saved only in the browser on the device. Current readings and findings leave the device only if the crew member presses “Send report to flight surgeon” and confirms the report preview. The Guide is generated from the same IND definitions that hold each check’s classifier, so the how-to steps and source notes sit next to the rule they describe. The notes are written by hand, so they must be kept in step with the classifier code; the self-test checks the classifiers, not the Guide text.');
+TABLE('Vista features (new in version 1.1: Library and Home guidance)', [2050, 6976], ['Feature', 'What it does'], [
   ['15 self-checks', 'Resting heart rate, blood pressure, SpO₂, cabin CO₂, temperature, sleep, mood, the PHQ-4 wellbeing screen, a 3-minute psychomotor vigilance test (PVT-B, playable in the app), near vision with an Amsler grid, fluids, exercise, body mass, finger-stick glucose and the radiation dosimeter. Each has step-by-step instructions written for people with no medical training (Section 4.2).'],
   ['Four levels', 'Nominal, Watch, Act and Urgent, each with its own colour, icon shape and word (Section 4.1).'],
   ['Escalation ladder', 'Four steps from “look after yourself” to “emergency: act now”, worded for the signal delay of each environment (Section 4.3).'],
   ['Findings & what to do', 'Every check at Watch or above, plus findings that combine checks, sorted by level with the step to take (Section 4.4).'],
   ['Mission environment', 'A selector for LEO station, Moon base, Mars transit and Mars base. It changes the escalation wording, the radiation baseline, the bone model and Mission link, and the status banner shows the gravity, signal delay and ride home.'],
-  ['**Mission link (new)**', 'A Today-screen panel that shows, for the selected environment, today’s distance from Earth and the one-way and round-trip signal delay at the speed of light, with a small orbit map (Section 4.6).'],
+  ['Mission link', 'A Today-screen panel that shows, for the selected environment, today’s distance from Earth and the one-way and round-trip signal delay at the speed of light, with a small orbit map (Section 4.6).'],
   ['Anatomical body map', 'A front-view adult figure drawn to real body proportions in natural tissue colours. Each body system is outlined in its current status colour and glows when it needs attention. Tapping a system shows what it does, how spaceflight affects it, which of NASA’s five hazards apply and its latest readings (Table 4; Section 7).'],
-  ['**Status-colour view (new)**', 'A toggle on the body map between “Anatomy” (natural tissue colours with a status outline and glow) and “Status colours” (every organ filled with its system’s status colour: green Nominal, amber Watch, orange Act, red Urgent, grey no data), for reading at a glance under stress. Words and icons stay beside every colour.'],
+  ['Status-colour view', 'A toggle on the body map between “Anatomy” (natural tissue colours with a status outline and glow) and “Status colours” (every organ filled with its system’s status colour: green Nominal, amber Watch, orange Act, red Urgent, grey no data), for reading at a glance under stress. Words and icons stay beside every colour.'],
   ['Bones & muscles', 'A bone-density estimate for hip, pelvis, lumbar spine, thigh and shin from launch to one year after landing, drawn against NASA’s bone limits, with a table of the astronaut studies it uses (Section 4.5).'],
   ['Trends', 'Charts over 7, 14 or 30 days with status zones, reference lines (baseline or target), keyboard-readable values and a data table.'],
   ['Daily routine', 'A checklist of the checks due today, with streaks, XP, levels and badges. A reading earns 10 XP and a complete daily routine 25 XP; a new level comes every 300 XP.'],
@@ -140,8 +145,10 @@ TABLE('Vista features (new in this version: Mission link, Status-colour view, Pr
   ['Flight-surgeon inbox', '“Send report to flight surgeon” shows exactly what will be sent (current readings, findings, mission environment, optional callsign), then delivers it to the team’s Supabase inbox, which is insert-only for the public key (Section 6).'],
   ['Guide', 'Plain-language help: the four levels, when to call for help, why to check yourself, the five hazards, bone health, mission environments, how to measure each check and where its ranges come from, three items from ESA’s Space Heritage archive, and a list of the main sources (Mission link cites JPL’s Approximate Positions of the Planets, Meeus and JPL Horizons on its own card).'],
   ['Crew profile & data', 'Pre-flight body mass, sex (sets the fluid minimum), mission start date and length (7–1,200 days) and the bone medication plan set by the flight surgeon; backup download, restore and delete.'],
-  ['**Privacy Charter (new name)**', 'The privacy page, renamed. It opens with six commitments on how data is handled (Section 6.1).'],
+  ['Privacy Charter', 'The privacy page. It opens with six commitments on how data is handled (Section 6.1).'],
   ['Example data', 'A made-up 42-day station mission to explore the app. “Start my own log” removes it.'],
+  [`**Library (new)**`, `A searchable knowledge base of ${NC} space-health conditions and a guide to ${NM} medicines that crews use or carry, each entry with its sources. No doses, by design. Body-system panels link to it (Section 4.7, Appendix A).`],
+  ['**Home guidance (new)**', 'Three Home sections: How to use Vista (six steps), Who it’s for (crew, crew medical officers, flight surgeons, analogue crews and students) and Who we are (the team and how Vista was built).'],
 ]);
 TABLE('Body systems on the map, their checks and hazards (SYS in vista.html)', [2150, 3776, 3100], ['Body system', 'Checks that set its status', 'Hazards'], [
   ['Brain & behaviour', 'Sleep, mood, PHQ-4, reaction test', 'Isolation, Distance, Radiation'],
@@ -260,7 +267,7 @@ TABLE('Worked example: 180-day station mission, computed with the model', [2826,
 ], {note: '“Full exercise” means 86 minutes or more every day. Levels use the hip (femoral neck) limit of 10% and the spine limit of 5%.'});
 P('The panel shows the estimated loss now, at landing and one year after landing, the monthly rate on the recent routine and the early-ISS comparison, and lists the astronaut studies it uses. The worst site sets the bone part of the Bones & muscles status. Exercise minutes stand in for resistive load, a simplification noted in the code.');
 H2('4.6 Mission link model');
-P('Mission link is a new Today-screen panel. For the selected environment it shows today’s distance from Earth and the one-way and round-trip signal delay at the speed of light, with a small orbit map. Table 13 describes how each distance is found, as specified in the developer’s notes.');
+P('Mission link is a Today-screen panel. For the selected environment it shows today’s distance from Earth and the one-way and round-trip signal delay at the speed of light, with a small orbit map. Table 13 describes how each distance is found, as specified in the developer’s notes.');
 TABLE('Mission link by environment (developer’s notes)', [1500, 5526, 2000], ['Environment', 'How the distance is found', 'Signal delay each way'], [
   ['Station (LEO)', 'About 400–420 km up; the signal is relayed by satellites.', 'Under 1 s'],
   ['Moon base', 'Today’s Earth–Moon distance from the main terms of the lunar theory in Meeus, Astronomical Algorithms (chapter 47).', 'About 1.2–1.4 s'],
@@ -269,6 +276,12 @@ TABLE('Mission link by environment (developer’s notes)', [1500, 5526, 2000], [
 ]);
 P('Checked against NASA JPL Horizons for 2026–2030: the Earth–Mars distance is within 0.02% on all 366 dates checked (at most 0.2 s of signal delay) and the Sun–Earth–Mars angle within 0.04°; the Earth–Moon distance is within 110 km over 719 samples (mean 30 km). The solar-conjunction windows the model finds (January 2026, March 2028, May 2030) match the dates on which Horizons puts Mars within 2° of the Sun. Three Horizons reference values (the Mars and Moon distances on 14 November 2026, and the March 2028 conjunction) are part of the app’s built-in self-test.');
 P('The delay ranges agree with the light times derived from NASA’s fact-sheet distances in the evidence: 1.2–1.4 s to the Moon and 3.0–22.3 minutes to Mars (framework.md).');
+
+H2('4.7 The Library: knowledge base and medicine guide');
+P(`The Library is a reference view of its own. It holds ${NC} space-health conditions a crew member may meet on a station, on the Moon or on the way to Mars, and a guide to ${NM} medicines or medicine groups that crews use or carry (Appendix A). Each condition entry says why the problem happens in space, the signs to look for, prevention and self-care, when to get help, and which Vista checks relate to it. Each medicine entry says what it is used for in spaceflight, how crews use it, its cautions and what is known about it in space, such as how often crews used it and how it keeps on orbit.`);
+P('**No doses, by design.** The medicine guide never gives a dose or a dosing schedule: which medicine to take, how much and when comes from the flight surgeon and the onboard medical checklist. The app says so above the list, and the self-test fails if a medicine entry contains a dose-like phrase, such as a number followed by mg, mL, tablets or drops, or “twice daily”.');
+P('**How the entries were made.** Two research agents built the entries from NASA Human Research Program evidence reports, NASA technical briefs and peer-reviewed studies, citing the sources of each entry. Two verifier agents then opened the cited sources and tried to refute every claim, and each correction was re-checked against its source before it was applied (Section 8.2). The research and verification logs are docs/evidence/library-conditions.md and docs/evidence/library-medicines.md.');
+P('**How it connects to the rest of the app.** Each body-system panel on Today lists the Library entries for that system. A condition entry offers its related checks (“Check it now” opens the logging dialog) and the medicines used for it; a medicine entry links back to its conditions. Search matches every word typed against an entry’s full text, and a filter narrows the list to one body system. The Library is static content inside vista.html: using it sends nothing anywhere.');
 
 /* ---------- 5 NASA and partner data ---------- */
 H1('5 NASA and partner data');
@@ -282,7 +295,7 @@ TABLE('NASA and partner data used (README)', [3500, 5526], ['Data', 'How Vista u
   ['**NASA nutrition requirements** (JSC-67378)', 'Personal fluid target (32 mL/kg) and sodium guidance'],
   ['**Canadian Space Agency**: the radiation-monitoring article and the “Why do we conduct science experiments in space?” page, cited in the Guide', 'Radiation and measurement context. Bio-Monitor and the vascular-ageing studies are background in the evidence (framework.md FRM-32, FRM-34), not data the app uses.'],
   ['**ESA Space Heritage archive**', 'Historical health-research records in the Guide'],
-], {note: 'The JPL row is new in this version (Mission link, Section 4.6). For the Moon, Mission link uses the lunar theory in Meeus, Astronomical Algorithms. The CSA row was checked against vista.html: the README also lists Bio-Monitor and vascular ageing, which the app does not use.'});
+], {note: 'The JPL row was added with Mission link (Section 4.6). For the Moon, Mission link uses the lunar theory in Meeus, Astronomical Algorithms. The CSA row was checked against vista.html: the README also lists Bio-Monitor and vascular ageing, which the app does not use.'});
 P('**Space weather.** When the crew member presses “Check space weather”, Vista asks api.nasa.gov for the DONKI solar energetic particle (SEP), coronal mass ejection (CME) and geomagnetic storm (GST) feeds for the last 30 days. Each feed is handled on its own, so one failed feed does not blank the panel; the flare feed (FLR) returned 404 in November 2026 and is left out. The panel shows the number of solar particle events and CMEs with the date of the latest of each, and the number of geomagnetic storms with their highest Kp index, and flags a particle event in the last 3 days. DONKI is a database, not a live alert: the onboard alarm and the ground decide. The app uses NASA’s DEMO_KEY.');
 P('**Window to Earth.** “Show latest view” searches the HLS collections for Sentinel-2 (hls2-s30) and Landsat (hls2-l30) for the newest scene over the chosen point with under 15% cloud, and shows a true-colour crop of about 20 km made from the red, green and blue bands. Data: NASA HLS v2.0, doi:10.5067/HLS/HLSS30.002 and doi:10.5067/HLS/HLSL30.002. Preset places are Houston (NASA Johnson), Cologne (ESA astronaut centre), Tsukuba (JAXA), Longueuil (CSA) and Baikonur, or the crew member’s own coordinates.');
 P('**ESA Space Heritage archive.** The Guide shows three records: sled training for Spacelab-1 (ESTEC-PHOTO-1981.10.157), an astronaut sleep restraint (ESTEC-PHOTO-1984.12.009) and A Survey of Space Biology and Space Medicine (ESA BR-17).');
@@ -342,7 +355,7 @@ UL([
 /* ---------- 8 Validation and testing ---------- */
 H1('8 Validation and testing');
 H2('8.1 Built-in self-test');
-P('vista.html runs `selfTest()` on every page load. It logs “Vista self-test passed”, or each failure, to the browser console, and it is exposed as `window.VISTA_SELFTEST`. It makes 61 checks (Table 17). When this document was prepared, all 61 checks passed (0 failures) when the inline script of vista.html was run; the console showed “Vista self-test passed”. The sources do not record which build is live on the two sites or whether its self-test passes there. To run the app locally: `python build.py` writes dist/, then `python -m http.server 8000 --directory dist`, or open dist/index.html.');
+P('vista.html runs `selfTest()` on every page load. It logs “Vista self-test passed”, or each failure, to the browser console, and it is exposed as `window.VISTA_SELFTEST`. It makes 67 checks (Table 17). When this document was prepared, all 67 checks passed (0 failures) when the inline script of vista.html was run; the console showed “Vista self-test passed”. The sources do not record which build is live on the two sites or whether its self-test passes there. To run the app locally: `python build.py` writes dist/, then `python -m http.server 8000 --directory dist`, or open dist/index.html.');
 TABLE('What the self-test checks (input → expected level)', [2300, 6726], ['Group', 'Cases'], [
   ['Heart rate (no baseline)', '60 → {N}; 95 → {W}; 115 → {A}; 131 → {U}; 40 → {U}; 45 → {W}'],
   ['SpO₂', '97 → {N}; 95 → {W}; 92 → {A}; 91 → {U}'],
@@ -359,6 +372,7 @@ TABLE('What the self-test checks (input → expected level)', [2300, 6726], ['Gr
   ['Bone status (5% limit)', '1.9 → {N}; 2.0 → {W}; 4.9 → {W}; 5.0 → {A}'],
   ['Data checks', 'Of three stored entries, only the valid one is kept (a heart rate of 9,999 and an unknown check are dropped)'],
   ['Red flags', 'A ticked red flag raises a heart rate of 60 to {U}, and the message never says “normal resting range”'],
+  ['Library', 'At least 12 conditions and 12 medicines; unique ids; every condition uses known body systems and checks; medicines link only to conditions in the Library; every entry cites an https source; no medicine entry contains a dose or dosing schedule'],
   ['Mission link', 'Earth–Mars distance on 14 November 2026 within 0.0015 au of JPL Horizons (1.3244 au); Earth–Moon distance within 300 km of Horizons (405,616 km); the next Mars solar conjunction after 1 January 2027 starts in March 2028'],
 ]);
 H2('8.2 Research verification');
@@ -372,6 +386,7 @@ TABLE('Verification results by evidence file', [2300, 2226, 800, 1200, 1200, 130
   ['behavior-sleep-immune.md', 'Behaviour, sleep, cognition, immune system', '49', '45', '4', '0'],
   ['**Total**', '', '**332**', '**307**', '**22**', '**3**'],
 ], {note: 'The three unsupported items: the mood rule (no published basis; Vista labels it a design choice), “no spaceflight offset” for SpO₂ (no in-flight norm found; Vista states its sea-level-equivalent cabin assumption) and a weekly water-testing cadence (not used by Vista).'});
+P('**Library.** The verifier agents opened the cited sources for every Library entry and tried to refute each claim. They found 10 problems in the condition entries and 15 in the medicine entries, among them wording that went beyond its source, medication timing that came close to a dosing instruction, and medicine links to conditions the Library does not cover. Every correction was re-checked against its source and applied; none was skipped. Each correction and its reason are listed in the Verification log at the end of docs/evidence/library-conditions.md and docs/evidence/library-medicines.md.');
 H2('8.3 Independent AI reviews');
 P('Three AI reviewers looked at the app: one for code, one for clinical accuracy and one for accessibility. Each reviewer’s findings were adversarially verified, and all 33 confirmed issues were fixed (README).');
 H2('8.4 Live checks');
@@ -384,6 +399,7 @@ OL([
   '**Research:** six research agents collected thresholds and spaceflight facts from NASA, CSA, ESA and peer-reviewed sources. Three verifier agents re-checked 332 items against their sources (307 confirmed, 22 corrected, 3 unsupported); each file’s Verification log records the few items that were not checked or were confirmed only from secondary sources (docs/evidence/*.md, “Verification log”).',
   '**Building:** the app was written with AI assistance and checked against WCAG 2.2 AA, motion and data-visualisation guidelines.',
   '**Independent review:** three AI reviewers (code, clinical accuracy, accessibility) each had their findings adversarially verified. All 33 confirmed issues were fixed.',
+  '**Library:** two research agents wrote the condition and medicine entries from NASA evidence reports, technical briefs and peer-reviewed studies; two verifier agents opened the cited sources and tried to refute every claim, and each correction was re-checked against its source before it was applied (Section 8.2; docs/evidence/library-*.md).',
 ]);
 P('The team chose the scope, reviewed the medical content and owns every decision. Vista is a prototype, not a medical device.');
 P('This document was also compiled with AI assistance, only from the team’s README, the app’s source code, the evidence files and the developer’s notes on the new features.');
@@ -403,6 +419,7 @@ UL([
   '**Self-measurement varies.** Readings depend on technique and device. Reaction-test timing depends on hardware, so Vista compares each result only with the person’s own baseline (the median of their first 3 tests) and tells them to use the same device and input every time. It cannot detect a change of device; the evidence advises building the baseline from at least 6 rested tests on the same device. SpO₂ assumes a sea-level-equivalent cabin; a cabin at 8.2 psia with 34% oxygen, NASA’s example exploration atmosphere, would need new baselines (radiation-environment.md).',
   '**Local storage can be wiped.** Readings live in the browser; clearing the site’s data deletes them, so the app asks users to download backups.',
   '**Prototype inbox.** The flight-surgeon inbox does not authenticate senders, and users are asked not to send real medical information.',
+  '**The Library is for learning, not treatment.** Its entries summarise published spaceflight evidence in plain language for crews without medical training. They have not been reviewed by a flight surgeon, they give no doses and they do not diagnose. A real medical kit differs by vehicle and mission.',
 ]);
 H2('10.2 Next steps');
 UL([
@@ -413,6 +430,7 @@ UL([
   'Make thresholds configurable per vehicle atmosphere, as the radiation-environment file recommends.',
   'Use an orbit-averaged baseline for the station dose rule, because the cosmic-ray dose rate rises and falls within every orbit (radiation-environment.md).',
   'Log resistive load and nutrition separately, so the bone model no longer uses exercise minutes as a stand-in for load.',
+  'Flight-surgeon review of every Library entry, and matching the medicine guide to the actual onboard medical kit of each vehicle and mission.',
 ]);
 
 /* ---------- 11 References ---------- */
@@ -510,9 +528,19 @@ const REFS = [
     'Supabase (Postgres with row-level security): table public.reports as defined in supabase/reports.sql.',
   ]],
 ];
+REFS.push(['Library sources (Appendix A)', [...new Map([...KB.c, ...KB.m].flatMap(x => x.sources).map(src => [src.u, src])).values()]
+  .sort((a, b) => a.t.localeCompare(b.t)).map(src => `${src.t}. [[${src.u}]]`)]);
 DOC.push({k: 'h1', text: '11 References', pageBreakBefore: true});
 P('Sources are listed with the DOI or URL given in vista.html and docs/evidence. Where the evidence files give no paper title, a short description of the topic follows in square brackets. Each evidence file also lists every page and paper its researchers opened.');
 for (const [group, items] of REFS) { DOC.push({k: 'h3', text: group}); DOC.push({k: 'refs', items}); }
+
+/* ---------- Appendix A: the Library ---------- */
+DOC.push({k: 'h1', text: 'Appendix A: Library entries', pageBreakBefore: true});
+P(`The Library holds ${NC} conditions and ${NM} medicines (KB in vista.html). The full entries, with every source linked, are in the app’s Library view; the research and verification logs are in docs/evidence/library-conditions.md and docs/evidence/library-medicines.md. Section 4.7 describes how the entries were made.`);
+TABLE('Conditions in the Library (KB.c in vista.html)', [2350, 1850, 1900, 2926], ['Condition', 'Body systems', 'Related checks', 'Sources'],
+  KB.c.map(x => [x.name, x.systems.map(k => SYSN[k]).join(', '), x.checks.map(k => CHKN[k]).join(', ') || '–', x.sources.map(src => src.t).join('; ')]), {size: 16});
+TABLE('Medicines in the Library (KB.m in vista.html; no doses by design)', [2000, 1900, 2500, 2626], ['Medicine', 'Group', 'Used in spaceflight for', 'Sources'],
+  KB.m.map(x => [x.name, x.group, x.for, x.sources.map(src => src.t).join('; ')]), {size: 16});
 
 /* ===================================================================================================================
    RENDERING
@@ -576,12 +604,12 @@ const titleBlocks = [
   new Paragraph({spacing: {before: 1800, after: 120}, children: runs('NASA SPACE APPS CHALLENGE 2026', {size: 20, bold: true, color: C.h2})}),
   new Paragraph({spacing: {after: 200}, children: runs('Vista: Research Documentation', {size: 60, bold: true, color: C.h1})}),
   new Paragraph({spacing: {after: 360}, border: {bottom: {style: BorderStyle.SINGLE, size: 12, color: C.accent, space: 12}}, children: runs('Astronaut health self-checks · NASA Space Apps Challenge 2026 · Team Void Voyagers', {size: 24, color: C.muted})}),
-  new Paragraph({spacing: {after: 80}, children: runs('**Version 1.0** · 14 November 2026', {size: 22})}),
+  new Paragraph({spacing: {after: 80}, children: runs('**Version 1.1** · 15 November 2026', {size: 22})}),
   new Paragraph({spacing: {after: 80}, children: runs('**Challenge:** Create Health Monitoring Software for Astronauts on Space Missions', {size: 22})}),
   new Paragraph({spacing: {after: 80}, children: runs('**Live app:** [[https://vista-health.vercel.app]] (Vercel) · mirror on Azure Static Web Apps: [[https://black-sky-0803de80f.8.azurestaticapps.net]]', {size: 22})}),
   new Paragraph({spacing: {after: 80}, children: runs('**Source code:** [[https://github.com/Ulugbek-netizen/vista]] (one HTML file, no dependencies, works offline)', {size: 22})}),
   new Paragraph({spacing: {after: 600}, children: runs('**Written for:** Space Apps judges and flight surgeons', {size: 22})}),
-  makeBox(['Every number in this document comes from the team’s README, the app’s source code (vista.html and build.py), the six evidence files in docs/evidence, supabase/reports.sql, tools/anatomy.py or the developer’s notes on the features added on 14 November 2026. The source is named next to each value.', 'Where a rule or band comes from no published source, it is marked **design choice**. It is Vista’s own proposal and needs flight-surgeon sign-off before crew use.'], {title: 'How to read this document'}),
+  makeBox(['Every number in this document comes from the team’s README, the app’s source code (vista.html and build.py), the evidence files in docs/evidence (six topic files and two Library research logs), supabase/reports.sql, tools/anatomy.py or the developer’s notes on the features added on 14 and 15 November 2026. The source is named next to each value.', 'Where a rule or band comes from no published source, it is marked **design choice**. It is Vista’s own proposal and needs flight-surgeon sign-off before crew use.'], {title: 'How to read this document'}),
   spacer(200),
   makeBox(['Vista is a research and training prototype for the NASA Space Apps Challenge 2026. It does not diagnose or treat any condition and does not replace a crew medical officer, flight surgeon or doctor. The example data in the app is made up.'], {title: 'Not a medical device', warn: true}),
   new Paragraph({children: [new PageBreak()]}),
@@ -591,7 +619,7 @@ const titleBlocks = [
 ];
 
 const footer = new Footer({children: [new Paragraph({border: {top: {style: BorderStyle.SINGLE, size: 4, color: C.border, space: 6}}, children: [
-  ...runs('Vista: Research Documentation · Version 1.0 · Team Void Voyagers', {size: 16, color: C.muted}),
+  ...runs('Vista: Research Documentation · Version 1.1 · Team Void Voyagers', {size: 16, color: C.muted}),
   new TextRun({font: FONT, size: 16, color: C.muted, children: [new PositionalTab({alignment: PositionalTabAlignment.RIGHT, relativeTo: PositionalTabRelativeTo.MARGIN, leader: PositionalTabLeader.NONE}), 'Page ', PageNumber.CURRENT, ' of ', PageNumber.TOTAL_PAGES]}),
 ]})]});
 const header = new Header({children: [new Paragraph({alignment: AlignmentType.RIGHT, children: runs('NASA Space Apps Challenge 2026', {size: 16, color: C.muted})})]});
@@ -600,7 +628,7 @@ const empty = () => new Paragraph({children: []});
 const doc = new Document({
   creator: 'Team Void Voyagers', lastModifiedBy: 'Team Void Voyagers',
   title: 'Vista: Research Documentation', subject: 'Astronaut health self-checks · NASA Space Apps Challenge 2026 · Team Void Voyagers',
-  description: 'Research documentation for Vista, an astronaut health self-check app. Version 1.0, 14 November 2026.',
+  description: 'Research documentation for Vista, an astronaut health self-check app. Version 1.1, 15 November 2026.',
   keywords: 'Vista, NASA Space Apps Challenge 2026, astronaut health, self-checks, flight surgeon',
   styles: {
     default: {
@@ -634,12 +662,12 @@ console.log('wrote', OUT, `(${tableNo} tables)`);
 /* ---------- plain-text copy for fact-checkers ---------- */
 if (TXT) {
   const L = [];
-  L.push('VISTA: RESEARCH DOCUMENTATION', 'Astronaut health self-checks · NASA Space Apps Challenge 2026 · Team Void Voyagers', 'Version 1.0 · 14 November 2026',
+  L.push('VISTA: RESEARCH DOCUMENTATION', 'Astronaut health self-checks · NASA Space Apps Challenge 2026 · Team Void Voyagers', 'Version 1.1 · 15 November 2026',
     'Challenge: Create Health Monitoring Software for Astronauts on Space Missions',
     'Live app: https://vista-health.vercel.app (Vercel) · mirror on Azure Static Web Apps: https://black-sky-0803de80f.8.azurestaticapps.net',
     'Source code: https://github.com/Ulugbek-netizen/vista (one HTML file, no dependencies, works offline)', 'Written for: Space Apps judges and flight surgeons', '',
     'How to read this document',
-    'Every number in this document comes from the team’s README, the app’s source code (vista.html and build.py), the six evidence files in docs/evidence, supabase/reports.sql, tools/anatomy.py or the developer’s notes on the features added on 14 November 2026. The source is named next to each value.',
+    'Every number in this document comes from the team’s README, the app’s source code (vista.html and build.py), the evidence files in docs/evidence (six topic files and two Library research logs), supabase/reports.sql, tools/anatomy.py or the developer’s notes on the features added on 14 and 15 November 2026. The source is named next to each value.',
     'Where a rule or band comes from no published source, it is marked design choice. It is Vista’s own proposal and needs flight-surgeon sign-off before crew use.', '',
     'Not a medical device',
     'Vista is a research and training prototype for the NASA Space Apps Challenge 2026. It does not diagnose or treat any condition and does not replace a crew medical officer, flight surgeon or doctor. The example data in the app is made up.', '',
