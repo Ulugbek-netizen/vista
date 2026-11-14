@@ -1,4 +1,4 @@
-"""Build the deployable site into dist/ from the single source file vivoya.html.
+"""Build the deployable site into dist/ from the single source file vista.html.
 
 python build.py   ->  dist/index.html, dist/fonts/*, dist/vercel.json, dist/staticwebapp.config.json
 
@@ -13,7 +13,7 @@ import re
 import shutil
 
 ROOT = pathlib.Path(__file__).parent
-SRC = ROOT / 'vivoya.html'
+SRC = ROOT / 'vista.html'
 DIST = ROOT / 'dist'
 # outside services the page may call, only after the user presses a button (see the privacy policy)
 CONNECT = ['https://planetarycomputer.microsoft.com', 'https://api.nasa.gov', 'https://uxzkuncbgsoaqvtpdogy.supabase.co']

@@ -1,4 +1,4 @@
--- Vivoya flight-surgeon inbox (Supabase / Postgres). Applied to project "vivoya" (eu-central-1).
+-- Vista flight-surgeon inbox (Supabase / Postgres). Applied to Supabase project "vivoya" (ref uxzkuncbgsoaqvtpdogy, eu-central-1).
 -- Astronauts can SUBMIT a report through the public key; nobody can read, change or delete through the public API.
 -- Flight surgeons read reports in the Supabase dashboard, where they can set status and note.
 create table public.reports (
@@ -12,7 +12,7 @@ create table public.reports (
   status text not null default 'new' check (status in ('new', 'seen', 'reviewed')),
   note text
 );
-comment on table public.reports is 'Vivoya opt-in health reports sent by crew to the flight surgeon. Insert-only for the public API.';
+comment on table public.reports is 'Vista opt-in health reports sent by crew to the flight surgeon. Insert-only for the public API.';
 
 alter table public.reports enable row level security;
 

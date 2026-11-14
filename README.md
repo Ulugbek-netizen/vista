@@ -1,16 +1,16 @@
-# Vivoya: stay well beyond Earth
+# Vista: stay well beyond Earth
 
 **Team Void Voyagers · NASA Space Apps Challenge 2026**
 Challenge: *Create Health Monitoring Software for Astronauts on Space Missions*
 
-Vivoya (from Latin *vivo*, "I live", and *voyage*) is a self-check app for astronauts. A crew member logs a reading in under a minute and gets a plain-language verdict with a colour, a shape and a word. The app then says exactly what to do: look after yourself, tell your crew medical officer, or call the flight surgeon. The advice changes with the mission: low-Earth orbit, a Moon base, the cruise to Mars or a Mars base, where a reply from Earth can take 44 minutes.
+Vista gives astronauts a clear view of their own health, far from Earth. In this self-check app, a crew member logs a reading in under a minute and gets a plain-language verdict with a colour, a shape and a word. The app then says exactly what to do: look after yourself, tell your crew medical officer, or call the flight surgeon. The advice changes with the mission: low-Earth orbit, a Moon base, the cruise to Mars or a Mars base, where a reply from Earth can take 44 minutes.
 
 - **Live app:** https://vivoya.vercel.app (Vercel) · mirror on Azure Static Web Apps: https://black-sky-0803de80f.8.azurestaticapps.net
 - **Source:** https://github.com/Ulugbek-netizen/vivoya (one HTML file, no dependencies, works offline)
 
 ## Why it matters
 
-Spaceflight changes the body fast. About 2 litres of fluid shift towards the head, weight-bearing bone can lose 1–1.5% a month, most crews sleep about 6 hours a night, and radiation exposure rises 2–6 times beyond low Earth orbit. The further a crew travels, the longer it waits for help: about a day home from the station, 3–11 days from the Moon, and no early return from Mars. Crews must notice, judge and act on their own health. Vivoya gives them a simple, trustworthy routine for that.
+Spaceflight changes the body fast. About 2 litres of fluid shift towards the head, weight-bearing bone can lose 1–1.5% a month, most crews sleep about 6 hours a night, and radiation exposure rises 2–6 times beyond low Earth orbit. The further a crew travels, the longer it waits for help: about a day home from the station, 3–11 days from the Moon, and no early return from Mars. Crews must notice, judge and act on their own health. Vista gives them a simple, trustworthy routine for that.
 
 ## How it works
 
@@ -28,7 +28,7 @@ Spaceflight changes the body fast. About 2 litres of fluid shift towards the hea
 
 ## NASA and partner data used
 
-| Data | How Vivoya uses it |
+| Data | How Vista uses it |
 |---|---|
 | **NASA DONKI** space-weather database, via [api.nasa.gov](https://api.nasa.gov/) | Live: solar energetic particle events, CMEs and geomagnetic storms in the radiation panel |
 | **NASA Harmonized Landsat and Sentinel-2 (HLS)**, via the [Microsoft Planetary Computer](https://planetarycomputer.microsoft.com/) STAC and data APIs | Live: Window to Earth satellite views |
@@ -42,13 +42,13 @@ Peer-reviewed sources for every threshold are listed in the app's Guide and in [
 
 ## How we used AI
 
-We built Vivoya with Claude (Anthropic) as a research and coding assistant:
+We built Vista with Claude (Anthropic) as a research and coding assistant:
 
 1. **Research:** six research agents collected thresholds and spaceflight facts from NASA, CSA, ESA and peer-reviewed sources, and three verifier agents checked each claim against its source (see `docs/evidence/*.md`, "Verification log").
 2. **Building:** the app was written with AI assistance and checked against WCAG 2.2 AA, motion and data-visualisation guidelines.
 3. **Independent review:** three AI reviewers (code, clinical accuracy, accessibility) each had their findings adversarially verified. All 33 confirmed issues were fixed.
 
-The team chose the scope, reviewed the medical content and owns every decision. Vivoya is a prototype, not a medical device.
+The team chose the scope, reviewed the medical content and owns every decision. Vista is a prototype, not a medical device.
 
 ## Privacy
 
@@ -71,12 +71,12 @@ Or just open `dist/index.html` in a browser. The page runs a built-in self-test 
 
 ## Tools and open-source materials
 
-- Plain HTML, CSS and JavaScript: one file (`vivoya.html`), no frameworks
+- Plain HTML, CSS and JavaScript: one file (`vista.html`), no frameworks
 - [Archivo](https://github.com/Omnibus-Type/Archivo) and [Martian Mono](https://github.com/evilmartians/mono) fonts (SIL Open Font License, self-hosted via Fontsource)
 - Hosting: Vercel, Azure Static Web Apps and GitHub
 - Supabase (Postgres with row-level security) for the flight-surgeon inbox: table `public.reports`, insert-only for the public key
-- `bone-module/`: the team's earlier Orbit Health bone prototype, merged into Vivoya's Bones & muscles panel
+- `bone-module/`: the team's earlier Orbit Health bone prototype, merged into Vista's Bones & muscles panel
 
 ## Disclaimer
 
-Vivoya is a research and training prototype for the NASA Space Apps Challenge 2026. It does not diagnose or treat any condition and does not replace a crew medical officer, flight surgeon or doctor. The example data is made up.
+Vista is a research and training prototype for the NASA Space Apps Challenge 2026. It does not diagnose or treat any condition and does not replace a crew medical officer, flight surgeon or doctor. The example data is made up.
