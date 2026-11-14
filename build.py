@@ -40,8 +40,10 @@ def build():
             f'<meta http-equiv="Content-Security-Policy" content="{csp}">\n'
             '<meta name="referrer" content="no-referrer">\n'
             '<link rel="preload" href="fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>\n')
-    if DIST.exists():
-        shutil.rmtree(DIST)
+    if DIST.exists():  # clean rebuild, but keep the Vercel project link (.vercel, git-ignored)
+        for x in DIST.iterdir():
+            if x.name != '.vercel':
+                shutil.rmtree(x) if x.is_dir() else x.unlink()
     (DIST / 'fonts').mkdir(parents=True)
     (DIST / 'index.html').write_text(head + src, encoding='utf-8')
     for f in (ROOT / 'fonts').iterdir():
@@ -62,6 +64,7 @@ def build():
     swa = {'globalHeaders': headers, 'mimeTypes': {'.woff2': 'font/woff2'},
            'navigationFallback': {'rewrite': '/index.html'}}
     (DIST / 'staticwebapp.config.json').write_text(json.dumps(swa, indent=2), encoding='utf-8')
+    (DIST / '.vercelignore').write_text('staticwebapp.config.json\n', encoding='utf-8')  # Azure-only file stays off Vercel
     print(f'dist/index.html {len(head + src):,} bytes, script sha256-{sha[:12]}...')
 
 

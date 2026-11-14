@@ -5,8 +5,8 @@ Challenge: *Create Health Monitoring Software for Astronauts on Space Missions*
 
 Vivoya (from Latin *vivo*, "I live", and *voyage*) is a self-check app for astronauts. A crew member logs a reading in under a minute and gets a plain-language verdict with a colour, a shape and a word. The app then says exactly what to do: look after yourself, tell your crew medical officer, or call the flight surgeon. The advice changes with the mission: low-Earth orbit, a Moon base, the cruise to Mars or a Mars base, where a reply from Earth can take 44 minutes.
 
-- **Live app:** _added after deployment_
-- **Source:** this repository (one HTML file, no dependencies, works offline)
+- **Live app:** https://vivoya.vercel.app (Vercel) · mirror on Azure Static Web Apps: https://black-sky-0803de80f.8.azurestaticapps.net
+- **Source:** https://github.com/Ulugbek-netizen/vivoya (one HTML file, no dependencies, works offline)
 
 ## Why it matters
 
