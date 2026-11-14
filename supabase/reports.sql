@@ -6,7 +6,7 @@ create table public.reports (
   created_at timestamptz not null default now(),
   callsign text check (callsign is null or char_length(callsign) between 1 and 40),
   env text not null check (env in ('leo', 'moon', 'transit', 'mars')),
-  level smallint not null check (level between 0 and 3),
+  level smallint check (level between 0 and 3), -- null = no current readings (never a false "Nominal")
   summary text not null check (char_length(summary) between 1 and 2000),
   payload jsonb not null check (jsonb_typeof(payload) = 'object' and pg_column_size(payload) <= 32000),
   status text not null default 'new' check (status in ('new', 'seen', 'reviewed')),
