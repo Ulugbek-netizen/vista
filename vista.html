@@ -1472,7 +1472,7 @@ function chartEvents() {
 const BONE_G = {leo: 0, moon: 0.165, transit: 0, mars: 0.38};
 const BW = {ex: 0.52, nut: 0.1, med: 0.35}, HALF_MONTHS = 9;
 const BONE = {
-  hip: {n: 'Hip (femoral neck)', base: 1.45, lim: 10,
+  hip: {n: 'Hip (femoral neck)', base: 1.45, lim: 10, nasa: true,
     role: 'The top of the thigh bone, where it joins the pelvis. Its spongy inner bone is where hip fractures happen.',
     risk: 'Measured in ISS crews before today’s exercise equipment: 1.4–1.5% of hip density lost per month, and 2.2–2.7% a month in the spongy inner bone (Lang 2004). NASA requires the femoral neck to stay at 90% or more of its pre-flight value.',
     act: ['Hit your load target: squats and deadlifts at 100% of body weight or more', 'Do not skip sessions: hip loss resumes within days', 'Ask your flight surgeon whether bone medication is right for you']},
@@ -1480,7 +1480,7 @@ const BONE = {
     role: 'The bowl that carries your upper-body weight into both legs. In weightlessness it carries almost no load.',
     risk: 'Spine and pelvis were 6.2% lower after flight in a meta-analysis of 148 space travellers (Stavnichuk 2020). NASA requires hip and spine density to stay at 95% or more of pre-flight.',
     act: ['Squats and deadlifts at 100% of body weight load the pelvis directly', 'Train 6 days a week with no long gaps', 'Add hip-hinge and single-leg work']},
-  spine: {n: 'Lumbar spine', base: 0.9, lim: 5,
+  spine: {n: 'Lumbar spine', base: 0.9, lim: 5, nasa: true,
     role: 'Carries your upper body on Earth. In weightlessness the vertebrae are unloaded and you grow up to about 3% taller.',
     risk: 'Measured loss: 0.9% a month before today’s exercise equipment (Lang 2004) and 2.6% over a mission with it (NASA 2025 review). After flight, disc herniation is about 4 times more common than in matched controls.',
     act: ['Heavy squats and deadlifts (axial loading)', 'Core and back-extensor work in every session', 'Report new or sharp back pain: it could be bone or a kidney stone']},
@@ -1513,7 +1513,7 @@ function boneSim(k) {
     pts.push([v, no]);
   }
   const at = d => pts[Math.max(0, Math.min(horizon, d))];
-  return {pts, el: Math.min(el, horizon), len, horizon, lim: b.lim, now: at(el)[0], land: at(len - 1)[0], noLand: at(len - 1)[1], after: at(horizon)[0], rate: b.base * gf * (1 - prot(projEx))};
+  return {pts, el: Math.min(el, horizon), len, horizon, lim: b.lim, nasa: !!b.nasa, now: at(el)[0], land: at(len - 1)[0], noLand: at(len - 1)[1], after: at(horizon)[0], rate: b.base * gf * (1 - prot(projEx))};
 }
 const boneWorst = () => Math.max(...Object.keys(BONE).map(k => { const x = boneSim(k); return boneLv(x.now, x.lim); }));
 /* skeleton geometry shared with the body map (anatomy generator); the outline is read from the body map */
@@ -1531,7 +1531,7 @@ function boneChart(s) {
   const xm = X(Math.min(s.len, n));
   return `<svg class="bchart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Projected density loss: ${s.land.toFixed(1)}% at landing with your routine, ${s.noLand.toFixed(1)}% at the early-ISS rate">
     <rect class="post" x="${xm.toFixed(1)}" y="${P.t}" width="${(W - P.r - xm).toFixed(1)}" height="${H - P.t - P.b}"/>${g}
-    <line class="lim" x1="${P.l}" x2="${W - P.r}" y1="${Y(s.lim).toFixed(1)}" y2="${Y(s.lim).toFixed(1)}"/><text class="limt" x="${W - P.r - 2}" y="${(Y(s.lim) - 4).toFixed(1)}" text-anchor="end">NASA limit −${s.lim}%</text>
+    <line class="lim" x1="${P.l}" x2="${W - P.r}" y1="${Y(s.lim).toFixed(1)}" y2="${Y(s.lim).toFixed(1)}"/><text class="limt" x="${W - P.r - 2}" y="${(Y(s.lim) - 4).toFixed(1)}" text-anchor="end">${s.nasa ? 'NASA limit' : 'Vista limit'} −${s.lim}%</text>
     <path class="no" d="${path(0, n, 1)}"/><path class="you" d="${path(0, s.el, 0)}"/><path class="proj" d="${path(s.el, n, 0)}"/>
     <text x="${P.l}" y="${H - 6}">Launch</text><text x="${xm.toFixed(1)}" y="${H - 6}" text-anchor="middle">Landing</text><text x="${W - P.r}" y="${H - 6}" text-anchor="end">+1 yr</text></svg>
     <div class="legend" style="margin-top:4px"><span><i class="ln" style="background:var(--series)"></i>Your routine (dashed: projected)</span><span><i class="ln" style="background:var(--ink-3)"></i>Early-ISS rate (older exercise devices)</span><span><i class="sw" style="background:color-mix(in oklab,var(--accent) 22%,transparent)"></i>Back on Earth</span></div>`;
