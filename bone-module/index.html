@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Orbit Health · Bone</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="6" /><ellipse cx="16" cy="16" rx="14" ry="5.5" transform="rotate(-25 16 16)" /></svg>
+      <div>
+        <h1>Orbit Health</h1>
+        <p>Bone Health module · prototype</p>
+      </div>
+    </div>
+    <div id="missionBar" class="mission-bar"></div>
+    <button id="settingsBtn" class="btn ghost" type="button">Mission settings</button>
+  </header>
+
+  <main class="layout">
+    <section class="card body-card" aria-labelledby="h-body">
+      <h2 id="h-body">Skeleton status</h2>
+      <p class="hint">Coloured bones lose the most density in space. Tap one to see its status and what to do.</p>
+      <svg id="bodyMap" viewBox="0 0 200 445" role="img" aria-label="Skeleton map: coloured bones are the ones that lose the most density in space"></svg>
+      <div id="siteDetail" class="site-detail" aria-live="polite"></div>
+    </section>
+
+    <section class="col-mid">
+      <div class="card">
+        <h2>Alerts</h2>
+        <ul id="alerts" class="alerts"></ul>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>Projected density loss</h2>
+          <div id="siteTabs" class="tabs" role="tablist"></div>
+        </div>
+        <div id="chartSummary" class="chart-summary"></div>
+        <svg id="chart" viewBox="0 0 640 260" preserveAspectRatio="none" role="img" aria-label="Projected bone density loss chart"></svg>
+        <div class="legend">
+          <span><i class="sw sw-you"></i>You (logged)</span>
+          <span><i class="sw sw-proj"></i>Projection at your 7-day average</span>
+          <span><i class="sw sw-none"></i>No countermeasures</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>Today’s countermeasures</h2>
+          <div id="streak" class="streak"></div>
+        </div>
+        <div id="targets" class="targets"></div>
+      </div>
+    </section>
+
+    <section class="card log-card" aria-labelledby="h-log">
+      <h2 id="h-log">Daily bone log</h2>
+      <form id="logForm" autocomplete="off">
+        <label class="full">Date <input type="date" name="date" required /></label>
+
+        <fieldset>
+          <legend>Exercise</legend>
+          <label>Resistance (min)<input type="number" name="resMin" min="0" max="240" inputmode="numeric" /></label>
+          <label>Peak load (% body wt)<input type="number" name="loadPct" min="0" max="300" inputmode="numeric" /></label>
+          <label>Aerobic (min)<input type="number" name="aeroMin" min="0" max="240" inputmode="numeric" /></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Nutrition &amp; fluids</legend>
+          <label>Water (L)<input type="number" name="water" min="0" max="8" step="0.1" inputmode="decimal" /></label>
+          <label>Sodium (mg)<input type="number" name="sodium" min="0" max="10000" step="50" inputmode="numeric" /></label>
+          <label>Calories (kcal)<input type="number" name="kcal" min="0" max="6000" step="10" inputmode="numeric" /></label>
+          <label>Protein (g)<input type="number" name="protein" min="0" max="400" inputmode="numeric" /></label>
+          <label>Body mass (kg)<input type="number" name="weight" min="30" max="200" step="0.1" inputmode="decimal" /></label>
+          <label class="check"><input type="checkbox" name="vitD" /> Vitamin D supplement taken</label>
+          <label class="check" id="medRow"><input type="checkbox" name="medTaken" /> Bone medication dose taken</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Checks &amp; symptoms</legend>
+          <label class="full">Urine calcium test strip
+            <select name="urineCa">
+              <option value="">Not tested today</option>
+              <option value="normal">Normal</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+          <label class="check"><input type="checkbox" name="flankPain" /> Flank / lower-back pain</label>
+          <label class="check"><input type="checkbox" name="bloodUrine" /> Blood in urine</label>
+          <label class="check"><input type="checkbox" name="fallPain" /> Bone pain after a fall or impact</label>
+        </fieldset>
+
+        <button class="btn primary" type="submit">Save log</button>
+        <p id="saveMsg" class="save-msg" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <section class="card guide" aria-labelledby="h-guide">
+    <h2 id="h-guide">Why bones weaken in space — and what helps</h2>
+    <div class="guide-grid">
+      <article>
+        <h3>What happens</h3>
+        <p>Without gravity, bones carry no load. Cells that break bone down speed up, while bone-building cells don’t keep pace. Hip and spine lose about <b>1–1.5% per month</b> — faster than an elderly person loses in a year.</p>
+      </article>
+      <article>
+        <h3>Load it heavy</h3>
+        <p>Heavy resistance exercise (squats, deadlifts, heel raises at ≥100% of body weight) plus treadmill running protects most sites. About 1.5 h of total exercise a day, 6–7 days a week, is the ISS routine.</p>
+      </article>
+      <article>
+        <h3>Fuel it</h3>
+        <p>Eat enough calories, get enough protein and vitamin D, and keep sodium ≤ 3,000 mg. Weight loss and high salt both speed up bone loss.</p>
+      </article>
+      <article>
+        <h3>Watch your kidneys</h3>
+        <p>Calcium from bone ends up in urine and can form stones. Drink ≥ 2 L a day. Flank pain with blood in urine needs the flight surgeon.</p>
+      </article>
+      <article>
+        <h3>Medication</h3>
+        <p>Exercise alone doesn’t stop loss of the hip’s spongy inner bone. Exercise plus a bisphosphonate (weekly alendronate or a pre-flight zoledronic acid infusion) prevented loss in ISS studies. Only your flight surgeon can prescribe it.</p>
+      </article>
+      <article>
+        <h3>After landing</h3>
+        <p>Recovery is slow and often incomplete — about half of astronauts had not recovered within a year. Keep loading, follow the walking-to-jogging plan, and get follow-up scans.</p>
+      </article>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p><b>Prototype — not a medical device.</b> Loss figures are model estimates from published averages (NASA HRP Bone Fracture Evidence Report 2024; LeBlanc 2013; Smith 2012; Sibonga 2019; Vico 2017; Gabel 2022). Partial-gravity scaling and recovery rates are assumptions. Data stays in this browser.</p>
+  </footer>
+
+  <dialog id="settings">
+    <form id="settingsForm" method="dialog">
+      <h2>Mission settings</h2>
+      <label>Crew member<input name="crew" required /></label>
+      <label>Mission start<input type="date" name="start" required /></label>
+      <label>Mission length (days)<input type="number" name="missionDays" min="7" max="1200" required /></label>
+      <label>Environment<select name="env"></select></label>
+      <label>Pre-flight body mass (kg)<input type="number" name="bodyMassKg" min="30" max="200" step="0.1" required /></label>
+      <label>Bone medication plan (set by flight surgeon)<select name="medPlan"></select></label>
+      <div class="dialog-actions">
+        <button class="btn ghost" type="button" id="loadDemo">Load demo data</button>
+        <button class="btn ghost danger" type="button" id="clearAll">Clear all logs</button>
+        <span class="spacer"></span>
+        <button class="btn ghost" value="cancel" formnovalidate>Cancel</button>
+        <button class="btn primary" value="save">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="js/model.js"></script>
+  <script src="js/skeleton.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
