@@ -1,4 +1,4 @@
-# Vista library, batch c3: research log
+# Void Voyagers library, batch c3: research log
 
 Research log for `c3.json` (11 condition entries: nausea and vomiting, diarrhoea, constipation, heartburn and reflux, belly pain and appendicitis, urinary retention, urinary tract infection, space anaemia, weight loss and under-eating, menstrual health, low blood sugar). Compiled 2026-11-15.
 
@@ -8,9 +8,9 @@ Research log for `c3.json` (11 condition entries: nausea and vomiting, diarrhoea
 - NASA PDFs were read from the copies in `kb/src/` (text extracted with `pdftotext`; page numbers are PDF pages unless "printed p." is given). The Smith 2021 nutrition book is a two-page-spread PDF, so printed page numbers are given for it.
 - Journal papers were read through PubMed: full text from PubMed Central where marked "full text", otherwise the abstract.
 - NHS, NIDDK and CDC pages were opened directly in this session (review dates noted).
-- Built and checked by `kb2/build_c3.py`: Vista system and check keys, no dose-pattern text (same regex as `kb/scripts/build_kb.py`), no common US spellings (list extended with anemic, diarrhea, anesthesia), ASCII only, no double quotes.
-- No medicine doses appear. Medicines are named only as classes (anti-sickness medicine, anti-diarrhoea medicine, stool softeners and laxatives, antacids, antibiotics, iron supplements, the combined pill), always with the flight surgeon deciding. The one amount given is food sugar for a measured low glucose (see entry 11), from NIDDK, tied to the Vista `glucose` check.
-- "Design rule" marks escalation wording that is a Vista safety instruction, not a sourced fact. These need flight-surgeon review.
+- Built and checked by `kb2/build_c3.py`: Void Voyagers system and check keys, no dose-pattern text (same regex as `kb/scripts/build_kb.py`), no common US spellings (list extended with anemic, diarrhea, anesthesia), ASCII only, no double quotes.
+- No medicine doses appear. Medicines are named only as classes (anti-sickness medicine, anti-diarrhoea medicine, stool softeners and laxatives, antacids, antibiotics, iron supplements, the combined pill), always with the flight surgeon deciding. The one amount given is food sugar for a measured low glucose (see entry 11), from NIDDK, tied to the Void Voyagers `glucose` check.
+- "Design rule" marks escalation wording that is a Void Voyagers safety instruction, not a sourced fact. These need flight-surgeon review.
 - Word counts (summary + why + signs + selfcare + escalate): 160 to 184. Three entries run slightly over 170 (menstrual health 184, heartburn 177, nausea 175) because safety wording was kept.
 
 Abbreviations: MTB/TB = NASA OCHMO medical technical brief / technical brief. Smith = Smith, Zwart, Douglas, Heer, Human Adaptation to Spaceflight: The Role of Food and Nutrition, 2nd ed., NASA 2021.
@@ -175,7 +175,7 @@ Not used: Smith printed p. 84 iron intake figures by menstrual status (dose-like
 | Russian study: lower fasting blood sugar after 60 or 88 days | Smith printed p. 34: "reduction in fasting plasma glucose after 60 or 88 days of flight on a Salyut-Soyuz" |
 | Too little carbohydrate can slow emergency response | Smith printed p. 34: suboptimal carbohydrate intake may "impede their ability to respond in emergency situations" |
 | Signs | NHS Low blood sugar symptoms; NIDDK Low blood glucose symptoms |
-| Threshold below 70 (mg/dL) | NIDDK Low Blood Glucose page: "lower than 70 milligrams per deciliter (mg/dL)" (written for people with diabetes; used here as the Vista `glucose` check threshold) |
+| Threshold below 70 (mg/dL) | NIDDK Low Blood Glucose page: "lower than 70 milligrams per deciliter (mg/dL)" (written for people with diabetes; used here as the Void Voyagers `glucose` check threshold) |
 | Treat with 15 to 20 grams of fast sugar; recheck after 15 minutes; repeat | NIDDK: "Eat or drink 15 to 20 grams of glucose or carbohydrates right away", "Wait 15 minutes and check ... again", repeat |
 | Then eat a snack or meal | NHS Low blood sugar treatment; NIDDK after-treatment snack |
 | Emergency: very confused, fit, unconscious | NHS Low blood sugar: severe symptoms (fit, unconscious) and 999 advice |
@@ -226,7 +226,7 @@ Adversarial fact-check of `c3.json`, 2026-11-15. Every NASA PDF URL was download
 
 ### Noted, not changed
 
-- Low blood sugar: the 70 mg/dL threshold and the 15 to 20 g treatment come from NIDDK guidance written for people with diabetes, and NHS says low blood sugar is rare without diabetes. Both were kept as the trigger for the Vista `glucose` check. The treatment is food sugar, not a medicine dose, and every low reading goes to the crew medical officer. Flagged for flight-surgeon review.
+- Low blood sugar: the 70 mg/dL threshold and the 15 to 20 g treatment come from NIDDK guidance written for people with diabetes, and NHS says low blood sugar is rare without diabetes. Both were kept as the trigger for the Void Voyagers `glucose` check. The treatment is food sugar, not a medicine dose, and every low reading goes to the crew medical officer. Flagged for flight-surgeon review.
 - Miller 2021 and Reyes 2020 are cited by their online (e-pub) year. The print issues are Surg Innov 2022;29:616 and 2021;28:573.
 - After the fixes, entries run 163 to 185 words. Five go over 170 because the safety wording was kept.
 

@@ -1,4 +1,4 @@
-# Vista library: space-health conditions, research log
+# Void Voyagers library: space-health conditions, research log
 
 Research log for `kb_conditions.json` (20 entries). Compiled 2026-11-15.
 
@@ -7,9 +7,9 @@ Research log for `kb_conditions.json` (20 entries). Compiled 2026-11-15.
 - Started from `README.md` and the six files in `docs/evidence/` and reused the sources the team had already verified, so the entries agree with them (SANS 70%, bone 1% to 1.5% a month and 0.5% to 1% with ARED, CO2 limit 3 mmHg, PHQ-4 rule, no diuresis claim, per-virus herpes figures).
 - Every source cited in the JSON was opened again in this session. NASA PDFs were fetched and their text extracted with `pdftotext -layout`; page numbers below are PDF pages of that file (printed page numbers are given where they differ). Journal papers were read through PubMed: the abstract for all of them, and the full text (PubMed Central) where marked "full text". Web pages were read directly.
 - No doses or schedules anywhere. Medicines appear only as classes or names (anti-sickness medicine, decongestant, bisphosphonates, potassium citrate, blood thinners), always with "the flight surgeon decides". Several opened sources give doses (for example MTB-004 p. 7 for promethazine, LeBlanc 2013 for alendronate, Flynn-Evans 2023 for caffeine); none was copied.
-- Entries were checked by script (`scripts/build_kb.py`): Vista system and check keys, kebab-case ids, https sources, no emoji, no straight double quotes, no dose-like text (the same regular expression as the app's self-test and `tools/library.py`), no common US spellings, and length. Every entry was 155 to 170 words in total, counting source titles, before the fact-check; the five entries corrected in the "Verification log" below are now 185 to 211 words (the safety and accuracy wording was kept rather than trimmed to fit).
+- Entries were checked by script (`scripts/build_kb.py`): Void Voyagers system and check keys, kebab-case ids, https sources, no emoji, no straight double quotes, no dose-like text (the same regular expression as the app's self-test and `tools/library.py`), no common US spellings, and length. Every entry was 155 to 170 words in total, counting source titles, before the fact-check; the five entries corrected in the "Verification log" below are now 185 to 211 words (the safety and accuracy wording was kept rather than trimmed to fit).
 - Correction: an earlier version of this log said every medicine carried "the flight surgeon decides". The back-pain entry's "pain relief" (analgesic medicine) and the fluid and salt loading regimen did not; both now do (see "Verification log").
-- "Design rule" below marks wording that is a Vista escalation or app instruction, not a sourced fact. Where it follows a band already proposed in `docs/evidence/` (marked (D) or (P) there), that is stated. These need flight-surgeon review like the rest of the (D)/(P) bands.
+- "Design rule" below marks wording that is a Void Voyagers escalation or app instruction, not a sourced fact. Where it follows a band already proposed in `docs/evidence/` (marked (D) or (P) there), that is stated. These need flight-surgeon review like the rest of the (D)/(P) bands.
 
 Abbreviations: TB/MTB = NASA OCHMO technical brief / medical technical brief; C&V = NASA "Cardiovascular and Vision" page; HBIS = NASA "The Human Body in Space".
 
@@ -96,7 +96,7 @@ Abbreviations: TB/MTB = NASA OCHMO technical brief / medical technical brief; C&
 | Seated height about +6% | Young and Rajulu 2020 abstract |
 | Back or neck pain after landing; disc injuries about 4 times more common, risk highest soon after flight | Johnston 2010 abstract (4.3 times; cervical share 18 of 44; risk increased immediately after spaceflight) |
 | Sign: lower-back pain, most often central, in the first days of flight | Pool-Goudzwaard 2015 abstract ("most often experienced in the central area of the lower back"); MTB-004 p. 3 (first 2-5 days of flight) |
-| Knees-to-chest the most effective remedy, rated 91% effective; exercise and pain medicine each rated 85% effective; flight surgeon chooses the pain medicine, dose and timing | Kerstman 2012 abstract (treatment-effectiveness ratings, not share of astronauts helped; "analgesic medications"); flight-surgeon line per MTB-004 p. 3 and the Vista medicine rule |
+| Knees-to-chest the most effective remedy, rated 91% effective; exercise and pain medicine each rated 85% effective; flight surgeon chooses the pain medicine, dose and timing | Kerstman 2012 abstract (treatment-effectiveness ratings, not share of astronauts helped; "analgesic medications"); flight-surgeon line per MTB-004 p. 3 and the Void Voyagers medicine rule |
 | Escalate: severe, unrelieved or night pain; back pain with fever or blood in urine; leg numbness or weakness; bladder or bowel control | MedlinePlus "Low back pain - acute" (reviewed 27 Jun 2026), "When to Contact a Medical Professional" (includes unexplained fever and blood in urine); MTB-003 Rev A p. 1 (kidney stone the second most likely reason for ISS emergency medical evacuation); Kerstman 2012 (risk when moderate or severe pain does not respond) |
 
 ## 7. Kidney stones (`kidney-stones`)
@@ -123,7 +123,7 @@ Abbreviations: TB/MTB = NASA OCHMO technical brief / medical technical brief; C&
 | Long exercise adds to the gap | TB-027 Rev C (29 Nov 2023) p. 2 (exercising for over 60 minutes) |
 | 2.5% body-weight water loss harms decisions, concentration, performance | TB-027 p. 2 |
 | Signs: less urine, headache, feeling ill, poor concentration, confusion, sleepiness | TB-027 p. 2, "Signs and symptoms of dehydration" |
-| Personal daily target | Vista's target uses NASA's requirement, nutrition book PDF p. 11, Table 1 (32 mL per kg; at least 2,100 mL women, 2,500 mL men) |
+| Personal daily target | Void Voyagers's target uses NASA's requirement, nutrition book PDF p. 11, Table 1 (32 mL per kg; at least 2,100 mL women, 2,500 mL men) |
 | Pale urine, chart shades 1 to 3 | McKenzie and Armstrong 2017 abstract ("aim for a 1, 2, or 3") |
 | Drink extra when sick or vomiting | MTB-004 p. 8 (maintain hydration) |
 | Escalation | Design rule; MTB-004 p. 8 (severe cases may need IV hydration) |
@@ -194,7 +194,7 @@ Abbreviations: TB/MTB = NASA OCHMO technical brief / medical technical brief; C&
 | Signs: dosimeter, alarm, nausea, vomiting, tiredness | NASA SRAG page (updated 24 Sep 2025: dosimeters log exposure; ISS-RAD alarm when crew may need to shelter); TB-020 p. 2 |
 | Go to shelter; water bags cut the dose | NASA SRAG page (shelter in higher-shielded areas); TB-020 p. 9 table (stowage shelter, 210-259 mSv down to 65-83 mSv) and p. 10 (rearranging water containers) |
 | Ending a spacewalk within 2 hours with shielding gives very high protection | TB-020 p. 10, "Design Considerations" |
-| "Log it daily"; escalation | Design rule (Vista dose check); symptoms from TB-020 p. 2 |
+| "Log it daily"; escalation | Design rule (Void Voyagers dose check); symptoms from TB-020 p. 2 |
 
 ## 14. High cabin CO2 (`high-cabin-co2`)
 
@@ -261,7 +261,7 @@ Caution: no human in-flight wound-healing outcome data were found; the healing s
 
 ## 19. Decompression sickness (`decompression-sickness`)
 
-All from TB-037 Rev D (5 Oct 2026): p. 1 (bubbles from rapid pressure drops, cabin to suit), p. 3 (Type I and Type II symptom lists, including cutaneous marmorata), p. 4 (dehydration and vigorous or resistive exercise after decompression raise risk), p. 9 (prebreathe replaces nitrogen; breaks in prebreathe reintroduce it), p. 10 (most cases at 60-240 minutes), p. 11 (no Type II event in NASA spaceflight), p. 6 (treatment: oxygen and suit plus cabin pressure). "Report any symptom at once" is a design rule. No Vista check fits, so `checks` is empty (the app allows this).
+All from TB-037 Rev D (5 Oct 2026): p. 1 (bubbles from rapid pressure drops, cabin to suit), p. 3 (Type I and Type II symptom lists, including cutaneous marmorata), p. 4 (dehydration and vigorous or resistive exercise after decompression raise risk), p. 9 (prebreathe replaces nitrogen; breaks in prebreathe reintroduce it), p. 10 (most cases at 60-240 minutes), p. 11 (no Type II event in NASA spaceflight), p. 6 (treatment: oxygen and suit plus cabin pressure). "Report any symptom at once" is a design rule. No Void Voyagers check fits, so `checks` is empty (the app allows this).
 
 ## 20. Moon and Mars dust (`moon-and-mars-dust`)
 
@@ -279,7 +279,7 @@ All from TB-037 Rev D (5 Oct 2026): p. 1 (bubbles from rapid pressure drops, cab
 
 - "Bird legs" and the claim that the fluid shift persists for the whole flight (not stated in the pages opened in this session).
 - Early "space diuresis": MTB-004 and TB-033 describe it, but the NASA nutrition book (PDF p. 33) says it has never been confirmed. Not used, as in `cardio-metabolic.md`.
-- Symptoms of a neck (jugular) clot: the only in-flight clot was found on ultrasound with no symptoms, and CDC lists signs only for arms and legs. Neck swelling is in the escalation as a Vista design choice.
+- Symptoms of a neck (jugular) clot: the only in-flight clot was found on ultrasound with no symptoms, and CDC lists signs only for arms and legs. Neck swelling is in the escalation as a Void Voyagers design choice.
 - Human in-flight wound-healing data: none found; entry says "may".
 - Advice to moisturise dry skin, to avoid rubbing the eye, and taste changes from congestion: no source opened, omitted.
 - Mars radiation numbers (MSL-RAD): not reopened this session, so only the Moon figure is given.

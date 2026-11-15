@@ -1,4 +1,4 @@
-// Vista 3D body viewer. Bundled by tools/3d/build.mjs into assets/vista3d.js (self-hosted, no CDN).
+// Void Voyagers 3D body viewer. Bundled by tools/3d/build.mjs into assets/voyagers3d.js (self-hosted, no CDN).
 // Anatomy: BodyParts3D, (c) The Database Center for Life Science, CC BY-SA 2.1 Japan (assets/body.glb, tools/3d/build_body.py).
 import {
   WebGLRenderer, Scene, PerspectiveCamera, HemisphereLight, DirectionalLight, MeshPhysicalMaterial, Color, Raycaster, Vector2,

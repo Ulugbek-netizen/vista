@@ -1,8 +1,8 @@
 # Five hazards, HRP risks and mission medical operations
 
-Compiled 2026-11-14 for Vista. Web access was available; 58 pages and documents were opened (NASA, CSA, ESA, NSSDC, PubMed Central). NASA PDF briefs and NTRS documents were downloaded and their text extracted locally, so numbers from them were read directly.
+Compiled 2026-11-14 for Void Voyagers. Web access was available; 58 pages and documents were opened (NASA, CSA, ESA, NSSDC, PubMed Central). NASA PDF briefs and NTRS documents were downloaded and their text extracted locally, so numbers from them were read directly.
 Confidence key: **high** = number read in an opened primary or issuing-body source (or simple arithmetic on such a number, marked "derived"); **medium** = read in an opened source but the source is old (before 2018), is a poster or flattened table whose layout had to be interpreted, or disagrees with another source; **low** = from memory only (none of the numbered facts below are low).
-**(D)** marks a design proposal for Vista that no source prescribes; it needs flight-surgeon sign-off.
+**(D)** marks a design proposal for Void Voyagers that no source prescribes; it needs flight-surgeon sign-off.
 
 ## Facts
 
@@ -111,19 +111,19 @@ Rating example for the explainer text: SANS is scored 4×3 for operations ("acce
 
 ## Thresholds
 
-None for this domain: this file sets no clinical cut-offs (see the system-specific evidence files). Three sourced framework rules should still shape how the rule engine words Watch, Act and Urgent; how Vista applies them is a design proposal **(D)**.
+None for this domain: this file sets no clinical cut-offs (see the system-specific evidence files). Three sourced framework rules should still shape how the rule engine words Watch, Act and Urgent; how Void Voyagers applies them is a design proposal **(D)**.
 
 - **Mission context decides who "Act" and "Urgent" can reach.** On the ISS a flight surgeon is reachable in real time and return is possible within about a day in an emergency, though the Crew-11 controlled return in January 2026 took 8 days (FRM-14, FRM-15). At the Moon voice is still near real-time but return takes 3–11 days (FRM-14). On a Mars mission there is no real-time help, a question and its answer are separated by up to about 44 minutes (2 × 22 minutes, derived from FRM-20), direct contact can be lost for 13–21 days (FRM-21) and evacuation is impossible (FRM-14). In Mars mode the first Urgent instruction therefore has to be something the crew can do on board, with "message the ground" as a parallel step, never the only step. **(D)**
 - **Mission day changes what is expected.** Nausea, headache, congestion and back pain in the first 3 days are the norm, not an alarm (FRM-08); after about 2 weeks the concerns shift to muscle, aerobic fitness, bone, kidney stones and vision; after landing, balance and blood-pressure problems last hours to days ([OCHMO-TB-033](https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-033-spaceflight-experience-medical-care.pdf)). A symptom rule should take mission day as an input. **(D)**
-- **Routine-check cadence defines "overdue".** The ISS cadences in FRM-25 to FRM-29 (weekly, every 2 weeks, every 30 days, every 45 days, fixed eye-exam days) are operational schedules, not health thresholds; any Watch flag Vista raises for a missed check is a design choice. **(D)**
+- **Routine-check cadence defines "overdue".** The ISS cadences in FRM-25 to FRM-29 (weekly, every 2 weeks, every 30 days, every 45 days, fixed eye-exam days) are operational schedules, not health thresholds; any Watch flag Void Voyagers raises for a missed check is a design choice. **(D)**
 
 ## Measurement in space
 
-NASA's behavioural-health brief says missions longer than 6 months or beyond low Earth orbit should add minimally obtrusive, objective measures of psychological and behavioural state, which is the gap a self-directed tool fills ([OCHMO-TB-016 Rev B](https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-016-behavioral-health.pdf)). Steps marked **(D)** are Vista suggestions rather than documented procedures.
+NASA's behavioural-health brief says missions longer than 6 months or beyond low Earth orbit should add minimally obtrusive, objective measures of psychological and behavioural state, which is the gap a self-directed tool fills ([OCHMO-TB-016 Rev B](https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-016-behavioral-health.pdf)). Steps marked **(D)** are Void Voyagers suggestions rather than documented procedures.
 
 | Indicator or check | Device or exam (ISS today; exploration plan) | Simple self-measure steps | Cadence | Source |
 |---|---|---|---|---|
-| General health check-in | Private two-way audio or video conference with the flight surgeon; for exploration, store-and-forward messages plus the onboard Crew Medical Officer | Report sleep, eating, how you feel, exercise and any symptoms; Vista can collect the same items as a structured form **(D)** | Weekly, 15 minutes | FRM-25 |
+| General health check-in | Private two-way audio or video conference with the flight surgeon; for exploration, store-and-forward messages plus the onboard Crew Medical Officer | Report sleep, eating, how you feel, exercise and any symptoms; Void Voyagers can collect the same items as a structured form **(D)** | Weekly, 15 minutes | FRM-25 |
 | Psychological check-in | Private video conference with a NASA psychologist or psychiatrist | Rate sleep quantity and quality, fatigue, workload and pace, morale, crew and ground relationships, mood and cognition, family, habitability and food | Every 2 weeks, 15–20 minutes | FRM-26 |
 | Cognition | WinSCAT (5 tests, 30 minutes) against a personal pre-flight baseline; research adds a 10-test Cognition battery and a 10-minute vigilance self-test | Take the test at a consistent time of day and compare with your own baseline, not a population norm **(D)** | Every 30 days; repeat after any head injury or illness | FRM-27; [The Human Body in Space](https://www.nasa.gov/humans-in-space/the-human-body-in-space/) |
 | Sleep and activity | Wrist actigraph recording movement and light, with sleep reports; Bio-Monitor shirt can be worn during sleep | Wear the actigraph continuously and log sleep time and quality on waking **(D)** | Continuous; reviewed at each psychological conference | FRM-04, FRM-32; [NASA Standard Measures](https://www.nasa.gov/reference/standard-measures/) |

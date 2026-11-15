@@ -1,4 +1,4 @@
--- Vista inbox hardening, applied 15 November 2026 to Supabase project "vivoya" (after reports.sql), following the security audit.
+-- Void Voyagers inbox hardening, applied 15 November 2026 to Supabase project "vivoya" (after reports.sql), following the security audit.
 -- 1. Rate limit: at most 30 reports a minute across the inbox.
 create or replace function public.reports_rate_limit() returns trigger
 language plpgsql security definer set search_path = public as $$

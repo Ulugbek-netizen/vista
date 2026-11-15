@@ -1,10 +1,10 @@
 <!doctype html>
 <meta charset="utf-8">
-<title>Vista 3D preview</title>
+<title>Void Voyagers 3D preview</title>
 <style>html,body{margin:0;background:#040806}#v{width:520px;height:900px}</style>
 <div id="v"></div>
 <script type="module">
-const { mount } = await import('../../assets/vista3d.js?v=' + Date.now());
+const { mount } = await import('../../assets/voyagers3d.js?v=' + Date.now());
 const meta = await (await fetch('../../assets/body.json')).json();
 window.api = await mount(document.getElementById('v'), {glb: '../../assets/body.glb?v=' + Date.now(), meta, onPick: k => { window.picked = k; }, reduced: true});
 window.ready = true;

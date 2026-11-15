@@ -1,13 +1,13 @@
-# Vista medicine library, batch m2: research log
+# Void Voyagers medicine library, batch m2: research log
 
-Companion to `m2.json` (15 entries): 10 new medicines (cetirizine, fexofenadine, fluticasone-nasal-spray, saline-nasal-spray, salbutamol-inhaler, prednisone, clotrimazole-cream, mupirocin-ointment, tetracaine-eye-drops, ciprofloxacin-eye-drops) and 5 existing entries copied unchanged from `kb/kb_meds.json` with a `dose` object added (decongestants, antihistamines, topical-steroids, artificial-tears, adrenaline-auto-injector). Built 15 November 2026. Build and checks: `kb2/m2build/build_m2.py` (valid JSON, ASCII only, kebab-case ids, every condition id is in `kb_conditions.json` or the parallel new-condition list, every gate key is a Vista check key, `bp` gates carry `f`, every dose has all fields).
+Companion to `m2.json` (15 entries): 10 new medicines (cetirizine, fexofenadine, fluticasone-nasal-spray, saline-nasal-spray, salbutamol-inhaler, prednisone, clotrimazole-cream, mupirocin-ointment, tetracaine-eye-drops, ciprofloxacin-eye-drops) and 5 existing entries copied unchanged from `kb/kb_meds.json` with a `dose` object added (decongestants, antihistamines, topical-steroids, artificial-tears, adrenaline-auto-injector). Built 15 November 2026. Build and checks: `kb2/m2build/build_m2.py` (valid JSON, ASCII only, kebab-case ids, every condition id is in `kb_conditions.json` or the parallel new-condition list, every gate key is a Void Voyagers check key, `bp` gates carry `f`, every dose has all fields).
 
 ## Ground rules applied
 
 - Dose numbers come only from official US labels opened on DailyMed (NLM) through its SPL web service (`/dailymed/services/v2/spls/{setid}.xml`), converted to text and kept in `kb2/m2src/*.txt`. Numbers are copied as the label states them. No UK SmPC or WHO source was needed.
 - Spaceflight notes reuse sources already verified for `kb_meds.json` (local copies re-read for this batch): the ISS Emergency Medical Procedures Manual (`kb/dl_emp/emp2016.txt`), OCHMO-MTB-012 Rev B text (`kb/dl_ochmo/tb006.txt`) and its p. 18 ISS kit-list image (`kb/dl_ochmo/imgs/img_394.png`, viewed), the CSRM EVA medication review (`kb/dl_ntrs2/crsm.txt`), Reichard 2023 (`kb/dl_ntrs2/pharm2023.u8.txt`), Du 2011 (`kb/dl_epmc/PMC3085701.txt`), Crucian 2016 (`kb/dl_epmc/PMC5098747.txt`), OCHMO-TB-033 (`kb/fc/dl/tb033.txt`).
 - `calc` is true only for over-the-counter (Drug Facts) products. Prescription items, the injectable, the eye anaesthetic and the reliever inhaler are false.
-- Gate thresholds: the label supplies the reason (a warning or "ask a doctor before use if you have ..."); the number is Vista's existing threshold from `docs/evidence/clinical-thresholds.md`: systolic 140 / diastolic 90 mmHg (Act band, AHA/ACC stage 2), resting heart rate 111 bpm (Act band, NEWS2), random glucose 200 mg/dL (ADA 2026), PHQ-4 6 (Vista's moderate band, Kroenke 2009). The cetirizine reaction-time gate uses 355 ms, the PVT-B lapse threshold (Basner 2011, quoted in Vista's react check). These are design choices tied to sourced thresholds, not label numbers.
+- Gate thresholds: the label supplies the reason (a warning or "ask a doctor before use if you have ..."); the number is Void Voyagers's existing threshold from `docs/evidence/clinical-thresholds.md`: systolic 140 / diastolic 90 mmHg (Act band, AHA/ACC stage 2), resting heart rate 111 bpm (Act band, NEWS2), random glucose 200 mg/dL (ADA 2026), PHQ-4 6 (Void Voyagers's moderate band, Kroenke 2009). The cetirizine reaction-time gate uses 355 ms, the PVT-B lapse threshold (Basner 2011, quoted in Void Voyagers's react check). These are design choices tied to sourced thresholds, not label numbers.
 
 ## Labels opened (DailyMed)
 
@@ -47,7 +47,7 @@ Short keys for NASA and journal sources: issemp (ISS EMP, FOIA 2016), mtb012 (OC
 | ISS kit list names fexofenadine and loratadine, not cetirizine | mtb012 p. 18 image (Convenience Med Pack, Oral Pak columns) |
 | Oral antihistamines suggested for persistent allergic or hypersensitivity symptoms | crucian2016 Discussion |
 | DOSE label, max, single 10 mg, maxSingle 10, maxDay 10, everyH 24 | zyrtec, Directions: "one 10 mg tablet once daily; do not take more than one 10 mg tablet in 24 hours. A 5 mg product may be appropriate for less severe symptoms." |
-| Gate react >= 355 ms | Reason: zyrtec, When using this product (drowsiness; be careful operating machinery). Number: PVT-B lapse threshold (Basner 2011, as in Vista's react check) |
+| Gate react >= 355 ms | Reason: zyrtec, When using this product (drowsiness; be careful operating machinery). Number: PVT-B lapse threshold (Basner 2011, as in Void Voyagers's react check) |
 
 ## 2. fexofenadine
 

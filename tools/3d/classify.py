@@ -1,4 +1,4 @@
-"""Sort BodyParts3D IS-A element meshes into Vista layers. Writes layers.json {layer: [FJ ids]} and prints counts."""
+"""Sort BodyParts3D IS-A element meshes into Void Voyagers layers. Writes layers.json {layer: [FJ ids]} and prints counts."""
 import collections, json, re, sys
 R = sys.argv[1]
 rows = [l.rstrip('\n').split('\t') for l in open(f'{R}/isa_element_parts.txt', encoding='utf-8')][1:]

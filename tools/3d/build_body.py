@@ -1,4 +1,4 @@
-"""BodyParts3D -> one GLB with a mesh per Vista layer (simplified, metres, Y up, body facing +Z).
+"""BodyParts3D -> one GLB with a mesh per Void Voyagers layer (simplified, metres, Y up, body facing +Z).
 Lungs are modelled: BodyParts3D 4.0 has the bronchial tree but no lung tissue, so each lung is the smoothed
 envelope of its bronchial tree. Data: BodyParts3D, (c) The Database Center for Life Science, CC BY-SA 2.1 Japan."""
 import glob, json, os, re, sys

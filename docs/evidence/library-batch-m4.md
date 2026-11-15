@@ -1,4 +1,4 @@
-# Vista medicine library, batch m4: research log
+# Void Voyagers medicine library, batch m4: research log
 
 Companion to `m4.json` (originally 17 entries; 16 after the fact-check below: 9 new, 7 existing entries copied unchanged with a `dose` object added). Built 15 November 2026. Build script: `scratchpad/m4_scripts/build_m4.py` (validates ASCII, kebab-case ids, condition ids, check keys, units, https URLs). Label files as downloaded are kept in `kb2/m4_src/` (DailyMed SPL XML or openFDA JSON, named by set id).
 
@@ -7,8 +7,8 @@ Companion to `m4.json` (originally 17 entries; 16 after the fact-check below: 9 
 - Doses come only from official labelling: FDA labels read as SPL XML from the DailyMed web service (`dailymed.nlm.nih.gov/dailymed/services/v2/spls/{setid}.xml`) or the openFDA label API (same SPL content), the UK EMC SmPC (melatonin), and an NHS page (glucose gel, see "Could not source"). Cited as the DailyMed `drugInfo.cfm?setid=` page for each set id.
 - Dose numbers are copied as the label states them. Where a label gives a range (ketamine, lorazepam, morphine into a vein), the numeric fields `single` and `mgPerKg` are left null and the range stays in the `label` text, so the app cannot show one end of a range as "the" dose. `everyH` is the shortest interval the label states.
 - `calc: true` only for over-the-counter style medicines a crew member could take under a standing order: caffeine (US OTC monograph), meclizine (US OTC), glucose gel. Everything else is `false` (injectables, opioids, ketamine, benzodiazepine, antidepressant, prescription sleep medicines, scopolamine patch (US prescription), promethazine (US prescription), modafinil (controlled), radiation countermeasures, potassium iodide (taken only on official instruction)).
-- Gates: each gate's reason comes from the label's warnings or contraindications (section named below). The numeric threshold is not in any label; it is Vista's own band from `docs/evidence/clinical-thresholds.md`, chosen to match: react >= 355 ms (PVT-B lapse threshold, Basner 2011, used by Vista's reaction test); SpO2 <= 91% (Vista urgent band, NEWS2 score 3); systolic <= 90 mmHg and >= 180 mmHg (Vista urgent/severe hypertension bands); systolic >= 140 (Vista stage 2 band); HR >= 111 (Vista Act band, NEWS2 score 2); temp >= 38.0 deg C (Vista fever band); sleep < 6 h (Vista Act band); PHQ-4 >= 6 (Vista Act band); glucose < 54 mg/dL (ADA level 2, Vista urgent band) and glucose >= 72 mg/dL (NHS 4 mmol/L converted at 18 mg/dL per mmol/L).
-- Condition links marked "editorial" below are Vista's mapping of a label indication to a library condition, not a claim found in a source.
+- Gates: each gate's reason comes from the label's warnings or contraindications (section named below). The numeric threshold is not in any label; it is Void Voyagers's own band from `docs/evidence/clinical-thresholds.md`, chosen to match: react >= 355 ms (PVT-B lapse threshold, Basner 2011, used by Void Voyagers's reaction test); SpO2 <= 91% (Void Voyagers urgent band, NEWS2 score 3); systolic <= 90 mmHg and >= 180 mmHg (Void Voyagers urgent/severe hypertension bands); systolic >= 140 (Void Voyagers stage 2 band); HR >= 111 (Void Voyagers Act band, NEWS2 score 2); temp >= 38.0 deg C (Void Voyagers fever band); sleep < 6 h (Void Voyagers Act band); PHQ-4 >= 6 (Void Voyagers Act band); glucose < 54 mg/dL (ADA level 2, Void Voyagers urgent band) and glucose >= 72 mg/dL (NHS 4 mmol/L converted at 18 mg/dL per mmol/L).
+- Condition links marked "editorial" below are Void Voyagers's mapping of a label indication to a library condition, not a claim found in a source.
 - Spaceflight claims come from the team's local copies of NASA documents re-read for this batch (keys as in `kb/kb_meds.md`): issemp (ISS Emergency Medical Procedures Manual, 2015 pages, FOIA), mtb012 (OCHMO-MTB-012 Rev B), reichard2023, ives2024 (CSRM), bmed2025, mtb004 (OCHMO-MTB-004 Rev A), plus PubMed records opened for this batch (abstracts only): Nowadly 2026 (PMID 42550782), Komorowski 2013 (PMID 23513283), Kutz 2025 (PMID 40643389), Sanzari 2015 (PMID 25909052), and the NASA HRP radiation hazard page (fetched).
 
 ## Labels used
@@ -47,7 +47,7 @@ Companion to `m4.json` (originally 17 entries; 16 after the fact-check below: 9 
 | Get help for breathing/speaking/swallowing trouble, wheeze, mouth/throat swelling, rash, irregular heart or chest pain | L_KI, Drug Facts "Stop use and ask a doctor" |
 | No spaceflight use found | Searched issemp, mtb012, reichard2023 text: no "iodide" hit |
 | Space radiation = galactic cosmic rays and solar storms | NASA HRP hazard page (fetched) |
-| calc false, no gates | Taken only on official instruction; no label warning tied to a Vista check |
+| calc false, no gates | Taken only on official instruction; no label warning tied to a Void Voyagers check |
 
 ### filgrastim
 | Claim / number | Source and place |
@@ -70,7 +70,7 @@ Companion to `m4.json` (originally 17 entries; 16 after the fact-check below: 9 
 | IM 6.5 to 13 mg/kg; IV 1 to 4.5 mg/kg over 60 s or 1 to 2 mg/kg at 0.5 mg/kg/min; repeat half to full induction dose | L_KET, 2 (highlights) and 2.2 |
 | Only by/under direction of physicians experienced in anaesthesia, airway, oxygenation; monitor vital signs; airway equipment available | L_KET, 2.1 |
 | No 24-h maximum stated; individualised and titrated | L_KET, 2.2 (no maximum anywhere in section 2) |
-| Contraindicated when significant BP rise would be a serious hazard -> gate bp sys >= 180 (threshold = Vista severe band) | L_KET, 4 |
+| Contraindicated when significant BP rise would be a serious hazard -> gate bp sys >= 180 (threshold = Void Voyagers severe band) | L_KET, 4 |
 | Raises BP and heart rate | L_KET, 6 (cardiovascular) |
 | Emergence reactions about 12%, a few hours; dream-like states, vivid imagery, hallucinations, confusion; IM lowers incidence; minimise verbal, tactile, visual stimulation | L_KET, 5.2 |
 | Respiratory depression with overdose or too-rapid administration | L_KET, 5 (highlights) |
@@ -121,7 +121,7 @@ Companion to `m4.json` (originally 17 entries; 16 after the fact-check below: 9 
 |---|---|
 | MDD/OCD start 50 mg/day; PD/PTSD/SAD start 25 mg/day; increase 25 to 50 mg/day weekly; max 200 mg/day; interval between dose changes one week | L_SER, 2.1 and Table 1 |
 | single 50, maxDay 200, everyH null (label gives "per day", no interval wording) | L_SER, 2.1 |
-| Boxed: suicidal thoughts in paediatric and young adult patients; monitor for worsening -> gate phq4 >= 6 (Vista Act band) | L_SER, Boxed warning |
+| Boxed: suicidal thoughts in paediatric and young adult patients; monitor for worsening -> gate phq4 >= 6 (Void Voyagers Act band) | L_SER, Boxed warning |
 | Serotonin syndrome; bleeding with aspirin/NSAIDs; angle-closure glaucoma; hyponatraemia | L_SER, 5 and 6 |
 | Most common: nausea, diarrhoea, tremor, dyspepsia, decreased appetite, hyperhidrosis, ejaculation failure, decreased libido | L_SER, 6 (highlights) |
 | Discontinuation: nausea, sweating, dysphoric mood, irritability, agitation, dizziness, electric-shock sensations | L_SER, 5.5 |
@@ -145,7 +145,7 @@ Companion to `m4.json` (originally 17 entries; 16 after the fact-check below: 9 
 | Claim / number | Source and place |
 |---|---|
 | Low blood sugar usually below 4 mmol/L; treat with e.g. 2 tubes of glucose gel or 5 glucose/dextrose tablets; re-test after 10 to 15 minutes; if still below 4, another sugary drink or snack, check after 10 minutes; then longer-acting food | L_GLU, "Treating it yourself" (written for people with diabetes) |
-| Unconscious: no food or drink, cannot swallow safely | L_GLU, severe hypo section -> gate glucose < 54 (threshold from Vista/ADA) |
+| Unconscious: no food or drink, cannot swallow safely | L_GLU, severe hypo section -> gate glucose < 54 (threshold from Void Voyagers/ADA) |
 | Rare without diabetes; causes include malnutrition; symptoms such as shaking, sweating, fast heartbeat, confusion -> see a GP | L_GLU |
 | single 2, unit "application" (= 2 tubes), everyH null, maxDay null | L_GLU (no fixed interval or maximum) |
 | Gate glucose >= 72 (4 mmol/L x 18) | L_GLU threshold, converted |
@@ -182,7 +182,7 @@ Companion to `m4.json` (originally 17 entries; 16 after the fact-check below: 9 
 | Shuttle list: lidocaine and xylocaine | mtb012 p. 17 |
 | Lidocaine among ISS-flown medicines; most within about +/-5% | Nowadly 2026 abstract |
 | Conditions cuts-and-abrasions, dental-problems | dental from issemp 2.6.301; cuts editorial (skin infiltration) |
-| No gates | No label warning maps to a Vista check reading |
+| No gates | No label warning maps to a Void Voyagers check reading |
 
 ## Existing entries (all fields copied unchanged from `kb/kb_meds.json`; only `dose` added)
 
@@ -202,7 +202,7 @@ Companion to `m4.json` (originally 17 entries; 16 after the fact-check below: 9 
 - Potassium iodide and filgrastim: no spaceflight use or NASA statement found in the NASA sources reviewed. The filgrastim spaceflight note rests on one animal study of pegfilgrastim (a related product), read as an abstract only.
 - Ketamine, morphine, lorazepam, atropine, lidocaine: no ISS in-flight use data found. Ketamine's ISS kit row is read from jumbled extracted table text (attributed by row order); the page image was not re-checked.
 - Morphine is not in the 2015 ISS kit pages (shuttle only); the current ISS kit was not checked beyond mtb012.
-- Gate thresholds are Vista design values, not label numbers (see Method).
+- Gate thresholds are Void Voyagers design values, not label numbers (see Method).
 - PubMed papers (Nowadly 2026, Komorowski 2013, Kutz 2025, Sanzari 2015) were read as abstracts only.
 - Zaleplon: the brand Sonata label on DailyMed is a 2010 repackager copy; a 2024 generic label was used instead. Zoloft label version on openFDA is from August 2023.
 
@@ -234,7 +234,7 @@ Adversarial fact-check, 15 November 2026. Every dose number (single, maximum, in
 - Dose numbers matched the labels for all 16 remaining entries: KI 130 mg, not more than 1 dose in 24 h (adults over 18); filgrastim 10 mcg/kg once daily under the skin, started after a dose above 2 Gy, stop rule as stated; ketamine into a muscle 6.5 to 13 mg/kg, into a vein 1 to 4.5 mg/kg over 60 s or 1 to 2 mg/kg at 0.5 mg/kg/min, no maximum; morphine into a muscle 10 mg every 4 h, into a vein 0.1 to 0.2 mg/kg every 4 h; lorazepam 2 to 6 mg/day, range 1 to 10 mg/day; sertraline 50 mg (25 mg for PD, PTSD, SAD), weekly steps, max 200 mg/day; caffeine 200 mg not more often than every 3 to 4 h; atropine 0.5 mg every 3 to 5 min, total 3 mg; lidocaine Table 1 (percutaneous 5 to 300 mg; dental 20 to 100 mg) and maximums 4.5 mg/kg and 300 mg without adrenaline, 7 mg/kg and 500 mg with; promethazine 25 mg twice daily (motion sickness), 12.5 to 25 mg every 4 to 6 h (nausea); scopolamine one system (about 1 mg over 3 days), one at a time, at least 4 h before; meclizine 1 to 2 chewable tablets once daily, 1 h before travel; zolpidem 5 mg women, 5 or 10 mg men, max 10 mg once nightly; zaleplon 10 mg, 5 mg for low weight, 20 mg occasionally, above 20 mg not recommended; Circadin 2 mg once daily 1 to 2 h before bed after food, up to 13 weeks; modafinil 200 mg once daily, up to 400 mg tolerated without consistent extra benefit.
 - `mgPerKg` is set only for filgrastim (10 mcg/kg, a single stated value). Ranges (ketamine, morphine into a vein) and per-kg maximums (lidocaine, atropine in ischaemic heart disease) stay in text only.
 - `calc`: true only for caffeine and meclizine (US OTC monograph products). False for every injectable, opioid, anaesthetic, benzodiazepine, antidepressant, prescription hypnotic, radiation countermeasure (KI, filgrastim), modafinil, promethazine, scopolamine patch and Circadin (UK prescription-only).
-- Each gate traced to a label warning or contraindication: ketamine bp sys >= 180 (4, contraindicated where a rise in blood pressure is a serious hazard); morphine spo2 <= 91 (4, significant respiratory depression) and bp sys <= 90 (5, severe hypotension, avoid in shock); lorazepam react (sedation 15.9%; patient information on hazardous tasks) and spo2 (Precautions, compromised respiratory function); sertraline phq4 (boxed warning, worsening and suicidality); caffeine hr (rapid heartbeat) and sleep (not a substitute for sleep); atropine hr (5.2); promethazine react (CNS depression) and spo2 (respiratory depression); scopolamine temp (5.5 hyperthermia: remove the system if body temperature rises) and react (drowsiness); meclizine react (drowsiness, machinery); zolpidem react (next-day impairment); zaleplon react (psychomotor impairment at 1 h); melatonin react (SmPC 4.7); modafinil bp sys >= 140 (5.7, more patients needed new or increased blood-pressure medicine, 2.4% vs 0.7%). Numeric thresholds are Vista bands, as stated in the Method section.
+- Each gate traced to a label warning or contraindication: ketamine bp sys >= 180 (4, contraindicated where a rise in blood pressure is a serious hazard); morphine spo2 <= 91 (4, significant respiratory depression) and bp sys <= 90 (5, severe hypotension, avoid in shock); lorazepam react (sedation 15.9%; patient information on hazardous tasks) and spo2 (Precautions, compromised respiratory function); sertraline phq4 (boxed warning, worsening and suicidality); caffeine hr (rapid heartbeat) and sleep (not a substitute for sleep); atropine hr (5.2); promethazine react (CNS depression) and spo2 (respiratory depression); scopolamine temp (5.5 hyperthermia: remove the system if body temperature rises) and react (drowsiness); meclizine react (drowsiness, machinery); zolpidem react (next-day impairment); zaleplon react (psychomotor impairment at 1 h); melatonin react (SmPC 4.7); modafinil bp sys >= 140 (5.7, more patients needed new or increased blood-pressure medicine, 2.4% vs 0.7%). Numeric thresholds are Void Voyagers bands, as stated in the Method section.
 - Spaceflight claims re-read in the local NASA copies: ISS kit rows for ketamine (50 mg/mL, 10 mL, into a muscle, "For use by Physician CMO Only", 3.001 p. 24), lorazepam 1 mg, sertraline 50 mg, caffeine 200 mg (3.001), lidocaine products and dental procedure (2.6.301), ALS atropine and lidocaine through the intraosseous needle (1.103); hydromorphone as the ISS injectable opioid (3.001 p. 25); shuttle list with morphine, atropine and lidocaine (MTB-012 p. 17); BMED "2 anxiolytics, 2 antidepressants, and 2 antipsychotics" and SSRI 2.35 times risk of non-vertebral fractures (p. 66); CSRM lorazepam fatigue and metabolic-rate rationale; MTB-004 caffeine pairing statement; Reichard sertraline figures (98.6% +/- 5.8%, 700 days; Du 2011 353 to 596 days).
 - Condition ids: all exist in `kb/kb_conditions.json` or the new batches `c1` to `c4` (fractures, cuts-and-abrasions, dental-problems, abnormal-heart-rhythm, abdominal-pain-and-appendicitis, anxiety-and-panic, depression, acute-radiation-sickness).
 - The citation "NASA OCHMO-MTB-012 Rev B" pointing to `ochmo-tb-006-pharmaceuticals.pdf` is correct: NASA serves MTB-012 Rev B at that older file name (see `kb/kb_meds.md`).

@@ -1,4 +1,4 @@
-# Vista library batch c2: research log
+# Void Voyagers library batch c2: research log
 
 Compiled 2026-11-15 for `c2.json` (10 condition entries): chest-pain, abnormal-heart-rhythm, high-blood-pressure, fainting, anaphylaxis, asthma-and-wheeze, toxic-atmosphere-exposure, hypoxia, choking, upper-respiratory-infection.
 
@@ -9,7 +9,7 @@ Compiled 2026-11-15 for `c2.json` (10 condition entries): chest-pain, abnormal-h
 - Journal papers: PubMed abstracts retrieved this session (Khine 2018, Ciaccio 2026, Fritsch-Yelle 1998, Norsk 2015, Meck 2001, Crucian 2016).
 - Web pages opened this session with WebFetch (summarised by the fetch tool; quoted phrases below are what it returned): NHS chest pain, heart attack, AF symptoms, high blood pressure, fainting, anaphylaxis, asthma attack, common cold; AHA newsroom 14 Aug 2025; PCNA guideline summary; CDC blood pressure measurement; FDA pulse oximeter basics. NEAS (North East Ambulance Service NHS Trust) choking page was downloaded with curl and its text read in full.
 - No doses anywhere. Medicines appear only by name or class (aspirin, nitroglycerin, adrenaline auto-injector, albuterol/salbutamol inhaler, antibiotics) with "the flight surgeon decides" or "as the checklist directs". Opened sources that contain doses (NHS heart attack: aspirin; NHS asthma attack: inhaler puffs; EMP 1.101 repeat interval for EpiPen; EMP kit list strengths; TB-019 fluid-loading volumes) were not copied.
-- Script `kb2/scripts_c2/build_c2.py` checks Vista system/check keys, no dose-like text, no straight double quotes inside text, and common US spellings. Body length 161 to 184 words (name, summary, why, signs, self-care, escalate), 185 to 210 including source titles. Slightly over the 170 target for six entries, kept for safety wording.
+- Script `kb2/scripts_c2/build_c2.py` checks Void Voyagers system/check keys, no dose-like text, no straight double quotes inside text, and common US spellings. Body length 161 to 184 words (name, summary, why, signs, self-care, escalate), 185 to 210 including source titles. Slightly over the 170 target for six entries, kept for safety wording.
 
 ## Source keys
 

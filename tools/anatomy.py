@@ -1,11 +1,11 @@
-"""Vista anatomical figure (generator for the body map and bone-panel skeleton in vista.html): realistic adult proportions, front view, anatomical position (palms forward).
+"""Void Voyagers anatomical figure (generator for the body map and bone-panel skeleton in void-voyagers.html): realistic adult proportions, front view, anatomical position (palms forward).
 Stature 175 cm = 439 units (vertex y=4, sole y=443), so 1 cm = 2.509 units. Landmark heights follow standard
 anthropometry: chin 0.87 H, shoulder 0.82, elbow 0.63, iliac crest 0.60, hip joint 0.53, wrist 0.485,
 crotch 0.47, fingertip 0.377, knee 0.27, lateral malleolus 0.04.
 Bilateral parts are drawn on the viewer's left (the body's right) and mirrored around x=100.
 Paint order (front view occlusion): msk < metab < resp < cardio < immune < mind < eyes < rib-cage overlay < rad.
 Vessels are drawn only where they are visible from the front (occlusion by omission).
-Writes figure.svg and skel.json (pasted into vista.html) and prints any point that comes within 0.9 units of the skin.
+Writes figure.svg and skel.json (pasted into void-voyagers.html) and prints any point that comes within 0.9 units of the skin.
 Run: python tools/anatomy.py <out-dir>"""
 import json
 import math

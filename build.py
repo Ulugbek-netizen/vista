@@ -1,4 +1,4 @@
-"""Build the deployable site into dist/ from the single source file vista.html.
+"""Build the deployable site into dist/ from the single source file void-voyagers.html.
 
 python build.py   ->  dist/index.html, dist/fonts/*, dist/vercel.json, dist/staticwebapp.config.json
 
@@ -13,14 +13,14 @@ import re
 import shutil
 
 ROOT = pathlib.Path(__file__).parent
-SRC = ROOT / 'vista.html'
+SRC = ROOT / 'void-voyagers.html'
 DIST = ROOT / 'dist'
 # outside services the page may call, only after the user presses a button (see the privacy policy)
 CONNECT = ['https://planetarycomputer.microsoft.com', 'https://api.nasa.gov', 'https://uxzkuncbgsoaqvtpdogy.supabase.co']
 IMAGES = ['https://planetarycomputer.microsoft.com']
 # Offline support: the page itself is network-first (so a new deploy shows up at once) with the cached copy as fallback;
 # fonts are cache-first. Requests to other sites (NASA, Planetary Computer, the report inbox) are never cached.
-SW = r"""const V = 'vista-VERSION', CORE = ['./', './fonts/archivo.woff2', './fonts/martian-mono.woff2', './assets/vista3d.js', './assets/body.json', './assets/body.glb'];
+SW = r"""const V = 'vista-VERSION', CORE = ['./', './fonts/archivo.woff2', './fonts/martian-mono.woff2', './assets/voyagers3d.js', './assets/body.json', './assets/body.glb'];
 self.addEventListener('install', e => e.waitUntil(caches.open(V).then(c => c.addAll(CORE)).then(() => self.skipWaiting())));
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V).map(k => caches.delete(k)))).then(() => self.clients.claim())));
 self.addEventListener('fetch', e => {

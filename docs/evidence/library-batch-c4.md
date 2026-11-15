@@ -1,13 +1,13 @@
-# Vista library, batch c4: research log
+# Void Voyagers library, batch c4: research log
 
-Research log for `c4.json` (10 condition entries). Compiled 2026-11-15. Built and checked by `kb2/build_c4.py` (Vista system and check keys, kebab-case ids, https sources, no emoji, no double quotes, ASCII only, the app's dose-like regular expression, common US spellings, summary of 2 sentences or fewer). Text length is 165 to 190 words per entry (plus 12 to 24 words of source titles), a little above the 120-170 target; the extra words are safety and escalation wording.
+Research log for `c4.json` (10 condition entries). Compiled 2026-11-15. Built and checked by `kb2/build_c4.py` (Void Voyagers system and check keys, kebab-case ids, https sources, no emoji, no double quotes, ASCII only, the app's dose-like regular expression, common US spellings, summary of 2 sentences or fewer). Text length is 165 to 190 words per entry (plus 12 to 24 words of source titles), a little above the 120-170 target; the extra words are safety and escalation wording.
 
 ## How this was done
 
 - Read `kb/kb_conditions.json`, `kb/kb_meds.json` and `docs/evidence/library-*.md`, `radiation-environment.md`, `behavior-sleep-immune.md`, `framework.md` for tone and already-verified sources.
 - Every source cited was opened in this session. NASA PDFs: local text in `kb/src/*.pg.txt` (TB-004, TB-010, TB-016, TB-020, TB-051, NASA-STD-3001 Vol 1 Rev C, BMED evidence report, PHQ manual, Wood slides) or newly downloaded to `kb2/src/` and extracted with `pdftotext -layout` (TB-035 Rev C, Limardo 2021, Antonsen 2017; Beven 2017 was opened but not used). Page numbers below are PDF pages. Journal papers were read through PubMed: abstract for all; full text (PMC) where marked. Web pages were fetched directly.
 - No doses, no dose schedules and no named medicines with amounts. Medicines appear only as classes ("pain relief medicine", "antifungal treatment", "antidepressants") with "the flight surgeon decides".
-- "Design rule" marks wording that is a Vista instruction or escalation choice rather than a sourced fact. These need flight-surgeon review.
+- "Design rule" marks wording that is a Void Voyagers instruction or escalation choice rather than a sourced fact. These need flight-surgeon review.
 
 Abbreviations: TB = NASA OCHMO technical brief; STD1 = NASA-STD-3001 Vol 1 Rev C; BMED = NASA HRP evidence report "Risk of Adverse Cognitive or Behavioral Changes and Psychiatric Disorders" (approved 10 Feb 2025).
 

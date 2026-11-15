@@ -1,6 +1,6 @@
-# Vista library, new conditions batch 1 (c1): research log
+# Void Voyagers library, new conditions batch 1 (c1): research log
 
-Research log for `kb2/c1.json` (10 entries). Compiled 2026-11-15. Built and checked by `kb2/build_c1.py` (Vista system and check keys, the app's dose regular expression, no emoji, no straight double quotes, a short US-spelling list, https sources).
+Research log for `kb2/c1.json` (10 entries). Compiled 2026-11-15. Built and checked by `kb2/build_c1.py` (Void Voyagers system and check keys, the app's dose regular expression, no emoji, no straight double quotes, a short US-spelling list, https sources).
 
 ## How this was done
 
@@ -11,7 +11,7 @@ Research log for `kb2/c1.json` (10 entries). Compiled 2026-11-15. Built and chec
 - NHS, MedlinePlus and CDC pages were opened directly on 2026-11-15; the review date shown on each page is in the citation title.
 - No medicine names with doses appear. Medicines are mentioned only as "pain relief" or "a decongestant", always with "as the flight surgeon advises". The NHS pages name paracetamol and ibuprofen; these were not copied.
 - **IMM numbers.** NASA-STD-3001 Vol 1 Appendix E, Table E.2-1 is labelled "Sample IMM Output" and does not state the mission scenario. Its per-mission figures were therefore NOT copied; entries only say a condition is "among the most likely" when it ranks high in that table.
-- "Design rule" marks a Vista escalation or app instruction that is not a sourced fact and needs flight-surgeon review.
+- "Design rule" marks a Void Voyagers escalation or app instruction that is not a sourced fact and needs flight-surgeon review.
 
 Abbreviations: STD = NASA-STD-3001 Vol 1 Rev C; E.2-1 = Table E.2-1 Sample IMM Output (PDF p. 81-82); E.2-2 = Table E.2-2 Medical Conditions Considered of High Likelihood or High Consequence (PDF p. 82-85); TB-033 = OCHMO-TB-033 Rev D; TB-051 = OCHMO-TB-051; MTB-013 = OCHMO-MTB-013 Rev D.
 
@@ -28,7 +28,7 @@ Abbreviations: STD = NASA-STD-3001 Vol 1 Rev C; E.2-1 = Table E.2-1 Sample IMM O
 | Escalate: lasts longer than 10 to 15 min, after a blow to the head, weak or dizzy, difficulty breathing | NHS Nosebleed, "Go to A&E if" |
 | Escalate: frequent nosebleeds, blood thinner | NHS Nosebleed, "See a GP if" (regular nosebleeds; blood-thinning medicine) |
 | "Catch the blood with gauze" | Design rule (practical, no factual claim) |
-| Checks bp, hr | NHS: higher risk with high blood pressure; weak or dizzy as escalation sign. Design rule mapping to Vista checks |
+| Checks bp, hr | NHS: higher risk with high blood pressure; weak or dizzy as escalation sign. Design rule mapping to Void Voyagers checks |
 
 Not sourced, so left out: any claim that nosebleeds are more frequent in flight, or how blood behaves in weightlessness. No peer-reviewed spaceflight epistaxis study was found (PubMed search "epistaxis spaceflight OR nosebleed AND astronaut" returned 0).
 
@@ -61,7 +61,7 @@ Not sourced, so left out: any claim that nosebleeds are more frequent in flight,
 | Emergency: large or deep, face or genitals, chemical or electrical | NHS Burns and scalds, "Call 999 or go to A&E" |
 | "Tell your crew medical officer about every burn"; any fire burn or smoke breathed in to flight surgeon at once | Design rule (MedlinePlus airway-burn list supports the smoke concern) |
 
-Note: NHS also lists the bottom; Vista text keeps "face or genitals". "Ammonia harms the skin" was deliberately not claimed; the entry only says toxic exposures such as ammonia are on the NASA list.
+Note: NHS also lists the bottom; Void Voyagers text keeps "face or genitals". "Ammonia harms the skin" was deliberately not claimed; the entry only says toxic exposures such as ammonia are on the NASA list.
 
 ## 4. Spacesuit glove injuries and fingernail lifting (`eva-hand-injury`)
 
@@ -140,7 +140,7 @@ Note: the NHS "elevation" step was left out, since raising a limb above the hear
 | Cold pack; rest; adult stays with you 24 h; no sleeping pills unless doctor advises | NHS Head injury and concussion, self-care |
 | Escalate vomiting, dizziness | NHS, "Get help from NHS 111" list |
 | Emergency list | NHS 999 list (knocked out, cannot stay awake, fit, clear fluid from ears or nose, bleeding from ears, vision or hearing problems, new numbness or weakness) and CDC danger signs (worsening headache, one pupil larger) |
-| Checks react, sleep, mood, vision | Design rule mapping CDC symptoms to Vista checks |
+| Checks react, sleep, mood, vision | Design rule mapping CDC symptoms to Void Voyagers checks |
 
 ## 9. Dental problems (`dental-problems`)
 
@@ -221,4 +221,4 @@ Adversarial fact-check of `kb2/c1.json`, 2026-11-15. Every cited source was reop
 
 Checked and confirmed without change: MTB-013 Rev D (dated 11-Feb-26; served at the `ochmo-tb-030-bone-loss.pdf` URL, same file) says there have been no in-mission fractures and EVA loads raise fracture risk in deconditioned crew; TB-033 Rev D is dated 12/01/2023 and lists the fracture, dental, burn, smoke and toxic-exposure items used; TB-051 (21-May-26) p. 4 and p. 36 support the landing-injury claims; STD E.2-2 asterisks mark skin abrasion and laceration as most common; Reid 2014 odds ratios and the over-70% training-injury figure; Reid 2015 humidity passage; Strauss 2005 (47% hands, 20.7% shoulders, hard suit contact); Nguyen 2022 (thinning epidermis, altered wound healing); Henke 2025 (infection risk, slow wound healing); NHS burns, sprains and strains, cuts and grazes, toothache (soft food, avoid chewing with the sore tooth, soft brush, avoid sweet, very hot or very cold) and dental abscess lists; MedlinePlus broken bone, burns and ear barotrauma (severe cases can cause nosebleed; contact if not better after a few hours) all match the entry text.
 
-Remaining cautions: the NHS Shoulder pain page is past its next-review date (22 May 2026). Escalation thresholds marked "Design rule" still need flight-surgeon sign-off. Validation re-run with the `build_c1.py` rules (Vista keys, dose pattern, emoji, US spelling, straight double quotes, https): no problems. Entries removed: none. Final entry count: 10.
+Remaining cautions: the NHS Shoulder pain page is past its next-review date (22 May 2026). Escalation thresholds marked "Design rule" still need flight-surgeon sign-off. Validation re-run with the `build_c1.py` rules (Void Voyagers keys, dose pattern, emoji, US spelling, straight double quotes, https): no problems. Entries removed: none. Final entry count: 10.

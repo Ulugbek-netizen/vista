@@ -1,10 +1,10 @@
-"""Embed the Library (space-health conditions and medicines) into vista.html.
+"""Embed the Library (space-health conditions and medicines) into void-voyagers.html.
 
 python tools/library.py conditions.json medicines.json
 
-Checks every entry against Vista's body-system and check keys, links each medicine to
+Checks every entry against Void Voyagers's body-system and check keys, links each medicine to
 conditions that exist, checks each dose block (label text, numeric limits, vital-sign gates,
-https sources), and writes the data between /*KB*/ and /*/KB*/ in vista.html.
+https sources), and writes the data between /*KB*/ and /*/KB*/ in void-voyagers.html.
 Research and verification logs live in docs/evidence/library-*.md.
 """
 import difflib
@@ -119,11 +119,11 @@ def main(cfile, mfile):
         sys.exit('Not embedded:\n  ' + '\n  '.join(bad))
     data = json.dumps({'c': C, 'm': M}, ensure_ascii=False, separators=(',', ':'))
     data = data.replace('</', '<\\/').replace('<!--', '<\\!--')
-    page = ROOT / 'vista.html'
+    page = ROOT / 'void-voyagers.html'
     with open(page, encoding='utf-8', newline='') as f:
         html = f.read()
     html, n = re.subn(r'/\*KB\*/.*?/\*/KB\*/', lambda _: f'/*KB*/{data}/*/KB*/', html, flags=re.S)
-    assert n == 1, 'KB marker not found in vista.html'
+    assert n == 1, 'KB marker not found in void-voyagers.html'
     with open(page, 'w', encoding='utf-8', newline='') as f:
         f.write(html)
     print(f'Embedded {len(C)} conditions and {len(M)} medicines ({len(data) // 1024} KB); {sum(1 for m in M if m.get("dose"))} with doses.')

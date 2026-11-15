@@ -1,6 +1,6 @@
 # Space radiation and the closed habitat environment
 
-_Evidence file for Vista (crew health self-checks). Compiled 2026-11-14 from live web sources (42 opened). Peer-reviewed papers were retrieved through PubMed / PubMed Central and are linked by DOI. Everything is paraphrased. A number was read from the cited source unless it is marked "derived" or "(P)"._
+_Evidence file for Void Voyagers (crew health self-checks). Compiled 2026-11-14 from live web sources (42 opened). Peer-reviewed papers were retrieved through PubMed / PubMed Central and are linked by DOI. Everything is paraphrased. A number was read from the cited source unless it is marked "derived" or "(P)"._
 
 **Units used in this file**
 
@@ -51,7 +51,7 @@ _Evidence file for Vista (crew health self-checks). Compiled 2026-11-14 from liv
 
 ## Thresholds
 
-**Read this first.** Space agencies publish single limits, not four-colour bands. In the table, **(S)** marks a value taken directly from the cited source and **(P)** marks a Vista proposal built from sourced anchor points. Every (P) cell needs sign-off from a flight surgeon or radiation health officer before it is shown to a crew member. Cut-points must be configurable per vehicle, because a spacecraft flying the exploration atmosphere runs at a different oxygen and pressure set-point from the ISS.
+**Read this first.** Space agencies publish single limits, not four-colour bands. In the table, **(S)** marks a value taken directly from the cited source and **(P)** marks a Void Voyagers proposal built from sourced anchor points. Every (P) cell needs sign-off from a flight surgeon or radiation health officer before it is shown to a crew member. Cut-points must be configurable per vehicle, because a spacecraft flying the exploration atmosphere runs at a different oxygen and pressure set-point from the ISS.
 
 | Indicator | Unit | Nominal | Watch | Act | Urgent | Spaceflight adjustment / rationale | Source |
 |---|---|---|---|---|---|---|---|
@@ -78,7 +78,7 @@ _Evidence file for Vista (crew health self-checks). Compiled 2026-11-14 from liv
 **Personal radiation dose**
 - Device: Crew Active Dosimeter (ISS since 2020; one per crew member on Artemis II). Partner agencies also use passive badges read after flight (ESA EuCPD, JAXA Crew-PADLES, Russian passive dosimeters).
 - What the crew member sees: an always-on display with two figures, total mission dose and recent dose rate. The device measures absorbed dose, so expect readings in the gray family (ISS typically below 0.3 mGy per day; about 0.4 mGy per day in Orion, derived). Effective dose in mSv is calculated afterwards by NASA's Space Radiation Analysis Group.
-- Self-measure steps: keep it in a pocket all day and beside you during sleep; read both figures; enter them in Vista with the unit shown; let it sync by Bluetooth.
+- Self-measure steps: keep it in a pocket all day and beside you during sleep; read both figures; enter them in Void Voyagers with the unit shown; let it sync by Bluetooth.
 - Cadence: glance once a day; read again straight after any radiation alarm or space-weather alert and when leaving the shelter.
 - Check this reading if: a radiation alarm sounds, the ground reports a proton event, or you have unexplained nausea, vomiting, loss of appetite or skin reddening after an event. At doses inside the limits there are no symptoms, so the dosimeter is the only early indicator.
 
@@ -105,7 +105,7 @@ _Evidence file for Vista (crew health self-checks). Compiled 2026-11-14 from liv
 
 **Oxygen and total pressure**
 - Device: the vehicle's pressure and ppO2 sensors (real-time display and alarm required).
-- Steps: read total pressure and ppO2; Vista converts to PIO2; compare with the vehicle set-point.
+- Steps: read total pressure and ppO2; Void Voyagers converts to PIO2; compare with the vehicle set-point.
 - Cadence: automatic (pressure every second in NASA's example); crew review daily and before and after any planned pressure change.
 - Check this reading if: fatigue, nausea, headache, dizziness, mood change, dimmer colour, night or side vision, fast breathing, or a crewmate who seems confused; ear or sinus pain during a pressure change. Crew are trained to put on an oxygen mask at the first hypoxia symptom.
 
@@ -205,7 +205,7 @@ _Evidence file for Vista (crew health self-checks). Compiled 2026-11-14 from liv
 
 ## Caveats
 
-- **Units cannot be mixed.** Dosimeters report absorbed dose (mGy); the limits are in mSv or mGy-Eq. The conversion depends on the radiation field (quality factor 2.3–3.1 in Orion, 4.3 on the Moon), so Vista must not compare a raw mGy reading with an mSv limit. NASA's "effective dose" also uses NASA-specific quality factors, so NASA and partner-agency mSv values are not strictly the same quantity.
+- **Units cannot be mixed.** Dosimeters report absorbed dose (mGy); the limits are in mSv or mGy-Eq. The conversion depends on the radiation field (quality factor 2.3–3.1 in Orion, 4.3 on the Moon), so Void Voyagers must not compare a raw mGy reading with an mSv limit. NASA's "effective dose" also uses NASA-specific quality factors, so NASA and partner-agency mSv values are not strictly the same quantity.
 - **The four-band scheme is ours.** Agencies give one limit per quantity. Every cell marked (P), including the 50 % and 80 % dose fractions and the 2-times and 10-times dose-rate multipliers, is a placeholder that needs expert sign-off. The real alarm set-points of ISS-RAD and HERA and NASA's radiation flight-rule action levels were not found in public sources.
 - **ISS six-month dose disagrees between sources.** The older NASA educator figure is 80–160 mSv. The 2024 review figure of 0.2–0.5 mSv per day gives about 36–91 mSv over 182 days (derived). The 2019 point measurement of 731 µSv per day would give about 133 mSv (derived), but that is dose equivalent at one spot, not effective dose.
 - **Deep-space rates depend on shielding and solar cycle.** MSL-RAD's 1.8 mSv per day (2011–2012) and Orion's 0.96–1.24 mSv per day (2022) are both correct for their vehicle and date. The Artemis I paper quotes 1.58 mSv per day for MSL-RAD at a comparable point in the solar cycle. The lunar figure was taken behind about 1 g/cm², similar to a spacesuit, not a habitat.

@@ -1,6 +1,6 @@
-# Vista medicine guide: research log (kb_meds)
+# Void Voyagers medicine guide: research log (kb_meds)
 
-Companion to `kb_meds.json` (19 entries). For every entry this log lists each claim as it is worded in the JSON and the exact source and place it comes from. Built 15 November 2026 for Vista (Team Void Voyagers, NASA Space Apps 2026). Fact-check corrections were applied the same day; the tables below show the corrected wording, and the "Verification log" at the end lists each correction, whether it was applied, and why.
+Companion to `kb_meds.json` (19 entries). For every entry this log lists each claim as it is worded in the JSON and the exact source and place it comes from. Built 15 November 2026 for Void Voyagers (Team Void Voyagers, NASA Space Apps 2026). Fact-check corrections were applied the same day; the tables below show the corrected wording, and the "Verification log" at the end lists each correction, whether it was applied, and why.
 
 ## Ground rules applied
 
