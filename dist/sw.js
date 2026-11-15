@@ -1,4 +1,4 @@
-const V = 'vista-876c065bb47e', CORE = ['./', './fonts/archivo.woff2', './fonts/martian-mono.woff2', './assets/voyagers3d.js', './assets/body.json', './assets/body.glb'];
+const V = 'vista-904e189c13c6', CORE = ['./', './fonts/archivo.woff2', './fonts/martian-mono.woff2', './assets/voyagers3d.js', './assets/body.json', './assets/body.glb'];
 self.addEventListener('install', e => e.waitUntil(caches.open(V).then(c => c.addAll(CORE)).then(() => self.skipWaiting())));
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V).map(k => caches.delete(k)))).then(() => self.clients.claim())));
 self.addEventListener('fetch', e => {

@@ -1,6 +1,6 @@
 {
   "globalHeaders": {
-    "Content-Security-Policy": "default-src 'none'; script-src 'self' 'sha256-v+2+0i/hDIJnaZDLSGRYK2rIO3AF25ypX1eaI1NGXLU='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://planetarycomputer.microsoft.com; media-src blob:; font-src 'self'; connect-src 'self' https://planetarycomputer.microsoft.com https://api.nasa.gov https://uxzkuncbgsoaqvtpdogy.supabase.co; worker-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+    "Content-Security-Policy": "default-src 'none'; script-src 'self' 'sha256-Ow0uaQIXlNaUMgOe8wcz6QuUNjNcWrAv2gozmy/7C/E='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://planetarycomputer.microsoft.com; media-src blob:; font-src 'self'; connect-src 'self' https://planetarycomputer.microsoft.com https://api.nasa.gov https://uxzkuncbgsoaqvtpdogy.supabase.co; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
     "Referrer-Policy": "no-referrer",
     "X-Content-Type-Options": "nosniff",
     "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()",

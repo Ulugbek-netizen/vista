@@ -48,6 +48,26 @@ def sw_version(page):
     return h.hexdigest()[:12]
 
 
+SITE = 'https://void-voyagers.vercel.app'
+ICON = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" fill="#05070B"/>'
+        '<circle cx="256" cy="256" r="150" fill="none" stroke="#4C8DFF" stroke-width="18" opacity=".7"/>'
+        '<ellipse cx="256" cy="256" rx="230" ry="86" fill="none" stroke="#FFA23A" stroke-width="22" transform="rotate(-24 256 256)"/>'
+        '<path d="M170 180l86 160 86-160" fill="none" stroke="#E8EDF4" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/></svg>')
+
+
+def seo_files():
+    # search engines and installing as an app: robots.txt, sitemap.xml, a web manifest and its icon
+    (DIST / 'robots.txt').write_text(f'User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n', encoding='utf-8')
+    (DIST / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+                                      f'  <url><loc>{SITE}/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>\n</urlset>\n', encoding='utf-8')
+    (DIST / 'icon.svg').write_text(ICON, encoding='utf-8')
+    (DIST / 'manifest.webmanifest').write_text(json.dumps({
+        'name': 'Void Voyagers: crew health beyond Earth', 'short_name': 'Void Voyagers', 'start_url': './#home', 'scope': './',
+        'display': 'standalone', 'background_color': '#05070B', 'theme_color': '#05070B',
+        'description': 'A one-minute health check for astronauts. Works offline.',
+        'icons': [{'src': 'icon.svg', 'sizes': 'any', 'type': 'image/svg+xml', 'purpose': 'any'}]}, indent=2), encoding='utf-8')
+
+
 def build():
     src = SRC.read_text(encoding='utf-8')
     scripts = re.findall(r'<script>(.*?)</script>', src, re.S)
@@ -62,6 +82,7 @@ def build():
         "font-src 'self'",
         "connect-src 'self' " + ' '.join(CONNECT),  # 'self': the offline service worker caches the app's own files
         "worker-src 'self'",
+        "manifest-src 'self'",  # install as an app (offline)
         "base-uri 'none'",
         "form-action 'none'",
     ])
@@ -69,13 +90,21 @@ def build():
             '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n'
             f'<meta http-equiv="Content-Security-Policy" content="{csp}">\n'
             '<meta name="referrer" content="no-referrer">\n'
-            '<link rel="preload" href="fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>\n')
+            '<link rel="preload" href="fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>\n'
+            f'<link rel="canonical" href="{SITE}/">\n<link rel="manifest" href="manifest.webmanifest">\n<link rel="apple-touch-icon" href="icon.svg">\n'
+            '<meta name="robots" content="index,follow">\n'
+            '<meta name="keywords" content="astronaut health, space medicine, NASA Space Apps 2026, crew health, offline health check, Mars mission, flight surgeon">\n'
+            '<meta property="og:type" content="website">\n<meta property="og:site_name" content="Void Voyagers">\n'
+            '<meta property="og:title" content="Void Voyagers: stay well beyond Earth">\n'
+            '<meta property="og:description" content="A one-minute health check for astronauts: one reading, one verdict, one next step. Works offline. NASA Space Apps 2026.">\n'
+            f'<meta property="og:url" content="{SITE}/">\n<meta name="twitter:card" content="summary">\n')
     if DIST.exists():  # clean rebuild, but keep the Vercel project link (.vercel, git-ignored)
         for x in DIST.iterdir():
             if x.name != '.vercel':
                 shutil.rmtree(x) if x.is_dir() else x.unlink()
     (DIST / 'fonts').mkdir(parents=True)
     (DIST / 'index.html').write_text(head + src, encoding='utf-8')
+    seo_files()
     for f in (ROOT / 'fonts').iterdir():
         shutil.copy2(f, DIST / 'fonts' / f.name)
     shutil.copytree(ROOT / 'assets', DIST / 'assets')  # 3D viewer (three.js bundle) and BodyParts3D model
