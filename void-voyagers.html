@@ -370,6 +370,12 @@ html,body{overflow-x:clip}
 .sys-btn .ic{color:var(--lvi)}
 .sys-btn .lvt{font-family:var(--mono);font-size:.7rem;color:var(--lvi);text-transform:uppercase;letter-spacing:.05em}
 .sys-panel{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);display:grid;gap:12px}
+.spot{outline:2px solid var(--accent);outline-offset:6px;border-radius:var(--r-m)}
+@media (prefers-reduced-motion:no-preference){
+  .spot{animation:spot 2.2s var(--ease-out) both}
+  .sym-out:not([hidden]){animation:rise 360ms var(--ease-out) both}
+}
+@keyframes spot{0%{outline-color:transparent;background-color:transparent}14%{outline-color:var(--accent);background-color:color-mix(in oklab,var(--accent) 14%,transparent)}70%{outline-color:var(--accent);background-color:color-mix(in oklab,var(--accent) 6%,transparent)}100%{outline-color:transparent;background-color:transparent}}
 .sys-panel .two{display:grid;gap:12px}
 @media (min-width:640px){.sys-panel .two{grid-template-columns:1fr 1fr}}
 .hzs{display:flex;flex-wrap:wrap;gap:6px}
@@ -1580,7 +1586,7 @@ function renderRoutine(P) {
   m.setAttribute('aria-valuenow', String(Math.round(pct * 100)));
   m.firstElementChild.style.setProperty('--p', pct.toFixed(3));
   $('#routine').innerHTML = items.map(d => { const ok = doneToday(d.k), x = latest(d.k);
-    return `<li class="check${ok ? ' done' : ''}"><span class="ck" aria-hidden="true">${ic('check')}</span><span class="nm">${esc(d.sn)}<span class="sub">${ok ? `Done ${timeTxt(x.t)} · ${esc(fmt(x))} ${esc(unit(d))}` : esc(d.when)}</span></span>${ok ? '<span class="sr-only">Done</span>' : `<button type="button" class="btn" data-log="${d.k}">Log</button>`}</li>`; }).join('');
+    return `<li class="check${ok ? ' done' : ''}" data-k="${d.k}"><span class="ck" aria-hidden="true">${ic('check')}</span><span class="nm">${esc(d.sn)}<span class="sub">${ok ? `Done ${timeTxt(x.t)} · ${esc(fmt(x))} ${esc(unit(d))}` : esc(d.when)}</span></span>${ok ? '<span class="sr-only">Done</span>' : `<button type="button" class="btn" data-log="${d.k}">Log</button>`}</li>`; }).join('');
   $('#stats').innerHTML = `<div class="stat"><b>${ic('flame', 'ic l')}${P.streak}</b><span>Day streak</span></div><div class="stat"><b>${ic('star', 'ic l')}${P.lvl}</b><span>Level</span></div><div class="stat"><b>${P.xp.toLocaleString()}</b><span>XP · ${300 - P.into} to next</span></div>`;
   $('#badges').innerHTML = badges(P).map(b => `<li class="badge${b.got ? ' got' : ''}" title="${esc(b.how)}"><span class="bi">${ic(b.i, 'ic l')}</span>${esc(b.n)}<span class="sr-only">${b.got ? ', earned' : `, locked. ${esc(b.how)}`}</span></li>`).join('');
 }
@@ -2448,10 +2454,13 @@ function openAux(kind) {
       ${kind === 'emg' ? '<p class="help">The log goes into your next flight-surgeon report. Void Voyagers does not replace the onboard procedure.</p>' : '<button type="button" class="btn" id="auxWx">Check space weather</button>'}</div>`
       + foot(st ? `<button type="button" class="btn ghost" data-aend>End and clear</button>` : `<button type="button" class="btn ${kind === 'emg' ? 'danger' : 'primary'}" data-astart>Start</button>`);
   } else if (kind === 'unwell') {
+    /* two steps, one thing at a time: 1) tick what you feel, 2) what to do now */
     html = head('Tell Void Voyagers what is wrong', 'I feel unwell')
-      + `<div class="dlg-b"><fieldset class="steps2" style="border:0;padding:0;margin:0"><legend class="lbl" style="margin-bottom:6px">Tick everything you feel now</legend>
+      + `<div class="dlg-b"><div id="symStep"><fieldset class="steps2" style="border:0;padding:0;margin:0"><legend class="lbl" style="margin-bottom:6px">Tick everything you feel now</legend>
         ${SYMS.map(x => `<label><input type="checkbox" name="sym" value="${x.k}"><span>${esc(x.n)}</span></label>`).join('')}</fieldset>
-        <div id="symOut" aria-live="polite"></div></div>` + foot('<button type="submit" class="btn primary">Save and show what to do</button>');
+        <p class="err" id="symErr" role="alert" hidden>Tick at least one.</p></div>
+        <div id="symOut" class="sym-out" tabindex="-1" aria-live="polite" hidden></div></div>`
+      + foot('<button type="button" class="btn ghost" id="symBack" hidden>Back to the list</button><button type="submit" class="btn primary" id="symGo">Save and show what to do</button>');
   } else {
     const rows = Object.entries(S.kit || {}).map(([id, v]) => { const m = KB.m.find(x => x.id === id); if (!m) return ''; const st = kitState(v);
       return `<div class="kit-row ${st}"><div><b>${esc(m.name)}</b><span class="ago" style="display:block">${v.n} in kit · expires ${esc(v.exp)}${st === 'bad' ? ' · EXPIRED' : st === 'soon' ? ' · within 60 days' : ''}</span></div><a class="lk" href="#library" data-kb="${esc(id)}">Open</a><button type="button" class="btn ghost" data-kdel="${esc(id)}" aria-label="Remove ${esc(m.name)}">${ic('x')}</button></div>`; }).join('');
@@ -2477,6 +2486,7 @@ document.addEventListener('click', ev => { const b = ev.target.closest('[data-au
 auxForm.addEventListener('click', ev => {
   const t = ev.target;
   if (t.closest('[data-aclose]')) { aux.close(); return; }
+  if (t.closest('#symBack')) { symStep(1); return; }
   /* links out of this dialog: log a check, or read the Library entry (the page behind stays covered while it is open) */
   const lg = t.closest('[data-log]'); if (lg) { aux.close(); openLog(lg.dataset.log); return; }
   if (t.closest('a[href^="#"]')) { aux.close(); return; }
@@ -2500,15 +2510,23 @@ auxForm.addEventListener('submit', ev => {
   ev.preventDefault();
   if (auxKind !== 'unwell') return;
   const ks = [...auxForm.querySelectorAll('input[name=sym]:checked')].map(i => i.value);
-  const showOut = () => $('#symOut').scrollIntoView({block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
-  if (!ks.length) { $('#symOut').innerHTML = '<p class="err">Tick at least one.</p>'; showOut(); return; }
+  if (!ks.length) { $('#symErr').hidden = false; $('#symErr').scrollIntoView({block: 'nearest'}); return; }
+  $('#symErr').hidden = true;
   S.sym = (S.sym || []).filter(x => Date.now() - x.t < 30 * 864e5).concat({t: Date.now(), s: ks}); save();
   const L = ks.map(k => SYMBY[k]).sort((a, b) => b.lv - a.lv), top = L[0].lv;
   $('#symOut').innerHTML = `<div class="interp lv-${lvKey(top)}"><div>${pill(top)}</div><div style="display:grid;gap:10px">${top === 3 ? `<p><b style="color:var(--ink)">Treat this as an emergency.</b> <button type="button" class="btn danger" data-aux="emg">${ic('urgent')}Open emergency</button></p>` : ''}
     ${L.map(x => `<div><b style="color:var(--ink)">${esc(x.n)}</b><p class="muted">${esc(x.step)}</p><div class="lib-rel">${x.chk.filter(k => BY[k]).map(k => `<button type="button" class="lk" data-log="${k}">${ic('plus')}${esc(BY[k].sn)}</button>`).join('')}${KB.c.some(c => c.id === x.kb) ? `<a class="lk" href="#library" data-kb="${x.kb}">Read more</a>` : ''}</div></div>`).join('')}
     <p class="help">Saved: these symptoms go into your next flight-surgeon report.</p></div></div>`;
-  showOut(); /* the advice sits below the list: bring it into view */
+  symStep(2);
 });
+function symStep(n) { /* the unwell dialog shows one step at a time */
+  const two = n === 2, out = $('#symOut');
+  $('#symStep').hidden = two; out.hidden = !two;
+  $('#symBack').hidden = !two; $('#symGo').hidden = two;
+  $('#auxTitle').textContent = two ? 'What to do now' : 'I feel unwell';
+  const b = $('.dlg-b', auxForm); if (b) b.scrollTop = 0; aux.scrollTop = 0;
+  if (two) out.focus({preventScroll: true}); else { const f = $('input[name=sym]', auxForm); if (f) f.focus(); }
+}
 aux.addEventListener('close', () => { clearInterval(auxTimer); });
 /* report outbox: kept on the device while there is no link to Earth, sent when it returns */
 async function postReport(row) {
@@ -2869,8 +2887,18 @@ function selectSys(k) {
   const fromList = document.activeElement && document.activeElement.classList.contains('sys-btn');
   S.sel = k; save(); renderBody();
   if (fromList) $(`.sys-btn[data-sys="${k}"]`).focus();
-  const p = $('#sysPanel'), r = p.getBoundingClientRect();
-  if (r.top > innerHeight - 80) p.scrollIntoView({block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+  const p = $('#sysPanel'), r = p.getBoundingClientRect(), far = r.top > innerHeight - 160;
+  if (far) p.scrollIntoView({block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+  /* glow the system's details and its checks in Today's list, so it is clear where to look */
+  spotlight([p, ...((SYSBY[k] || {}).ind || []).map(i => $(`#routine [data-k="${i}"]`)).filter(Boolean)], far ? 450 : 0);
+}
+let spotT = 0;
+function spotlight(els, delay) {
+  clearTimeout(spotT); $$('.spot').forEach(e => e.classList.remove('spot'));
+  spotT = setTimeout(() => {
+    els.forEach(e => { e.classList.remove('spot'); void e.offsetWidth; e.classList.add('spot'); });
+    spotT = setTimeout(() => els.forEach(e => e.classList.remove('spot')), 2300);
+  }, delay || 0);
 }
 
 /* ---------- events ---------- */
