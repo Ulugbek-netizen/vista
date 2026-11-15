@@ -396,7 +396,7 @@ PLAIN = {'bone': 'b', 'hole': 'hole', 'line': 'ln', 'back': 'b back', 'stroke': 
 
 
 # ---------------------------------------------------------------- organs
-def metab():
+def metab(sex='m'):
     # kidneys (retroperitoneal, right lower), adrenals, ureters: drawn first so the gut covers them
     rk = 'M87 149C82.4 149.2 80.2 154.8 80.4 162.6C80.6 170.6 83.4 176 87.8 175.8C91.2 175.6 93.2 172.2 92.6 168.4C92.2 166 91.2 164.2 91.4 162.4C91.6 160.6 92.8 158.8 93.2 156.6C93.6 152.2 91.2 148.8 87 149Z'
     F.p('shp t-kidney', rk, title='Right kidney').p('shp t-kidney', shift_d(mirror_d(rk), 0, -4.4), title='Left kidney')
@@ -443,6 +443,12 @@ def metab():
         q = (x + tx * 1.4, y + ty * 1.4)
         hd += f'M{fmt(a[0])} {fmt(a[1])}Q{fmt(q[0])} {fmt(q[1])} {fmt(b[0])} {fmt(b[1])}'
     F.p('dtl t-large', hd)
+    if sex == 'f':  # uterus and ovaries sit above and behind the bladder
+        F.p('shp t-uterus', 'M100 194.6C104.6 194.4 107.4 197.4 107.2 201.6C107 205.6 104.6 208.8 102.2 210.6L101.6 213.4H98.4L97.8 210.6C95.4 208.8 93 205.6 92.8 201.6C92.6 197.4 95.4 194.4 100 194.6Z', title='Uterus')
+        F.p('tbl t-uterus w08', 'M93.4 197.4C90.6 195.6 87.4 195.4 85 197.2', both=True)
+        F.e('shp t-ovary', 85.4, 199.6, 2.4, 1.6, -18, both=True)
+    else:  # prostate below the bladder
+        F.e('shp t-prostate', 100, 220.4, 3.4, 2.6)
     F.p('shp t-bladder', 'M100 203.6C106.4 203.6 109.8 207.6 109.6 212C109.4 216.2 106 219.4 100 219.4C94 219.4 90.6 216.2 90.4 212C90.2 207.6 93.6 203.6 100 203.6Z', title='Bladder')
     # oesophagus: left of the trachea, behind the heart, through the diaphragm to the stomach
     F.p('tbl t-esoph w40', 'M101.6 70.4C102 90 103 115 105 137.4', title='Oesophagus')
@@ -476,30 +482,10 @@ def resp():
 
 
 def cardio():
-    # neck: carotids (stop where they pass behind the jaw), internal jugular veins
-    F.p('tbl t-vein w22', 'M90 57.4C89.8 64 90 72 90.6 79.6', both=True)
-    F.p('tbl t-art w20', 'M96 85.4C95.4 78 94 68 92.8 57.6')
-    F.p('tbl t-art w20', 'M104 87.6C105 80 106.2 68 107.2 57.6')
-    # subclavian -> axillary -> brachial -> radial/ulnar -> palmar arch
-    arm_a = ('M61.6 91.8C59.8 95 58.6 99.6 58.4 104.6C57.4 120 55.6 140 52.8 158C51.8 162 50.4 165.2 48.6 168.4'
-             'C46 172.6 42 184 39 196C36.8 205 34 215 31.2 222.4C30 225.6 29 228 28.4 230.4'
-             'M48.6 168.4C49.4 176 48.4 186 46.4 196C44.8 205 42 214 39.6 222C38.8 225 38 228 37.6 230.6'
-             'M37.6 230.8C38.4 237.6 37.4 242.2 33.6 243.8C31 244.8 28.8 243.6 28.2 240.6')
-    F.p('tbl t-art w14', arm_a, both=True)
-    F.p('tbl t-art w20', 'M96 85.4C91 82.4 84 81.4 77 82.2C70 83.2 64.8 86.8 61.6 91.8')
-    F.p('tbl t-art w20', 'M105.6 88.8C107.2 85.2 110.4 82.4 114.4 81.8C121.6 81.2 129.6 82.6 135.2 86.2C136.6 87.6 137.6 89.6 138.4 91.8')
-    # cephalic vein (superficial, lateral arm)
-    F.p('tbl t-vein w08', 'M27.6 228.4C29.2 216 32 202 35.8 186C38.2 176 40.6 166 41.8 156C43 140 43.6 124 45.8 110C47.4 100 51 94 56.4 90.6', both=True)
-    # legs: femoral -> (behind the knee) -> anterior tibial -> dorsalis pedis; great saphenous vein (medial)
-    F.p('tbl t-art w16', 'M82.6 211.6C83.4 230 85 260 86.2 290C86.4 296 86.2 300 85.6 304', both=True)
-    F.p('tbl t-vein w16', 'M86.4 212.2C87.6 230 89 260 89.8 290C90 296 89.8 300 89.2 304', both=True)
-    F.p('tbl t-art w12', 'M79.4 340C80.4 365 82 395 84.6 418C85.6 424 87.4 430 89.4 436', both=True)
-    F.p('tbl t-vein w08', 'M92.4 419C93 402 93.6 384 93.6 368C93.4 352 93 338 92.8 326C92.6 310 93.4 294 93.4 278C93.4 258 92 238 89.8 219.4', both=True)
+    # heart and great vessels only (the limb and neck vessel diagram was removed)
     # great vessels
     F.p('tbl t-art w54', 'M101.6 101.6C101 96.6 101.2 92 102.6 89.2C104 86.6 107.4 86.4 108.8 89C109.6 91 109.4 94.4 108.6 98.6', title='Aorta')
-    F.p('tbl t-art w26', 'M101.2 90.4C99.4 88.6 97.6 87 96 85.4')
     F.p('shp t-vein', 'M95 87.2L98.4 87.2L98.4 100.6L95 100.6Z', title='Superior vena cava')
-    F.p('tbl t-vein w26', 'M90.6 79.6C92.6 82.4 94.6 85 96.2 87.4M109.4 79.6C106.6 82.6 101.6 85.4 96.6 87.6')
     F.p('shp t-vein', 'M102.4 103.4C102.4 99 104.2 95.8 107.6 94.6L109.8 97.4C107.4 98.4 106.4 100.8 106.6 104Z', title='Pulmonary trunk')
     F.p('shp t-heart', 'M96.6 99.6C94.2 102.4 93 108 93.2 114C93.4 119.2 94 122.4 95.2 124.6C100 127 108 128.6 115.6 128.4C118 128.2 119.6 127.4 119.8 126C120.2 120.4 118.4 112.6 114.6 106.6C112.6 103.6 110.6 101.4 108.4 100.6C105 99.4 100.6 98.8 96.6 99.6Z', title='Heart')
     F.p('dtl t-heart', 'M99.8 101.4C96.8 108 95.8 116 96.8 123.4')
@@ -541,17 +527,160 @@ def rad():
     return F.out()
 
 
-def figure():
+# ---------------------------------------------------------------- superficial muscles (anatomical muscle model, front view)
+def fibres(N, ks=(-0.55, 0.0, 0.55)):
+    """Muscle fibre lines running along a tube."""
+    d = ''
+    for k in ks:
+        pts = [(x + nx * w * k, y + ny * w * k) for (x, y, nx, ny, w, tx, ty) in N[1:-1]]
+        d += 'M' + 'L'.join(f'{fmt(x)} {fmt(y)}' for x, y in pts)
+    return d
+
+
+def mtube(center, widths, cls='t-muscle', k=3, title=None):
+    d, N = tube(center, widths, k)
+    F.p(f'shp {cls}', d, both=True, title=title)
+    F.p(f'dtl {cls}', fibres(N), both=True)
+
+
+def muscles():
+    # neck: sternocleidomastoid over the upper trapezius
+    F.p('shp t-muscle', cr([(87.4, 61.6), (86.2, 70.4), (81.2, 74.4), (70.4, 78.6), (60.6, 81.4), (62.8, 84.4), (73.4, 82.0), (83.6, 78.6), (88.8, 74.4), (89.6, 66.0)]), both=True, title='Trapezius')
+    mtube([(84.4, 50.4), (88.6, 60.0), (93.2, 71.6), (96.6, 81.6)], [1.6, 2.6, 2.4, 1.6], title='Sternocleidomastoid')
+    # trunk: external oblique, serratus anterior, then rectus abdominis and pectoralis major on top
+    F.p('shp t-muscle', cr([(88.2, 127.6), (78.4, 124.2), (68.6, 129.6), (65.8, 144.0), (66.0, 163.0), (65.2, 178.6), (69.6, 189.4), (80.8, 199.4), (90.2, 206.6), (89.0, 186.0), (88.0, 160.0), (87.6, 140.0)]), both=True, title='External oblique')
+    F.p('dtl t-muscle', 'M70 140L86 160M68.6 152L87 178M67.6 166L88.6 196M68.4 180L86 200', both=True)
+    for i, y in enumerate((120.6, 127.4, 134.2, 141.0)):
+        F.e('shp t-muscle', 67.6 + i * 0.6, y, 3.6, 1.9, 24, both=True)
+    F.p('shp t-muscle', cr([(99.4, 124.6), (91.2, 125.0), (88.4, 130.0), (87.8, 150.0), (88.6, 174.0), (90.6, 194.0), (94.2, 207.0), (99.4, 213.2)]), both=True, title='Rectus abdominis')
+    F.p('dtl t-tendon', 'M88.2 139.6Q93.8 141.4 99.4 139.6M88 154.6Q93.8 156.4 99.4 154.6M88.4 170Q93.8 171.8 99.4 170', both=True)
+    F.p('shp t-muscle', cr([(97.6, 85.6), (85.0, 85.0), (72.4, 86.2), (63.4, 88.8), (58.4, 94.6), (57.8, 100.4), (61.0, 108.0), (66.4, 115.8), (74.4, 121.0), (84.2, 123.0), (92.4, 122.4), (97.8, 119.6), (98.0, 102.0)]), both=True, title='Pectoralis major')
+    F.p('dtl t-muscle', ''.join(f'M59.6 99.2Q{fmt(75 + j * 2)} {fmt(96 + j * 4)} {fmt(x)} {fmt(y)}' for j, (x, y) in enumerate(((96.6, 89.4), (97, 97.4), (97.2, 105.4), (97.2, 113.0), (93.0, 120.6), (84, 121.4)))), both=True)
+    # shoulder and arm
+    F.p('shp t-muscle', cr([(62.6, 84.6), (52.8, 84.4), (47.6, 87.8), (43.8, 92.6), (41.8, 98.6), (41.2, 105.0), (41.6, 112.0), (43.6, 119.0), (47.0, 125.2), (50.4, 119.0), (53.4, 109.0), (56.4, 99.6), (60.0, 92.0)]), both=True, title='Deltoid')
+    F.p('dtl t-muscle', 'M60.4 87.4Q51 100 47.2 123M54.4 85.4Q46.6 100 46 121M48 88.6Q43.4 102 44.8 118', both=True)
+    mtube([(52.6, 118.0), (51.4, 132.0), (50.2, 146.0), (49.2, 160.0), (48.2, 167.0)], [2.8, 4.8, 5.0, 3.6, 2.0], title='Biceps')
+    mtube([(41.6, 120.0), (41.0, 134.0), (40.4, 148.0), (40.6, 160.0)], [1.0, 2.2, 2.2, 1.2], title='Triceps (lateral head)')
+    mtube([(41.8, 160.0), (38.6, 176.0), (34.6, 194.0), (30.6, 212.0), (27.6, 224.0)], [2.6, 4.0, 3.4, 2.2, 1.4], title='Brachioradialis')
+    mtube([(52.4, 168.0), (48.6, 182.0), (44.2, 198.0), (39.8, 213.0), (36.6, 225.0)], [3.4, 4.8, 4.0, 2.6, 1.6], title='Forearm flexors')
+    # hip and thigh
+    mtube([(69.6, 197.0), (66.4, 210.0), (64.0, 224.0)], [3.0, 3.6, 2.4], title='Tensor fasciae latae')
+    mtube([(91.4, 220.0), (92.6, 238.0), (93.8, 256.0), (94.4, 270.0)], [4.0, 4.4, 3.2, 1.4], title='Adductors')
+    mtube([(64.6, 232.0), (65.4, 252.0), (66.8, 276.0), (68.8, 300.0), (71.4, 318.0)], [2.4, 5.0, 5.8, 4.6, 2.4], title='Vastus lateralis')
+    mtube([(88.6, 280.0), (89.0, 296.0), (88.2, 312.0), (86.2, 322.0)], [1.6, 4.8, 5.4, 2.6], title='Vastus medialis')
+    mtube([(75.6, 216.0), (76.8, 240.0), (78.0, 266.0), (79.4, 292.0), (80.8, 312.0), (82.2, 321.0)], [2.6, 5.6, 6.4, 5.8, 3.6, 2.0], title='Rectus femoris')
+    mtube([(69.4, 199.0), (74.6, 228.0), (82.6, 262.0), (89.4, 298.0), (91.6, 328.0)], [1.4, 1.9, 1.9, 1.8, 1.4], title='Sartorius')
+    F.p('shp t-tendon', 'M79.6 322.4C81.6 320.6 84.8 320.6 86.6 322.6C87.4 328 86.6 335 85.2 341.4L80.6 341.4C79.2 335 78.8 328 79.6 322.4Z', both=True, title='Knee (patellar) tendon')
+    # lower leg
+    mtube([(69.8, 344.0), (70.8, 368.0), (72.0, 392.0), (73.0, 410.0)], [1.6, 2.2, 1.8, 1.0], title='Fibularis longus')
+    mtube([(91.2, 340.0), (92.6, 356.0), (92.4, 372.0), (91.0, 384.0)], [1.6, 3.8, 3.4, 1.2], title='Gastrocnemius (inner calf)')
+    mtube([(76.0, 343.0), (77.2, 366.0), (78.8, 390.0), (81.4, 408.0), (85.0, 420.0)], [3.0, 3.4, 2.6, 1.6, 1.0], title='Tibialis anterior')
+    return F.out()
+
+
+# ---------------------------------------------------------------- female proportions
+# Average adult proportions differ most in width: shoulders about 9% narrower (biacromial ~36 vs ~40 cm), a narrower
+# waist and hips about 6% wider. One smooth horizontal warp x' = 100 + (x - 100) * s(y) is applied to skin, bones and
+# organs alike, so everything stays inside the skin and in register. The larger female carrying angle follows from it.
+WARP_F = [(0, 1.0), (60, 1.0), (80, 0.92), (120, 0.92), (165, 0.93), (186, 1.0), (205, 1.06), (232, 1.06), (272, 1.03), (330, 1.0), (470, 1.0)]
+
+
+def s_of(y, knots=WARP_F):
+    for (y0, s0), (y1, s1) in zip(knots, knots[1:]):
+        if y <= y1:
+            t = (y - y0) / (y1 - y0)
+            t = t * t * (3 - 2 * t)  # smoothstep between knots
+            return s0 + (s1 - s0) * t
+    return knots[-1][1]
+
+
+def wx(x, y):
+    return 100 + (x - 100) * s_of(y)
+
+
+def warp_d(d):
+    toks = re.findall(r'[MLCQZHV]|-?\d+(?:\.\d+)?', d)
+    out, cmd, i, cx, cy, buf = [], '', 0, 0.0, 0.0, []
+    while i < len(toks):
+        t = toks[i]
+        if t in 'MLCQZHV':
+            cmd = t
+            i += 1
+            if t == 'Z':
+                out.append('Z')
+            continue
+        if cmd in 'HV':
+            v = float(t)
+            cx, cy = (v, cy) if cmd == 'H' else (cx, v)
+            out.append(f'L{fmt(wx(cx, cy))} {fmt(cy)}')
+            i += 1
+            continue
+        x, y = float(toks[i]), float(toks[i + 1])
+        i += 2
+        buf.append(f'{fmt(wx(x, y))} {fmt(y)}')
+        n = {'M': 1, 'L': 1, 'C': 3, 'Q': 2}[cmd]
+        if len(buf) == n:
+            out.append(cmd + ' '.join(buf))
+            buf = []
+            cx, cy = x, y
+            if cmd == 'M':
+                cmd = 'L'
+    return ''.join(out)
+
+
+def warp_svg(svg):
+    svg = re.sub(r' d="([^"]+)"', lambda m: f' d="{warp_d(m.group(1))}"', svg)
+
+    def el(m):
+        a = m.group(0)
+        if m.group(1) == 'rect':
+            x, y, w = (float(re.search(f' {k}="([^"]+)"', a).group(1)) for k in ('x', 'y', 'width'))
+            return re.sub(r' x="[^"]+"', f' x="{fmt(wx(x + w / 2, y) - w / 2)}"', a, count=1)
+        cx, cy = float(re.search(r' cx="([^"]+)"', a).group(1)), float(re.search(r' cy="([^"]+)"', a).group(1))
+        a = re.sub(r' cx="[^"]+"', f' cx="{fmt(wx(cx, cy))}"', a, count=1)
+        return re.sub(r'rotate\((-?[\d.]+) [\d.]+ ([\d.]+)\)', lambda r: f'rotate({r.group(1)} {fmt(wx(cx, cy))} {r.group(2)})', a)
+    return re.sub(r'<(rect|ellipse|circle)[^>]*>', el, svg)
+
+
+# skin surface contours, drawn faintly over everything: pectoral border (male) or breast fold (female), navel
+CONTOUR = {'m': 'M70.4 113.6C76 118.4 86 119.6 96.6 116.4', 'f': 'M68.6 112.6C67.6 121.6 73.6 128.4 82 128.6C88.6 128.6 94.2 125 96.6 119.6'}
+VOL = ('<defs><filter id="vol" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">'
+       '<feGaussianBlur in="SourceAlpha" stdDeviation="1.1" result="b"/>'
+       '<feDiffuseLighting in="b" surfaceScale="2.6" diffuseConstant="1" lighting-color="#fff" result="d"><feDistantLight azimuth="225" elevation="52"/></feDiffuseLighting>'
+       '<feSpecularLighting in="b" surfaceScale="2.6" specularConstant=".55" specularExponent="22" lighting-color="#fff" result="s"><feDistantLight azimuth="225" elevation="52"/></feSpecularLighting>'
+       '<feComposite in="SourceGraphic" in2="d" operator="arithmetic" k1="1" k2=".18" result="lit"/>'
+       '<feComposite in="s" in2="SourceAlpha" operator="in" result="sp"/>'
+       '<feComposite in="lit" in2="sp" operator="arithmetic" k2="1" k3=".7" result="all"/>'
+       '<feComposite in="all" in2="SourceAlpha" operator="in"/></filter>'
+       '<radialGradient id="skin" cx=".5" cy=".38" r=".7"><stop offset="0" stop-color="var(--skin-hi)"/><stop offset="1" stop-color="var(--skin-lo)"/></radialGradient>'
+       '<radialGradient id="musc" cx=".5" cy=".32" r=".75"><stop offset="0" stop-color="#9A3A31"/><stop offset=".6" stop-color="#6E2420"/><stop offset="1" stop-color="#3E1210"/></radialGradient>'
+       '<linearGradient id="scanG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity="0"/>'
+       '<stop offset=".85" stop-color="var(--accent)" stop-opacity=".28"/><stop offset="1" stop-color="var(--accent)" stop-opacity=".9"/></linearGradient></defs>')
+
+
+def one_body(sex):
     grp = lambda k, inner: f'<g class="rg" data-sys="{k}" tabindex="0" role="button" aria-pressed="false">{inner}</g>'
     c = BODY
     msk = (scapula(c) + cervical(c) + thoracic(c) + lumbar(c) + sacrum(c) + arm(c) + pelvis(c) + femur_prox(c) + femur_shaft(c)
            + patella(c) + tibia(c) + fibula(c) + foot(c) + skull(c))
     ov = ribcage(c)
-    return ('<svg class="figure" viewBox="0 0 200 460" role="group" aria-label="Anatomical body map, front view. Each body system is a button.">'
-            f'<path class="body" d="{skin_path()}"/>'
-            + grp('msk', msk) + grp('metab', metab()) + grp('resp', resp()) + grp('cardio', cardio()) + grp('immune', immune())
-            + grp('mind', mind()) + grp('eyes', eyes())
-            + f'<g class="ov" aria-hidden="true">{ov}</g>' + grp('rad', rad()) + '</svg>')
+    navel = '<ellipse class="skd" cx="100" cy="182.4" rx="1.1" ry="1.5"/>'
+    contour = f'<path class="skd" d="{CONTOUR[sex]}"/><path class="skd" d="{mirror_d(CONTOUR[sex])}"/>'
+    mus = f'<g class="rg mus" data-sys="msk" tabindex="0" role="button" aria-pressed="false">{muscles()}</g>'
+    inner = (f'<path class="body" d="{skin_path()}"/>' + mus
+             + grp('msk', msk) + grp('metab', metab(sex)) + grp('resp', resp()) + grp('cardio', cardio()) + grp('immune', immune())
+             + grp('mind', mind()) + grp('eyes', eyes())
+             + f'<g class="ov" aria-hidden="true">{ov}</g>' + f'<g class="skc" aria-hidden="true">{contour}{navel}</g>' + grp('rad', rad()))
+    return f'<g class="sx sx-{sex}">' + (warp_svg(inner) if sex == 'f' else inner) + '</g>'
+
+
+def figure():
+    xs = [wx(x, y) for (x, y) in SKIN]
+    x0 = math.floor(min(xs + [x for (x, y) in SKIN]) - 2)
+    vb = f'{x0} 2 {200 - 2 * x0} 444'
+    return (f'<svg class="figure" viewBox="{vb}" role="group" aria-label="Anatomical body map, front view. Each body system is a button.">'
+            + VOL + one_body('m') + one_body('f')
+            + f'<rect class="scan" aria-hidden="true" x="{x0}" y="-6" width="{200 - 2 * x0}" height="14"/></svg>')
 
 
 def skel_parts():
@@ -590,26 +719,28 @@ if __name__ == '__main__':
     open(f'{OUT}/figure.svg', 'w', encoding='utf-8').write(fig)
     json.dump(skel_parts(), open(f'{OUT}/skel.json', 'w', encoding='utf-8'), ensure_ascii=False)
     full = SKIN + [(200 - x, y) for (x, y) in reversed(SKIN[1:-1])]
-    poly = sample(full, 6, closed=True)
     bad = 0
-    body_inner = fig.split('<g class="rg" data-sys="msk"', 1)[1]
-    for d in re.findall(r' d="([^"]+)"', body_inner):
-        for (x, y) in pts_of(d):
-            if not inside(poly, x, y) or dist(poly, x, y) < 0.9:
-                bad += 1
-                if bad <= 25:
-                    print(f'  near/outside skin: ({fmt(x)}, {fmt(y)}) dist {dist(poly, x, y):.2f} in {d[:60]}')
-    for m in re.finditer(r'<(ellipse|circle|rect)[^>]*>', body_inner):
-        a = dict(re.findall(r'(\w+)="([^"]+)"', m.group(0)))
-        if m.group(1) == 'rect':
-            pts = [(float(a['x']), float(a['y'])), (float(a['x']) + float(a['width']), float(a['y']) + float(a['height']))]
-        else:
-            rx = float(a.get('rx', a.get('r', 0)))
-            pts = [(float(a['cx']) - rx, float(a['cy'])), (float(a['cx']) + rx, float(a['cy']))]
-        for (x, y) in pts:
-            if not inside(poly, x, y) or dist(poly, x, y) < 0.9:
-                bad += 1
-                if bad <= 40:
-                    print(f'  near/outside skin: ({fmt(x)}, {fmt(y)}) {m.group(0)[:70]}')
+    male, female = fig.split('<g class="sx sx-f">', 1)
+    for sex, part in (('m', male), ('f', female)):
+      poly = sample([(wx(x, y), y) for (x, y) in full] if sex == 'f' else full, 6, closed=True)
+      body_inner = part.split('data-sys="msk"', 1)[1].split('<g class="skc"', 1)[0]
+      for d in re.findall(r' d="([^"]+)"', body_inner):
+          for (x, y) in pts_of(d):
+              if not inside(poly, x, y) or dist(poly, x, y) < 0.9:
+                  bad += 1
+                  if bad <= 25:
+                      print(f'  near/outside skin: ({fmt(x)}, {fmt(y)}) dist {dist(poly, x, y):.2f} in {d[:60]}')
+      for m in re.finditer(r'<(ellipse|circle|rect)[^>]*>', body_inner):
+          a = dict(re.findall(r'(\w+)="([^"]+)"', m.group(0)))
+          if m.group(1) == 'rect':
+              pts = [(float(a['x']), float(a['y'])), (float(a['x']) + float(a['width']), float(a['y']) + float(a['height']))]
+          else:
+              rx = float(a.get('rx', a.get('r', 0)))
+              pts = [(float(a['cx']) - rx, float(a['cy'])), (float(a['cx']) + rx, float(a['cy']))]
+          for (x, y) in pts:
+              if not inside(poly, x, y) or dist(poly, x, y) < 0.9:
+                  bad += 1
+                  if bad <= 40:
+                      print(f'  near/outside skin: ({fmt(x)}, {fmt(y)}) {m.group(0)[:70]}')
     print('figure', len(fig), 'bytes;', fig.count('<path') + fig.count('<ellipse') + fig.count('<rect') + fig.count('<circle'),
           'shapes;', bad, 'points near/outside the skin')

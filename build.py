@@ -18,6 +18,23 @@ DIST = ROOT / 'dist'
 # outside services the page may call, only after the user presses a button (see the privacy policy)
 CONNECT = ['https://planetarycomputer.microsoft.com', 'https://api.nasa.gov', 'https://uxzkuncbgsoaqvtpdogy.supabase.co']
 IMAGES = ['https://planetarycomputer.microsoft.com']
+# Offline support: the page itself is network-first (so a new deploy shows up at once) with the cached copy as fallback;
+# fonts are cache-first. Requests to other sites (NASA, Planetary Computer, the report inbox) are never cached.
+SW = r"""const V = 'vista-VERSION', CORE = ['./', './fonts/archivo.woff2', './fonts/martian-mono.woff2', './assets/vista3d.js', './assets/body.json', './assets/body.glb'];
+self.addEventListener('install', e => e.waitUntil(caches.open(V).then(c => c.addAll(CORE)).then(() => self.skipWaiting())));
+self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V).map(k => caches.delete(k)))).then(() => self.clients.claim())));
+self.addEventListener('fetch', e => {
+  const r = e.request;
+  if (r.method !== 'GET' || new URL(r.url).origin !== location.origin) return;
+  if (r.mode === 'navigate') {
+    const shell = /\/(index\.html)?$/.test(new URL(r.url).pathname); // only the app page itself becomes the offline copy
+    e.respondWith(fetch(r).then(res => { if (shell && res.ok && !res.redirected) caches.open(V).then(c => c.put('./', res.clone())); return res; })
+      .catch(() => caches.match('./')));
+    return;
+  }
+  e.respondWith(caches.match(r, {ignoreSearch: true}).then(hit => hit || fetch(r)));
+});
+"""
 
 
 def build():
@@ -27,11 +44,12 @@ def build():
     sha = base64.b64encode(hashlib.sha256(scripts[0].encode('utf-8')).digest()).decode()
     csp = '; '.join([
         "default-src 'none'",
-        f"script-src 'sha256-{sha}'",
+        f"script-src 'self' 'sha256-{sha}'",  # 'self': the 3D viewer module in assets/
         "style-src 'self' 'unsafe-inline'",
         "img-src 'self' data: " + ' '.join(IMAGES),
         "font-src 'self'",
-        "connect-src " + ' '.join(CONNECT),
+        "connect-src 'self' " + ' '.join(CONNECT),  # 'self': the offline service worker caches the app's own files
+        "worker-src 'self'",
         "base-uri 'none'",
         "form-action 'none'",
     ])
@@ -48,6 +66,7 @@ def build():
     (DIST / 'index.html').write_text(head + src, encoding='utf-8')
     for f in (ROOT / 'fonts').iterdir():
         shutil.copy2(f, DIST / 'fonts' / f.name)
+    shutil.copytree(ROOT / 'assets', DIST / 'assets')  # 3D viewer (three.js bundle) and BodyParts3D model
     headers = {
         'Content-Security-Policy': csp + "; frame-ancestors 'none'",
         'Referrer-Policy': 'no-referrer',
@@ -55,14 +74,17 @@ def build():
         'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()',
         'Cross-Origin-Opener-Policy': 'same-origin',
         'Strict-Transport-Security': 'max-age=63072000; includeSubDomains',
+        'X-Frame-Options': 'DENY',
     }
     vercel = {'cleanUrls': True, 'headers': [
         {'source': '/(.*)', 'headers': [{'key': k, 'value': v} for k, v in headers.items()]},
         {'source': '/fonts/(.*)', 'headers': [{'key': 'Cache-Control', 'value': 'public, max-age=31536000, immutable'}]},
+        {'source': '/sw.js', 'headers': [{'key': 'Cache-Control', 'value': 'no-cache'}]},
     ]}
+    # offline: a service worker keeps the page and fonts; the version changes with every build so updates replace the cache
+    (DIST / 'sw.js').write_text(SW.replace('VERSION', hashlib.sha256((head + src).encode('utf-8')).hexdigest()[:12]), encoding='utf-8')
     (DIST / 'vercel.json').write_text(json.dumps(vercel, indent=2), encoding='utf-8')
-    swa = {'globalHeaders': headers, 'mimeTypes': {'.woff2': 'font/woff2'},
-           'navigationFallback': {'rewrite': '/index.html'}}
+    swa = {'globalHeaders': headers, 'mimeTypes': {'.woff2': 'font/woff2', '.glb': 'model/gltf-binary'}}  # no catch-all rewrite: unknown paths get a real 404
     (DIST / 'staticwebapp.config.json').write_text(json.dumps(swa, indent=2), encoding='utf-8')
     (DIST / '.vercelignore').write_text('staticwebapp.config.json\n', encoding='utf-8')  # Azure-only file stays off Vercel
     print(f'dist/index.html {len(head + src):,} bytes, script sha256-{sha[:12]}...')

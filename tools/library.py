@@ -1,10 +1,11 @@
 """Embed the Library (space-health conditions and medicines) into vista.html.
 
-python tools/library.py kb_conditions.json kb_meds.json
+python tools/library.py conditions.json medicines.json
 
 Checks every entry against Vista's body-system and check keys, links each medicine to
-conditions that exist, refuses anything that looks like a dose, and writes the data
-between /*KB*/ and /*/KB*/ in vista.html. Research logs live in docs/evidence/library-*.md.
+conditions that exist, checks each dose block (label text, numeric limits, vital-sign gates,
+https sources), and writes the data between /*KB*/ and /*/KB*/ in vista.html.
+Research and verification logs live in docs/evidence/library-*.md.
 """
 import difflib
 import json
@@ -15,12 +16,11 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SYS = {'msk', 'metab', 'resp', 'cardio', 'immune', 'mind', 'eyes', 'rad'}
 CHECKS = {'hr', 'bp', 'spo2', 'co2', 'temp', 'sleep', 'mood', 'phq4', 'react', 'vision', 'water', 'exercise', 'mass', 'glucose', 'dose'}
-DOSE = re.compile(r'\d\s*(mg|mcg|µg|ml|iu|units?|tablets?|capsules?|puffs?|drops?|sprays?)\b'
-                  r'|\b(once|twice|three times|every \d+ hours?) (a|per|daily)\b', re.I)  # same rule as the app's self-test
 EMOJI = re.compile('[\U0001F000-\U0001FAFF\u2600-\u27BF\uFE0F\u200D]')
 C_KEYS = ['id', 'name', 'systems', 'summary', 'why', 'signs', 'selfcare', 'escalate', 'checks', 'sources']
 M_KEYS = ['id', 'name', 'group', 'for', 'use', 'cautions', 'space', 'conditions', 'sources']
 KEYLISTS = {'systems', 'checks', 'conditions'}
+NUMS = ('single', 'mgPerKg', 'maxSingle', 'maxDay', 'everyH')
 
 
 def typo(s):
@@ -30,6 +30,10 @@ def typo(s):
     return re.sub(r'"([^"]*)"', '\u201c\\1\u201d', s)
 
 
+def src(lst):
+    return [{'t': typo(u['t']), 'u': re.sub(r'^http://', 'https://', u['u'].strip())} for u in lst or []]
+
+
 def tidy(x, keys):
     missing = [k for k in keys if k not in x]
     assert not missing, f"{x.get('id')}: missing {missing}"
@@ -37,7 +41,7 @@ def tidy(x, keys):
     for k in keys:
         v = x[k]
         if k == 'sources':
-            v = [{'t': typo(s['t']), 'u': re.sub(r'^http://', 'https://', s['u'].strip())} for s in v]
+            v = src(v)
         elif k in KEYLISTS:
             v = [str(i).strip() for i in v]
         elif isinstance(v, list):
@@ -45,6 +49,15 @@ def tidy(x, keys):
         elif k != 'id':
             v = typo(str(v))
         out[k] = v
+    if x.get('dose'):
+        d = {k: v for k, v in x['dose'].items() if v is not None}
+        for f in ('label', 'max', 'route', 'unit'):
+            if d.get(f):
+                d[f] = typo(str(d[f]))
+        d['calc'] = bool(d.get('calc'))
+        d['gates'] = [{**g, 'say': typo(g['say'])} for g in d.get('gates') or []]
+        d['src'] = src(d.get('src'))
+        out['dose'] = d
     return out
 
 
@@ -54,6 +67,9 @@ def texts(x):
             continue
         if k == 'sources':
             yield from (s['t'] for s in v)
+        elif k == 'dose':
+            yield from (str(v.get(f) or '') for f in ('label', 'max', 'route'))
+            yield from (g['say'] for g in v['gates'])
         elif isinstance(v, list):
             yield from v
         else:
@@ -79,8 +95,17 @@ def main(cfile, mfile):
             if hit and hit not in linked:
                 linked.append(hit)
         m['conditions'] = linked
-        if any(DOSE.search(t) for t in texts(m) if t not in (s['t'] for s in m['sources'])):
-            bad.append(f"{m['id']}: looks like a dose")
+        d = m.get('dose')
+        if not d:
+            continue
+        if not d.get('label') or not d['src'] or any(not u['u'].startswith('https://') for u in d['src']):
+            bad.append(f"{m['id']}: dose needs a label text and https sources")
+        if any(g.get('k') not in CHECKS or g.get('op') not in ('>=', '<=', '>', '<') or not isinstance(g.get('v'), (int, float)) for g in d['gates']):
+            bad.append(f"{m['id']}: a dose gate uses an unknown check, operator or value")
+        if any(f in d and not isinstance(d[f], (int, float)) for f in NUMS):
+            bad.append(f"{m['id']}: dose limits must be numbers")
+        if d['calc'] and not (d.get('single') or d.get('mgPerKg')):
+            bad.append(f"{m['id']}: a calculated dose needs single or mgPerKg")
     every = C + M
     if len({x['id'] for x in every}) != len(every):
         bad.append('duplicate ids')
@@ -90,8 +115,6 @@ def main(cfile, mfile):
         for t in texts(x):
             if EMOJI.search(t):
                 bad.append(f"{x['id']}: emoji in {t[:40]!r}")
-            if "'" in t or '"' in t:
-                print(f'  check quotes in {x["id"]}: {t[:70]!r}')
     if bad:
         sys.exit('Not embedded:\n  ' + '\n  '.join(bad))
     data = json.dumps({'c': C, 'm': M}, ensure_ascii=False, separators=(',', ':'))
@@ -103,7 +126,7 @@ def main(cfile, mfile):
     assert n == 1, 'KB marker not found in vista.html'
     with open(page, 'w', encoding='utf-8', newline='') as f:
         f.write(html)
-    print(f'Embedded {len(C)} conditions and {len(M)} medicines ({len(data) // 1024} KB).')
+    print(f'Embedded {len(C)} conditions and {len(M)} medicines ({len(data) // 1024} KB); {sum(1 for m in M if m.get("dose"))} with doses.')
 
 
 if __name__ == '__main__':

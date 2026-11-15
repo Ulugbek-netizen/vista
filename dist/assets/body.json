@@ -1,0 +1,76 @@
+{
+ "landmarks": {
+  "bladder": [
+   0.002877319996986401,
+   0.8924304886230211,
+   -0.014605862114362808
+  ]
+ },
+ "height_m": 1.7195702858184345,
+ "layers": {
+  "skin": {
+   "tris": 26000,
+   "files": 1
+  },
+  "bones": {
+   "tris": 95075,
+   "files": 282
+  },
+  "muscles": {
+   "tris": 214832,
+   "files": 323
+  },
+  "airway": {
+   "tris": 2498,
+   "files": 3
+  },
+  "heart": {
+   "tris": 13997,
+   "files": 3
+  },
+  "brain": {
+   "tris": 16149,
+   "files": 55
+  },
+  "eyes": {
+   "tris": 2597,
+   "files": 8
+  },
+  "liver": {
+   "tris": 7990,
+   "files": 10
+  },
+  "gut": {
+   "tris": 21931,
+   "files": 63
+  },
+  "gland": {
+   "tris": 3993,
+   "files": 4
+  },
+  "urinary": {
+   "tris": 4494,
+   "files": 5
+  },
+  "immune": {
+   "tris": 1998,
+   "files": 3
+  },
+  "arteries": {
+   "tris": 17611,
+   "files": 87
+  },
+  "veins": {
+   "tris": 14505,
+   "files": 40
+  },
+  "genitals": {
+   "tris": 2995,
+   "files": 6
+  },
+  "lungs": {
+   "tris": 16000,
+   "files": "modelled"
+  }
+ }
+}
