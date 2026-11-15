@@ -28,13 +28,24 @@ self.addEventListener('fetch', e => {
   if (r.method !== 'GET' || new URL(r.url).origin !== location.origin) return;
   if (r.mode === 'navigate') {
     const shell = /\/(index\.html)?$/.test(new URL(r.url).pathname); // only the app page itself becomes the offline copy
-    e.respondWith(fetch(r).then(res => { if (shell && res.ok && !res.redirected) caches.open(V).then(c => c.put('./', res.clone())); return res; })
+    e.respondWith(fetch(r).then(res => { if (shell && res.ok && !res.redirected) { const copy = res.clone(); caches.open(V).then(c => c.put('./', copy)); } return res; })
       .catch(() => caches.match('./')));
     return;
   }
   e.respondWith(caches.match(r, {ignoreSearch: true}).then(hit => hit || fetch(r)));
 });
 """
+
+
+
+def sw_version(page):
+    # every cached file counts, so a deploy that only changes the 3D body or a font still updates offline copies
+    h = hashlib.sha256(page.encode('utf-8'))
+    here = pathlib.Path(__file__).resolve().parent
+    for f in sorted(list((here / 'assets').glob('*')) + list((here / 'fonts').glob('*.woff2'))):
+        if f.is_file():
+            h.update(f.name.encode()); h.update(f.read_bytes())
+    return h.hexdigest()[:12]
 
 
 def build():
@@ -83,7 +94,7 @@ def build():
         {'source': '/sw.js', 'headers': [{'key': 'Cache-Control', 'value': 'no-cache'}]},
     ]}
     # offline: a service worker keeps the page and fonts; the version changes with every build so updates replace the cache
-    (DIST / 'sw.js').write_text(SW.replace('VERSION', hashlib.sha256((head + src).encode('utf-8')).hexdigest()[:12]), encoding='utf-8')
+    (DIST / 'sw.js').write_text(SW.replace('VERSION', sw_version(head + src)), encoding='utf-8')
     (DIST / 'vercel.json').write_text(json.dumps(vercel, indent=2), encoding='utf-8')
     swa = {'globalHeaders': headers, 'mimeTypes': {'.woff2': 'font/woff2', '.glb': 'model/gltf-binary'}}  # no catch-all rewrite: unknown paths get a real 404
     (DIST / 'staticwebapp.config.json').write_text(json.dumps(swa, indent=2), encoding='utf-8')

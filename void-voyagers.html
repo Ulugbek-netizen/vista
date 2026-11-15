@@ -789,7 +789,7 @@ legend{font-weight:650;font-size:.95rem;padding:0;margin-bottom:8px}
   </article>
   <article class="card gap" aria-labelledby="h-ex"><div class="card-h"><h2 id="h-ex">Exercises that help</h2><span class="eyebrow">2 to 15 minutes</span></div><div id="exList" class="g-grid"></div></article>
   <article class="card gap" aria-labelledby="h-vault"><div class="card-h"><h2 id="h-vault">Your private space</h2><span class="eyebrow" id="vaultState"></span></div><div id="vault"></div></article>
-  <p class="help gap" style="display:flex;gap:8px;max-width:72ch"><svg class="ic" aria-hidden="true" style="margin-top:3px"><use href="#i-shield"/></svg><span>Mind is not therapy and not a medical record. Your journal, letters and team check-ins are encrypted with your PIN and never sent anywhere. Reports leave out your mood and wellbeing answers unless you tick them yourself. If things feel heavy, you don’t have to carry it alone: talk to your crew medical officer or your behavioural health team.</span></p>
+  <p class="help gap" style="display:flex;gap:8px;max-width:72ch"><svg class="ic" aria-hidden="true" style="margin-top:3px"><use href="#i-shield"/></svg><span>Mind is not therapy and not a medical record. Your journal, letters and team check-ins are encrypted with your passphrase and never sent anywhere. Mood ratings, wellbeing answers and the names and dates you add are stored like your other readings: only on this device, protected by its lock screen, not by the passphrase. Reports leave out your mood and wellbeing answers unless you tick them yourself. If things feel heavy, you don’t have to carry it alone: talk to your crew medical officer or your behavioural health team.</span></p>
 </section>
 <section id="trends" class="view" aria-labelledby="h-trends" hidden>
   <div class="vhead"><div><p class="eyebrow">Over time</p><h1 id="h-trends">Trends</h1></div></div>
@@ -1259,11 +1259,11 @@ const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 
 /* trust boundary: stored or imported data is validated field by field; bad entries are dropped, never rendered */
 function clean(s) {
   if (!s || typeof s !== 'object' || !Array.isArray(s.log)) return null;
-  const n = x => typeof x === 'number' && Number.isFinite(x), now = Date.now();
-  const log = s.log.map(x => {
+  const n = x => typeof x === 'number' && Number.isFinite(x), now = Date.now(), okT = t => n(t) && t >= 0 && t <= now + 365 * 864e5;
+  const log = s.log.slice(-30000).map(x => {
     const d = x && own(BY, x.k) && BY[x.k];
     /* no "future" cut-off: a clock that moved back must never delete readings */
-    if (!d || !n(x.t) || x.t < 0 || !n(x.v) || x.v < d.min || x.v > d.max) return null;
+    if (!d || !okT(x.t) || !n(x.v) || x.v < d.min || x.v > d.max) return null;
     if (d.kind === 'bp' && !(n(x.v2) && x.v2 >= d.min2 && x.v2 <= d.max2)) return null;
     const m = x.m && typeof x.m === 'object' ? x.m : {}, e = {id: String(x.id || uid()).slice(0, 40), k: x.k, t: x.t, v: x.v, v2: d.kind === 'bp' ? x.v2 : null, m: null};
     if (d.kind === 'glu') e.m = {fast: !!m.fast};
@@ -1277,18 +1277,26 @@ function clean(s) {
   return {v: 1, demo: !!s.demo, env: own(ENVS, s.env) ? s.env : 'leo',
     prof: {mass: n(p.mass) && p.mass >= 30 && p.mass <= 200 ? p.mass : 71.5, sex: p.sex === 'm' ? 'm' : 'f',
       len: n(p.len) && p.len >= 7 && p.len <= 1200 ? Math.round(p.len) : 180, med: ['none', 'alendronate', 'zoledronic'].includes(p.med) ? p.med : 'none'},
-    start: n(s.start) && s.start <= now ? s.start : (log[0] ? sod(log[0].t) : sod(now)), log,
+    start: n(s.start) && s.start <= now && s.start >= 946684800000 /* 2000-01-01 */ ? s.start : (log[0] ? sod(log[0].t) : sod(now)), log,
     earth: s.earth && typeof s.earth === 'object' && (own(PLACES, s.earth.p) || s.earth.p === 'custom') ? {p: s.earth.p, lat: n(s.earth.lat) ? s.earth.lat : null, lon: n(s.earth.lon) ? s.earth.lon : null} : null,
     map: ['muscles', 'organs', 'bones', 'status'].includes(s.map) ? s.map : 'muscles', sex: s.sex === 'f' ? 'f' : 'm', sel: own(SYSBY, s.sel) ? s.sel : 'mind', bone: own(BONE, s.bone) ? s.bone : 'hip', trInd: own(BY, s.trInd) ? s.trInd : 'sleep', trDays: [7, 14, 30].includes(s.trDays) ? s.trDays : 14,
-    sym: Array.isArray(s.sym) ? s.sym.filter(x => x && n(x.t) && Array.isArray(x.s)).map(x => ({t: x.t, s: x.s.filter(k => own(SYMBY, k))})).filter(x => x.s.length).slice(-100) : [],
+    sym: Array.isArray(s.sym) ? s.sym.filter(x => x && okT(x.t) && Array.isArray(x.s)).map(x => ({t: x.t, s: x.s.filter(k => own(SYMBY, k))})).filter(x => x.s.length).slice(-100) : [],
     emg: okRun(s.emg), spe: okRun(s.spe), last: {emg: okRun(s.last && s.last.emg), spe: okRun(s.last && s.last.spe)},
     kit: s.kit && typeof s.kit === 'object' ? Object.fromEntries(Object.entries(s.kit).filter(([id, v]) => KB.m.some(m => m.id === id) && v && n(v.n) && v.n >= 0 && v.n <= 9999 && /^\d{4}-\d{2}$/.test(v.exp)).map(([id, v]) => [id, {n: Math.round(v.n), exp: v.exp}])) : {},
     people: Array.isArray(s.people) ? s.people.filter(x => x && typeof x.n === 'string' && typeof x.tz === 'string').map(x => ({n: x.n.slice(0, 30), tz: x.tz.slice(0, 60)})).slice(-8) : [],
     dates: Array.isArray(s.dates) ? s.dates.filter(x => x && typeof x.l === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(x.d)).map(x => ({l: x.l.slice(0, 40), d: x.d})).slice(-12) : [],
     nick: typeof s.nick === 'string' ? s.nick.slice(0, 30) : '', mindSeen: s.mindSeen && typeof s.mindSeen === 'object' ? {id: String(s.mindSeen.id || ''), d: +s.mindSeen.d || 0} : null,
-    outbox: Array.isArray(s.outbox) ? s.outbox.filter(x => x && typeof x === 'object' && typeof x.summary === 'string').slice(-20) : []};
+    outbox: Array.isArray(s.outbox) ? s.outbox.map(okRow).filter(Boolean).slice(-50) : []};
 }
-function okRun(r) { const n = x => typeof x === 'number' && Number.isFinite(x); return r && n(r.start) && Array.isArray(r.ev) ? {start: r.start, done: r.done && typeof r.done === 'object' ? Object.fromEntries(Object.entries(r.done).filter(([k, v]) => /^\d$/.test(k) && n(v))) : {}, ev: r.ev.filter(e => e && n(e.t) && typeof e.x === 'string').map(e => ({t: e.t, x: e.x.slice(0, 120)})).slice(-200)} : null; }
+/* a queued report, rebuilt from known fields only (imported files can hold anything) */
+function okRow(x) {
+  if (!x || typeof x !== 'object' || typeof x.summary !== 'string' || !x.summary || x.summary.length > 2000 || !own(ENVS, x.env) || !x.payload || typeof x.payload !== 'object' || Array.isArray(x.payload)) return null;
+  return {callsign: typeof x.callsign === 'string' && /^[A-Za-z0-9 ._-]{1,40}$/.test(x.callsign) ? x.callsign : null, env: x.env,
+    level: [0, 1, 2, 3].includes(x.level) ? x.level : null, summary: x.summary, payload: x.payload,
+    client_id: typeof x.client_id === 'string' && /^[0-9a-f-]{36}$/.test(x.client_id) ? x.client_id : uuid4()};
+}
+function uuid4() { const b = crypto.getRandomValues(new Uint8Array(16)); b[6] = b[6] & 15 | 64; b[8] = b[8] & 63 | 128; const h = [...b].map(x => x.toString(16).padStart(2, '0')).join(''); return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`; }
+function okRun(r) { const n = x => typeof x === 'number' && Number.isFinite(x); return r && n(r.start) && r.start > 946684800000 && r.start <= Date.now() + 6e4 && Array.isArray(r.ev) ? {start: r.start, done: r.done && typeof r.done === 'object' ? Object.fromEntries(Object.entries(r.done).filter(([k, v]) => /^\d$/.test(k) && n(v))) : {}, ev: r.ev.filter(e => e && n(e.t) && e.t > 0 && e.t <= Date.now() + 365 * 864e5 && typeof e.x === 'string').map(e => ({t: e.t, x: e.x.slice(0, 120)})).slice(-200)} : null; }
 function load() {
   let raw = null;
   try { raw = localStorage.getItem(KEY); for (const k of OLD_KEYS) if (raw == null) raw = localStorage.getItem(k); } catch (_) { storageOK = false; return null; }
@@ -1302,7 +1310,7 @@ function load() {
 const IDB = {db: null, open() {
   if (this.db || !('indexedDB' in window)) return Promise.resolve(this.db);
   return new Promise(res => { try { const r = indexedDB.open('void-voyagers', 2); r.onupgradeneeded = () => { for (const n of ['state', 'vault']) if (!r.result.objectStoreNames.contains(n)) r.result.createObjectStore(n); };
-    r.onsuccess = () => { this.db = r.result; res(this.db); }; r.onerror = () => res(null); } catch (_) { res(null); } });
+    r.onsuccess = () => { this.db = r.result; this.db.onversionchange = () => { this.db.close(); this.db = null; }; res(this.db); }; r.onerror = r.onblocked = () => res(null); } catch (_) { res(null); } });
 }, async put(v) { const db = await this.open(); if (!db) return; try { db.transaction('state', 'readwrite').objectStore('state').put(v, KEY); } catch (_) {} },
   async get() { const db = await this.open(); if (!db) return null; return new Promise(res => { try { const q = db.transaction('state').objectStore('state').get(KEY); q.onsuccess = () => res(q.result || null); q.onerror = () => res(null); } catch (_) { res(null); } }); },
   async clear() { const db = await this.open(); if (db) try { db.transaction('state', 'readwrite').objectStore('state').clear(); } catch (_) {} },
@@ -1312,7 +1320,7 @@ const IDB = {db: null, open() {
   async vclear() { const db = await this.open(); if (db) try { db.transaction('vault', 'readwrite').objectStore('vault').clear(); } catch (_) {} }};
 let idbT = null, idbReady = false, hadLocal = true;
 function save(quiet) {
-  if (idbReady) { clearTimeout(idbT); idbT = setTimeout(() => IDB.put(JSON.stringify(S)), 300); }
+  if (idbReady && !S.demo) { clearTimeout(idbT); idbT = setTimeout(() => IDB.put(JSON.stringify(S)), 300); }
   try { localStorage.setItem(KEY, JSON.stringify(S)); storageOK = true; return true; }
   catch (_) {
     if (storageOK && !quiet) toast('Could not save on this device (storage is full or blocked). Download a backup from Crew profile & data so nothing is lost.', 2, true);
@@ -1359,6 +1367,7 @@ function demoState() {
 const entries = k => S.log.filter(x => x.k === k);
 function latest(k) { const lim = Date.now() + 6e5; for (let i = S.log.length - 1; i >= 0; i--) if (S.log[i].k === k && S.log[i].t <= lim) return S.log[i]; return null; }
 function lastBefore(k, t) { for (let i = S.log.length - 1; i >= 0; i--) { const x = S.log[i]; if (x.k === k && x.t < t) return x; } return null; }
+const localDay = d => { const [y, m, dd] = d.split('-').map(Number); return new Date(y, m - 1, dd).getTime(); };
 const missionDay = t => Math.max(1, dayDiff(t, S.start) + 1);
 function ctx(k, t) {
   const hist = S.log.filter(x => x.k === k && x.t < t), first = hist.slice(0, k === 'react' ? 3 : 7);
@@ -2097,14 +2106,14 @@ $('#rptForm').addEventListener('submit', async ev => {
   const r = rptData, call = $('#rptCall').value.replace(/[^A-Za-z0-9 ._-]/g, '').trim().slice(0, 40), btn = $('#rptSend'), err = $('#rptErr');
   rptBusy = true; btn.disabled = true; btn.textContent = 'Sending…'; err.hidden = true;
   try {
-    const row = {callsign: call || null, env: r.env, level: r.lv, summary: r.summary, payload: r.payload};
+    const row = {callsign: call || null, env: r.env, level: r.lv, summary: r.summary, payload: r.payload, client_id: uuid4()};
     if (!navigator.onLine) throw Object.assign(new Error('offline'), {row});
     try { await postReport(row); } catch (e) { e.row = row; throw e; }
     $('#rpt').close();
     toast('Report sent to the flight-surgeon inbox.', 0);
   } catch (e) {
-    if (e.row && (!navigator.onLine || e instanceof TypeError || e.message === 'offline')) {
-      S.outbox = (S.outbox || []).concat(e.row).slice(-20); save(true);
+    if (e.row && (!navigator.onLine || e instanceof TypeError || e.message === 'offline' || retryable(e))) {
+      queueRow(e.row);
       $('#rpt').close();
       toast('No link to Earth right now. The report is saved on this device and will be sent when the connection returns.', 1, true);
     } else {
@@ -2459,15 +2468,31 @@ aux.addEventListener('close', () => { clearInterval(auxTimer); });
 async function postReport(row) {
   const res = await fetch(`${SUPA.url}/rest/v1/reports`, {method: 'POST', credentials: 'omit', referrerPolicy: 'no-referrer',
     headers: {apikey: SUPA.key, 'Content-Type': 'application/json', Prefer: 'return=minimal'}, body: JSON.stringify(row)});
-  if (!res.ok) throw new Error(String(res.status));
+  if (res.status === 409) return; /* this report (same client_id) already arrived */
+  if (!res.ok) throw Object.assign(new Error(String(res.status)), {status: res.status});
 }
+/* busy, rate-limited or server trouble: worth trying again later */
+const retryable = e => e instanceof TypeError || !e.status || e.status === 408 || e.status === 429 || e.status >= 500;
+function queueRow(row) {
+  const q = (S.outbox || []).concat(row);
+  S.outbox = q.slice(-50); save(true);
+  if (q.length > 50) toast('The report outbox is full, so the oldest saved report was removed. Read out the short code if it matters.', 1, true);
+}
+let flushing = false;
 async function flushOutbox() {
-  if (!S.outbox || !S.outbox.length || !navigator.onLine) return;
-  const left = [];
-  for (const row of S.outbox) { try { await postReport(row); } catch (_) { left.push(row); } }
-  const sent = S.outbox.length - left.length;
-  S.outbox = left; save(true);
-  if (sent) toast(`${sent} saved report${sent === 1 ? '' : 's'} sent to the flight-surgeon inbox.`, 0);
+  if (flushing || !S.outbox || !S.outbox.length || !navigator.onLine) return;
+  flushing = true;
+  const run = async () => {
+    let sent = 0, refused = 0;
+    for (const row of [...S.outbox]) {
+      try { await postReport(row); sent++; S.outbox = S.outbox.filter(r => r !== row); save(true); }
+      catch (e) { if (!retryable(e)) { refused++; S.outbox = S.outbox.filter(r => r !== row); save(true); } else if (e instanceof TypeError) break; }
+    }
+    if (sent) toast(`${sent} saved report${sent === 1 ? '' : 's'} sent to the flight-surgeon inbox.`, 0);
+    if (refused) toast(`${refused} saved report${refused === 1 ? ' was' : 's were'} refused by the inbox and removed. Read out the short code instead.`, 1, true);
+  };
+  try { if (navigator.locks) await navigator.locks.request('vv-outbox', {ifAvailable: true}, l => l && run()); else await run(); }
+  finally { flushing = false; }
 }
 addEventListener('online', flushOutbox);
 /* short text code a crew member can read out or type over a slow link */
@@ -2522,40 +2547,41 @@ function renderMind() {
   const sel = $('#pTz');
   if (!sel.options.length) { let z = []; try { z = Intl.supportedValuesOf('timeZone'); } catch (_) { z = ['UTC', 'Europe/London', 'America/Chicago', 'Asia/Tokyo']; } sel.innerHTML = z.map(t => `<option${t === 'America/Chicago' ? ' selected' : ''}>${esc(t)}</option>`).join(''); }
   $('#clocks').innerHTML = (S.people || []).map((x, i) => `<div class="clock-row"><div><b>${esc(timeIn(x.tz))}</b><div class="sub">${esc(x.n)}: it’s ${partOfDay(x.tz)} there</div></div><button type="button" class="btn ghost" data-pdel="${i}" aria-label="Remove ${esc(x.n)}">${ic('x')}</button></div>`).join('') || '<p class="help">Add the people you miss to see their time and day.</p>';
-  $('#dates').innerHTML = (S.dates || []).map((x, i) => { const d = Math.ceil((Date.parse(x.d) - sod(Date.now())) / DAY); return `<div class="clock-row"><div><b>${d > 0 ? `${d} day${d === 1 ? '' : 's'}` : d === 0 ? 'Today' : 'Done'}</b><div class="sub">${esc(x.l)} · ${esc(x.d)}</div></div><button type="button" class="btn ghost" data-ddel="${i}" aria-label="Remove ${esc(x.l)}">${ic('x')}</button></div>`; }).join('') || '<p class="help">Count down to the next family call, a birthday or the trip home.</p>';
+  $('#dates').innerHTML = (S.dates || []).map((x, i) => { const d = Math.round((localDay(x.d) - sod(Date.now())) / DAY); return `<div class="clock-row"><div><b>${d > 0 ? `${d} day${d === 1 ? '' : 's'}` : d === 0 ? 'Today' : 'Done'}</b><div class="sub">${esc(x.l)} · ${esc(x.d)}</div></div><button type="button" class="btn ghost" data-ddel="${i}" aria-label="Remove ${esc(x.l)}">${ic('x')}</button></div>`; }).join('') || '<p class="help">Count down to the next family call, a birthday or the trip home.</p>';
   $('#exList').innerHTML = MIND.exercises.map(x => `<button type="button" class="g-card ex-card" data-ex="${esc(x.id)}"><h3>${esc(x.name)}</h3><p>${esc(x.when)}</p><span class="eyebrow">${x.minutes} min</span></button>`).join('');
   renderVault();
 }
 /* the vault */
-const V = {key: null, data: null, fails: 0, until: 0, t: null, urls: []};
+const V = {key: null, data: null, t: null, h: null, urls: []};
 const te = new TextEncoder(), td = new TextDecoder();
 async function vKey(pin, salt) { const base = await crypto.subtle.importKey('raw', te.encode(pin), 'PBKDF2', false, ['deriveKey']);
   return crypto.subtle.deriveKey({name: 'PBKDF2', salt, iterations: 600000, hash: 'SHA-256'}, base, {name: 'AES-GCM', length: 256}, false, ['encrypt', 'decrypt']); }
 async function seal(bytes) { const iv = crypto.getRandomValues(new Uint8Array(12)); return {iv, ct: await crypto.subtle.encrypt({name: 'AES-GCM', iv}, V.key, bytes)}; }
 const unseal = box => crypto.subtle.decrypt({name: 'AES-GCM', iv: box.iv}, V.key, box.ct);
 async function vSave() { await IDB.vput('data', await seal(te.encode(JSON.stringify(V.data)))); }
-function vLock() { V.key = null; V.data = null; V.urls.forEach(u => URL.revokeObjectURL(u)); V.urls = []; clearTimeout(V.t); if (view === 'mind') renderVault(); }
+function vLock() { V.key = null; V.data = null; V.urls.forEach(u => URL.revokeObjectURL(u)); V.urls = []; clearTimeout(V.t); renderVault(); }
 function vTouch() { clearTimeout(V.t); if (V.key) V.t = setTimeout(vLock, 180000); }
-document.addEventListener('visibilitychange', () => { if (document.hidden) vLock(); });
+/* lock when the app stays hidden for 30 s (a short switch, like picking a photo, keeps it open) */
+document.addEventListener('visibilitychange', () => { clearTimeout(V.h); if (document.hidden && V.key) V.h = setTimeout(vLock, 30000); });
 async function renderVault() {
   const el = $('#vault'), meta = await IDB.vget('meta');
   if (!V.key) $('#letters').innerHTML = `<p class="help">${meta ? 'Unlock your private space below to read letters from home.' : 'Set up your private space below to keep letters from home.'}</p>`;
   $('#vaultState').textContent = !meta ? 'Not set up' : V.key ? 'Unlocked · locks after 3 minutes' : 'Locked';
   if (!crypto.subtle) { el.innerHTML = '<p class="help">This browser cannot encrypt here, so the private space is switched off. Open the website over https.</p>'; return; }
-  if (!meta) { el.innerHTML = `<p class="muted">Your journal, letters from home and team check-ins live here, encrypted with a PIN only you know. Nobody else can read them, not even the team that made this app. If you forget the PIN, they cannot be recovered.</p>
-    <div class="btn-row gap"><input class="in q" id="vPin" type="password" inputmode="numeric" autocomplete="new-password" minlength="6" placeholder="Choose a PIN (6+ digits)" aria-label="Choose a PIN" style="flex:1 1 200px"><button type="button" class="btn primary" id="vSet">Set PIN</button></div><p class="err" id="vErr" role="alert" hidden></p>`; return; }
-  if (!V.key) { const wait = V.until > Date.now(); el.innerHTML = `<div class="btn-row"><input class="in q" id="vPin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="PIN" aria-label="PIN" style="flex:1 1 200px"${wait ? ' disabled' : ''}><button type="button" class="btn primary" id="vOpen"${wait ? ' disabled' : ''}>Unlock</button></div>
+  if (!meta) { el.innerHTML = `<p class="muted">Your journal, letters from home and team check-ins live here, encrypted with a passphrase only you know. Without it nobody can read them, not even the team that made this app. Make it long: a short code can be guessed by someone who copies this device’s data. If you forget it, they cannot be recovered.</p>
+    <div class="btn-row gap"><input class="in q" id="vPin" type="password" autocomplete="new-password" minlength="10" placeholder="Choose a passphrase (10+ characters)" aria-label="Choose a passphrase" style="flex:1 1 200px"><button type="button" class="btn primary" id="vSet">Set passphrase</button></div><p class="err" id="vErr" role="alert" hidden></p>`; return; }
+  if (!V.key) { const wait = (meta.until || 0) > Date.now(); el.innerHTML = `<div class="btn-row"><input class="in q" id="vPin" type="password" autocomplete="current-password" placeholder="Passphrase" aria-label="Passphrase" style="flex:1 1 200px"${wait ? ' disabled' : ''}><button type="button" class="btn primary" id="vOpen"${wait ? ' disabled' : ''}>Unlock</button></div>
     <p class="err" id="vErr" role="alert"${wait ? '' : ' hidden'}>${wait ? 'Too many wrong tries. Unlocking is paused for a few minutes.' : ''}</p>`; return; }
   const D = V.data, now = sod(Date.now());
   el.innerHTML = `<div class="journal"><label class="lbl" for="jText">Journal: write what you can’t say out loud</label><textarea class="in q" id="jText" maxlength="5000"></textarea><div class="btn-row"><button type="button" class="btn" id="jSave">Save entry</button></div>
       ${D.journal.slice(-5).reverse().map(j => `<div class="jentry"><span class="ago">${esc(new Date(j.t).toLocaleString())}</span>\n${esc(j.x)}</div>`).join('')}</div>
     <div class="gap"><p class="lbl">Add a letter, photo or voice note</p><div class="btn-row"><input class="in q" id="lFrom" maxlength="40" placeholder="From" aria-label="From" style="flex:1 1 140px"><input class="in q" id="lOpen" type="date" aria-label="Open on (optional)" title="Open on (optional)" style="flex:1 1 150px"></div>
       <textarea class="in q gap" id="lText" maxlength="5000" placeholder="Their words (optional if you add a file)" aria-label="Letter text"></textarea>
-      <div class="btn-row gap"><input type="file" id="lFile" accept="image/*,audio/*" aria-label="Photo or voice note"><button type="button" class="btn" id="lAdd">Keep it</button></div><p class="err" id="lErr" role="alert" hidden></p></div>
+      <div class="btn-row gap"><input type="file" id="lFile" accept="image/png,image/jpeg,image/webp,image/gif,image/heic,audio/*" aria-label="Photo or voice note"><button type="button" class="btn" id="lAdd">Keep it</button></div><p class="err" id="lErr" role="alert" hidden></p></div>
     <div class="gap climate"><p class="lbl">Team check-in (1 minute, once a week)</p>${['I feel part of the team', 'Tension in the crew is low', 'I don’t feel lonely', 'I feel in touch with home'].map((q, i) => `<div><span>${q}</span><div class="scale">${[1, 2, 3, 4, 5].map(n => `<label><input type="radio" name="tc${i}" value="${n}">${n}</label>`).join('')}</div></div>`).join('')}
       <div class="btn-row"><button type="button" class="btn" id="tcSave">Save check-in</button>${D.climate.length ? `<span class="help">Last: ${esc(new Date(D.climate[D.climate.length - 1].t).toLocaleDateString())}</span>` : ''}</div></div>
     <div class="btn-row gap"><button type="button" class="btn ghost" id="vLock">${ic('shield')}Lock now</button><button type="button" class="btn danger" id="vWipe">Wipe my private space</button></div>`;
-  $('#letters').innerHTML = D.letters.map(l => { const shut = l.open && Date.parse(l.open) > now;
+  $('#letters').innerHTML = D.letters.map(l => { const shut = l.open && /^\d{4}-\d{2}-\d{2}$/.test(l.open) && localDay(l.open) > now;
     return `<div class="letter"><div><b>${esc(l.from || 'From home')}</b><span class="ago" style="display:block">${shut ? `opens on ${esc(l.open)}` : esc(new Date(l.t).toLocaleDateString())}${l.type ? ' · ' + (l.type.startsWith('audio') ? 'voice note' : 'photo') : ''}</span></div>${shut ? '' : `<button type="button" class="btn" data-lopen="${esc(l.id)}">Open</button>`}</div><div id="lv-${esc(l.id)}"></div>`; }).join('') || '<p class="help">Nothing yet. Letters stay encrypted until you open them here.</p>';
 }
 $('#letters') && document.addEventListener('click', async ev => {
@@ -2564,8 +2590,8 @@ $('#letters') && document.addEventListener('click', async ev => {
   vTouch();
   const f = t.closest('[data-feel]');
   if (f) {
-    const v = +f.dataset.feel, e = {id: uid(), k: 'mood', t: Date.now(), v, v2: null, m: null};
-    S.log.push(e); S.log.sort((a, b) => a.t - b.t);
+    const v = +f.dataset.feel, e = {id: uid(), k: 'mood', t: Date.now(), v, v2: null, m: null}, d0 = sod(e.t);
+    S.log = S.log.filter(x => !(x.k === 'mood' && x.t >= d0 && x.t <= e.t)); S.log.push(e); S.log.sort((a, b) => a.t - b.t);
     const m = checkin(v); S.mindSeen = {id: m && m.id, d: sod(Date.now())}; save(); renderAll();
     const risk = mindRisk(), ex = m && EXBY[m.suggest];
     $('#friendReply').innerHTML = risk === 'trigger_safety_yes' || risk === 'trigger_phq4_9' ? '' : `<div><p style="color:var(--ink)">${esc(m ? m.text : 'Thank you for telling me.')}</p>
@@ -2581,17 +2607,31 @@ $('#letters') && document.addEventListener('click', async ev => {
   if (t.closest('#dAdd')) { const l = $('#dLabel').value.trim(), d = $('#dDate').value; if (l && /^\d{4}-\d{2}-\d{2}$/.test(d)) { S.dates = (S.dates || []).concat({l: l.slice(0, 40), d}).sort((a, b) => a.d.localeCompare(b.d)).slice(-12); save(); renderMind(); } return; }
   if (t.closest('#vSet')) {
     const pin = $('#vPin').value, err = $('#vErr');
-    if (!/^\d{6,}$/.test(pin) && pin.length < 8) { err.hidden = false; err.textContent = 'Use at least 6 digits, or a passphrase of 8 or more characters.'; return; }
+    if (pin.length < 10 || /^(.)\1+$/.test(pin)) { err.hidden = false; err.textContent = 'Use a passphrase of at least 10 characters, for example three words you will remember.'; return; }
     const salt = crypto.getRandomValues(new Uint8Array(16)); V.key = await vKey(pin, salt); V.data = {journal: [], letters: [], climate: []};
-    await IDB.vput('meta', {v: 1, salt, check: await seal(te.encode('void-voyagers'))}); await vSave();
+    /* data first, then meta: if a write fails the space simply stays "not set up" */
+    try { await vSave(); await IDB.vput('meta', {v: 1, salt, check: await seal(te.encode('void-voyagers')), fails: 0, until: 0}); }
+    catch (_) { V.key = null; V.data = null; err.hidden = false; err.textContent = 'This device has no room to save the private space. Free some storage and try again.'; return; }
     try { if (navigator.storage && navigator.storage.persist) await navigator.storage.persist(); } catch (_) {}
-    vTouch(); toast('Private space ready. Remember your PIN: it cannot be recovered.', 0); renderVault(); return;
+    vTouch(); toast('Private space ready. Remember your passphrase: it cannot be recovered.', 0); renderVault(); return;
   }
   if (t.closest('#vOpen')) {
-    if (V.until > Date.now()) return;
     const meta = await IDB.vget('meta'), err = $('#vErr');
-    try { V.key = await vKey($('#vPin').value, meta.salt); await unseal(meta.check); const box = await IDB.vget('data'); V.data = JSON.parse(td.decode(await unseal(box))); V.fails = 0; vTouch(); renderMind(); }
-    catch (_) { V.key = null; V.fails++; if (V.fails >= 10) { V.until = Date.now() + 5 * 60000; V.fails = 0; } err.hidden = false; err.textContent = V.until > Date.now() ? 'Too many wrong tries. Unlocking is paused for a few minutes.' : 'That PIN didn’t work.'; if (V.until > Date.now()) renderVault(); }
+    if (!meta || (meta.until || 0) > Date.now()) return;
+    let ok = false;
+    try { V.key = await vKey($('#vPin').value, meta.salt); await unseal(meta.check); ok = true; } catch (_) { V.key = null; }
+    if (ok) {
+      try { const box = await IDB.vget('data'); V.data = box ? JSON.parse(td.decode(await unseal(box))) : {journal: [], letters: [], climate: []}; }
+      catch (_) { V.key = null; err.hidden = false; err.textContent = 'Your passphrase is right, but the saved private space could not be read.'; return; }
+      if (meta.fails) { meta.fails = 0; meta.until = 0; IDB.vput('meta', meta).catch(() => {}); }
+      vTouch(); renderMind(); return;
+    }
+    /* wrong: count it in the saved record so a reload does not reset it; each 10 wrong tries doubles the pause */
+    meta.fails = (meta.fails || 0) + 1;
+    if (meta.fails % 10 === 0) meta.until = Date.now() + 5 * 60000 * 2 ** Math.min(6, meta.fails / 10 - 1);
+    try { await IDB.vput('meta', meta); } catch (_) {}
+    err.hidden = false; err.textContent = meta.until > Date.now() ? 'Too many wrong tries. Unlocking is paused for a while.' : 'That passphrase didn’t work.';
+    if (meta.until > Date.now()) renderVault();
     return;
   }
   if (t.closest('#vLock')) { vLock(); return; }
@@ -2606,8 +2646,8 @@ $('#letters') && document.addEventListener('click', async ev => {
   if (t.closest('#lAdd')) {
     const file = $('#lFile').files[0], text = $('#lText').value.trim(), err = $('#lErr');
     if (!file && !text) { err.hidden = false; err.textContent = 'Add their words or a photo or voice note.'; return; }
-    if (file && (file.size > 8e6 || !/^(image|audio)\//.test(file.type))) { err.hidden = false; err.textContent = 'Use a photo or voice note under 8 MB.'; return; }
-    const id = uid(); if (file) await IDB.vput(`blob:${id}`, await seal(await file.arrayBuffer()));
+    if (file && (file.size > 8e6 || !/^(image|audio)\//.test(file.type) || file.type === 'image/svg+xml')) { err.hidden = false; err.textContent = 'Use a photo or voice note under 8 MB.'; return; }
+    const id = uuid4(); if (file) await IDB.vput(`blob:${id}`, await seal(await file.arrayBuffer()));
     V.data.letters.push({id, t: Date.now(), from: $('#lFrom').value.trim().slice(0, 40), open: $('#lOpen').value || null, text: text.slice(0, 5000), type: file ? file.type : null}); await vSave(); renderVault(); return;
   }
   const lo = t.closest('[data-lopen]');
@@ -2853,10 +2893,10 @@ async function exportBackup() {
   } catch (_) { toast('Your browser blocked the download.', 1, true); }
 }
 $('#expBtn').addEventListener('click', exportBackup);
-/* readings as an SQL script (SQLite, PostgreSQL or Azure SQL) for a crew medical officer's own tools */
+/* readings as an SQL script (SQLite 3.24+ or PostgreSQL) for a crew medical officer's own tools */
 function toSQL() {
   const q = v => v == null ? 'NULL' : typeof v === 'number' ? String(v) : `'${String(v).replace(/'/g, "''")}'`;
-  const rows = S.log.map(x => `INSERT INTO readings (id, checked_at, check_key, check_name, value, value2, unit, status) VALUES (${[x.id, new Date(x.t).toISOString(), x.k, BY[x.k].n, x.v, x.v2, unit(BY[x.k]), lvName(assess(x).lv)].map(q).join(', ')});`);
+  const rows = S.log.map(x => `INSERT INTO readings (id, checked_at, check_key, check_name, value, value2, unit, status) VALUES (${[x.id, new Date(x.t).toISOString(), x.k, BY[x.k].n, x.v, x.v2, unit(BY[x.k]), lvName(assess(x).lv)].map(q).join(', ')}) ON CONFLICT (id) DO NOTHING;`);
   const sym = (S.sym || []).map(x => `INSERT INTO symptoms (noted_at, symptoms) VALUES (${q(new Date(x.t).toISOString())}, ${q(x.s.map(k => SYMBY[k] ? SYMBY[k].n : k).join('; '))});`);
   return ['-- Void Voyagers export, ' + new Date().toISOString() + (S.demo ? ' (example data)' : ''), '-- Contains health data: keep it private.',
     'CREATE TABLE IF NOT EXISTS readings (id TEXT PRIMARY KEY, checked_at TEXT NOT NULL, check_key TEXT NOT NULL, check_name TEXT, value REAL, value2 REAL, unit TEXT, status TEXT);',
@@ -2936,7 +2976,8 @@ let th = null; try { th = localStorage.getItem(TKEY) ?? localStorage.getItem(OLD
 applyTheme(th);
 matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => { if (!document.documentElement.dataset.theme) { applyTheme(null); globe.redraw(); } });
 try { hadLocal = [KEY, ...OLD_KEYS].some(k => localStorage.getItem(k) != null); } catch (_) {}
-S = load() || demoState();
+const loaded = load(), lsBad = hadLocal && !loaded;
+S = loaded || demoState();
 save(true);
 try { if (storageOK && localStorage.getItem(KEY) != null) OLD_KEYS.forEach(k => localStorage.removeItem(k)); } catch (_) {} /* migrated: keep no second copy */
 if (!storageOK) $('#storeNote').textContent = 'This browser is not letting Void Voyagers save. Readings will be lost when you close the page, so download a backup after logging.';
@@ -2949,9 +2990,10 @@ catch (err) {
   $('#bannerLive').textContent = b.textContent;
 }
 window.addEventListener('hashchange', () => route(true));
+window.addEventListener('unhandledrejection', e => { console.error(e.reason); toast('Something went wrong and was not saved. Please try again.', 1, true); });
 IDB.get().then(raw => {
   let s = null;
-  if (!hadLocal && raw) try { s = clean(JSON.parse(raw)); } catch (_) {}
+  if ((!hadLocal || lsBad) && raw) try { s = clean(JSON.parse(raw)); } catch (_) {}
   idbReady = true;
   if (s && !s.demo) { S = s; save(true); fillProfile(); renderAll(); renderKitBadge(); toast('Your data was restored from this device’s database.', 0); }
   else save(true);
