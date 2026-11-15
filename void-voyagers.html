@@ -2477,6 +2477,9 @@ document.addEventListener('click', ev => { const b = ev.target.closest('[data-au
 auxForm.addEventListener('click', ev => {
   const t = ev.target;
   if (t.closest('[data-aclose]')) { aux.close(); return; }
+  /* links out of this dialog: log a check, or read the Library entry (the page behind stays covered while it is open) */
+  const lg = t.closest('[data-log]'); if (lg) { aux.close(); openLog(lg.dataset.log); return; }
+  if (t.closest('a[href^="#"]')) { aux.close(); return; }
   if (t.closest('[data-astart]')) { S[auxKind] = {start: Date.now(), done: {}, ev: []}; emgLog(auxKind, auxKind === 'emg' ? 'Emergency started' : 'Entered storm shelter'); save(); openAux(auxKind); return; }
   if (t.closest('[data-aend]')) { emgLog(auxKind, 'Ended'); S.last = S.last || {}; S.last[auxKind] = S[auxKind]; S[auxKind] = null; save(); openAux(auxKind); toast(auxKind === 'emg' ? 'Emergency log kept for your next report.' : 'Shelter time ended. Log your dosimeter reading.', 0); return; }
   if (t.closest('[data-anote]')) { const i = $('#auxNote'); if (i.value.trim()) { emgLog(auxKind, i.value.trim()); openAux(auxKind); $('#auxNote').focus(); } return; }
@@ -2497,12 +2500,14 @@ auxForm.addEventListener('submit', ev => {
   ev.preventDefault();
   if (auxKind !== 'unwell') return;
   const ks = [...auxForm.querySelectorAll('input[name=sym]:checked')].map(i => i.value);
-  if (!ks.length) { $('#symOut').innerHTML = '<p class="err">Tick at least one.</p>'; return; }
+  const showOut = () => $('#symOut').scrollIntoView({block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+  if (!ks.length) { $('#symOut').innerHTML = '<p class="err">Tick at least one.</p>'; showOut(); return; }
   S.sym = (S.sym || []).filter(x => Date.now() - x.t < 30 * 864e5).concat({t: Date.now(), s: ks}); save();
   const L = ks.map(k => SYMBY[k]).sort((a, b) => b.lv - a.lv), top = L[0].lv;
   $('#symOut').innerHTML = `<div class="interp lv-${lvKey(top)}"><div>${pill(top)}</div><div style="display:grid;gap:10px">${top === 3 ? `<p><b style="color:var(--ink)">Treat this as an emergency.</b> <button type="button" class="btn danger" data-aux="emg">${ic('urgent')}Open emergency</button></p>` : ''}
     ${L.map(x => `<div><b style="color:var(--ink)">${esc(x.n)}</b><p class="muted">${esc(x.step)}</p><div class="lib-rel">${x.chk.filter(k => BY[k]).map(k => `<button type="button" class="lk" data-log="${k}">${ic('plus')}${esc(BY[k].sn)}</button>`).join('')}${KB.c.some(c => c.id === x.kb) ? `<a class="lk" href="#library" data-kb="${x.kb}">Read more</a>` : ''}</div></div>`).join('')}
     <p class="help">Saved: these symptoms go into your next flight-surgeon report.</p></div></div>`;
+  showOut(); /* the advice sits below the list: bring it into view */
 });
 aux.addEventListener('close', () => { clearInterval(auxTimer); });
 /* report outbox: kept on the device while there is no link to Earth, sent when it returns */
@@ -3030,7 +3035,8 @@ catch (err) {
   b.textContent = 'Void Voyagers could not display your data. Your saved readings are untouched: open “Crew profile & data” below and download a backup, then reload.';
   $('#bannerLive').textContent = b.textContent;
 }
-window.addEventListener('hashchange', () => route(true));
+/* moving to another page closes any open dialog, so a dialog never covers the page it just opened */
+window.addEventListener('hashchange', () => { $$('dialog[open]').forEach(d => d.close()); route(true); });
 window.addEventListener('unhandledrejection', e => { console.error(e.reason); toast('Something went wrong and was not saved. Please try again.', 1, true); });
 IDB.get().then(raw => {
   let s = null;
