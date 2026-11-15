@@ -48,7 +48,7 @@ def sw_version(page):
     return h.hexdigest()[:12]
 
 
-SITE = 'https://void-voyagers.vercel.app'
+SITE = 'https://voidvoyagers.earth'
 ICON = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" fill="#05070B"/>'
         '<circle cx="256" cy="256" r="150" fill="none" stroke="#4C8DFF" stroke-width="18" opacity=".7"/>'
         '<ellipse cx="256" cy="256" rx="230" ry="86" fill="none" stroke="#FFA23A" stroke-width="22" transform="rotate(-24 256 256)"/>'

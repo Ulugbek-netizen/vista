@@ -5,7 +5,7 @@ Challenge: *Create Health Monitoring Software for Astronauts on Space Missions*
 
 Void Voyagers gives astronauts a clear view of their own health, far from Earth. In this self-check app, a crew member logs a reading in under a minute and gets a plain-language verdict with a colour, a shape and a word. The app then says exactly what to do: look after yourself, tell your crew medical officer, or call the flight surgeon. The advice changes with the mission: low-Earth orbit, a Moon base, the cruise to Mars or a Mars base, where a reply from Earth can take 44 minutes.
 
-- **Live app:** https://void-voyagers.vercel.app (Vercel) · mirror on Azure Static Web Apps: https://black-sky-0803de80f.8.azurestaticapps.net
+- **Live app:** https://voidvoyagers.earth (Vercel) · mirror on Azure Static Web Apps: https://black-sky-0803de80f.8.azurestaticapps.net
 - **Source:** https://github.com/Ulugbek-netizen/void-voyagers (one HTML file, no dependencies; once open, the checks work without a connection)
 - **Research documentation:** [docs/Void-Voyagers-Research-Documentation.docx](docs/Void-Voyagers-Research-Documentation.docx) (48 pages: methods, every threshold and its source, the bone and Mission link models, the 3D body, the Library and its doses, validation, the audit, privacy and limitations)
 
