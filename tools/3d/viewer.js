@@ -53,6 +53,7 @@ export async function mount(el, {glb, meta, onPick, reduced}) {
   Object.assign(controls, {enablePan: false, enableDamping: true, dampingFactor: .08, minDistance: 1.1, maxDistance: 5.5,
     minPolarAngle: Math.PI * .3, maxPolarAngle: Math.PI * .7, autoRotate: !reduced, autoRotateSpeed: 1.4});
   controls.addEventListener('start', () => { controls.autoRotate = false; });
+  setTimeout(() => { controls.autoRotate = false; }, 9000); /* a short turn to show it is 3D, then it stays still while you read */
 
   const gltf = await new GLTFLoader().loadAsync(glb);
   const layers = {}, base = {}, found = [];

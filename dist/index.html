@@ -2,7 +2,7 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-9YDPu06dq3H7DtfxsLXdcNLPq3JjiAS+UXRgB0E8sTk='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://planetarycomputer.microsoft.com; font-src 'self'; connect-src 'self' https://planetarycomputer.microsoft.com https://api.nasa.gov https://uxzkuncbgsoaqvtpdogy.supabase.co; worker-src 'self'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-gEwe/sFfq7I7fHDTnyCyybqP+sqGibJAquZ8zDBfdjo='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://planetarycomputer.microsoft.com; media-src blob:; font-src 'self'; connect-src 'self' https://planetarycomputer.microsoft.com https://api.nasa.gov https://uxzkuncbgsoaqvtpdogy.supabase.co; worker-src 'self'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <link rel="preload" href="fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <title>Void Voyagers · Crew Health</title>
@@ -183,6 +183,42 @@ main{display:block;padding-block:24px 56px}
 .lib-note .ic{margin-top:3px;color:var(--watch-ink)}
 @media (max-width:767px){#today:not([hidden]){display:flex;flex-direction:column}#today>*{order:5}#today>.vhead{order:0}#today>#demoBar{order:1}#today>#banner{order:2}#today>.quick{order:3}#today>[aria-labelledby="h-find"]{order:4}#today>.grid-today{order:5}#today>[aria-labelledby="h-link"]{order:6}#today>#settings{order:8}.grid-today>[aria-labelledby="h-routine"]{order:-1}}
 .steps2 input{flex:none}
+.friend{background:radial-gradient(120% 120% at 0% 0%,color-mix(in oklab,var(--accent) 14%,transparent),transparent 55%),var(--surface)}
+.friend-h{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}.friend-h h2{font-size:1.25rem}
+.friend-av{flex:none;width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#bff7dc,var(--accent) 45%,#0b5d3a);box-shadow:0 0 0 4px color-mix(in oklab,var(--accent) 18%,transparent);display:grid;place-items:center}
+.friend-av span{width:14px;height:14px;border-radius:50%;background:#fff;opacity:.9}
+@media (prefers-reduced-motion:no-preference){.friend-av{animation:breathe 6s ease-in-out infinite}}
+@keyframes breathe{50%{transform:scale(1.06)}}
+.friend-msg{color:var(--ink);font-size:1.05rem;max-width:62ch;margin-top:4px}
+.feel{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:8px}
+.feel button{min-height:52px;border-radius:var(--r-m);border:1px solid var(--line-strong);background:var(--surface-2);color:var(--ink);font:inherit;font-weight:650;cursor:pointer;transition:transform 160ms var(--ease-out),border-color 150ms ease}
+.feel button:active{transform:scale(.97)}.feel button[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 -2px 0 var(--accent)}
+@media (hover:hover) and (pointer:fine){.feel button:hover{border-color:var(--accent)}}
+#friendReply>div{margin-top:14px;padding:14px;border-radius:var(--r-m);background:var(--surface-2);border:1px solid var(--line);display:grid;gap:10px}
+.close-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.clocks{display:grid;gap:6px;margin-top:6px}.clock-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r-m);background:var(--surface-2)}
+.clock-row b{font-family:var(--mono);font-size:1.1rem}.clock-row .sub{color:var(--ink-3);font-size:.8rem}
+.ex-card{text-align:left;cursor:pointer;font:inherit;color:inherit;transition:transform 160ms var(--ease-out),border-color 150ms ease}.ex-card:active{transform:scale(.98)}
+@media (hover:hover) and (pointer:fine){.ex-card:hover{border-color:var(--accent)}}
+.pacer{width:min(220px,60vw);aspect-ratio:1;margin:8px auto;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,color-mix(in oklab,var(--accent) 35%,transparent),transparent 70%);border:2px solid var(--accent);transform:scale(.7);transition:transform var(--pd,4s) cubic-bezier(.45,0,.55,1)}
+.pacer.in{transform:scale(1)}.pacer b{font-size:1.2rem}
+@media (prefers-reduced-motion:reduce){.pacer{transition:none;transform:none}}
+.letter{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.letter-open{padding:12px;border:1px solid var(--line);border-radius:var(--r-m);background:var(--surface-2);white-space:pre-wrap}
+.letter-open img{max-width:100%;border-radius:var(--r-s)}
+.journal{display:grid;gap:8px}.journal textarea{min-height:120px;font-size:1rem;font-weight:400;resize:vertical}
+.jentry{padding:10px 12px;border:1px solid var(--line);border-radius:var(--r-m);white-space:pre-wrap;color:var(--ink-2)}
+.climate{display:grid;gap:10px}.climate .scale{display:flex;gap:6px;flex-wrap:wrap}.climate .scale label{display:flex;align-items:center;gap:4px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;cursor:pointer}
+.safety{border:1px solid var(--watch);border-left:4px solid var(--watch);background:color-mix(in oklab,var(--watch) 8%,var(--surface));border-radius:var(--r-l);padding:16px;margin-top:16px;display:grid;gap:8px}
+@media (max-width:520px){.feel{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+@media (prefers-reduced-motion:no-preference){
+  .lib-item[open]>.lib-b{animation:libIn 200ms var(--ease-out)}
+  #home:not([hidden]) .bx{animation:rise 520ms var(--ease-out) both}
+  #home:not([hidden]) .bx:nth-child(2){animation-delay:60ms}#home:not([hidden]) .bx:nth-child(3){animation-delay:120ms}
+  #home:not([hidden]) .bx:nth-child(4){animation-delay:180ms}#home:not([hidden]) .bx:nth-child(5){animation-delay:240ms}
+}
+@keyframes libIn{from{opacity:0;transform:translateY(-4px)}}
 .quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.quick .btn{min-height:48px}
 .kit-badge{font-family:var(--mono);font-size:.68rem;padding:2px 7px;border-radius:999px;background:var(--urgent);color:#fff}
 .steps2{list-style:none;padding:0;margin:0;display:grid;gap:6px}.steps2 label{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r-m);background:var(--surface-2);cursor:pointer}
@@ -573,6 +609,7 @@ legend{font-weight:650;font-size:.95rem;padding:0;margin-bottom:8px}
   <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></symbol>
   <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8.5 5v14M15.5 5v14"/></symbol>
   <symbol id="i-lib" viewBox="0 0 24 24"><path d="M3.5 4h4v16h-4zM9.5 4h4v16h-4z"/><path d="m15.4 5.3 3.8-1 3.6 14.6-3.8 1z"/></symbol>
+  <symbol id="i-mind" viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.4-7.5-10A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.9c0 5.6-7.5 10-7.5 10z"/></symbol>
   <symbol id="i-home" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><ellipse cx="12" cy="12" rx="11" ry="4" transform="rotate(-24 12 12)"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.2 7.5 9.5 4.3-1.3 7.5-4.9 7.5-9.5V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
   <symbol id="i-rad" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.6"/><path d="M10.2 9.2 7.6 4.7a8.5 8.5 0 0 1 8.8 0l-2.6 4.5a3.3 3.3 0 0 0-3.6 0zM15.3 12.3h5.2a8.5 8.5 0 0 1-4.4 7.6l-2.6-4.5a3.3 3.3 0 0 0 1.8-3.1zM8.7 12.3a3.3 3.3 0 0 0 1.8 3.1l-2.6 4.5a8.5 8.5 0 0 1-4.4-7.6z"/></symbol>
@@ -600,9 +637,9 @@ legend{font-weight:650;font-size:.95rem;padding:0;margin-bottom:8px}
 <nav class="tabs" aria-label="Sections"><div class="wrap">
   <a class="tab" href="#home" data-tab="home"><svg class="ic l" aria-hidden="true"><use href="#i-home"/></svg><span>Home</span></a>
   <a class="tab" href="#today" data-tab="today"><svg class="ic l" aria-hidden="true"><use href="#i-today"/></svg><span>Today</span></a>
+  <a class="tab" href="#mind" data-tab="mind"><svg class="ic l" aria-hidden="true"><use href="#i-mind"/></svg><span>Mind</span></a>
   <a class="tab" href="#trends" data-tab="trends"><svg class="ic l" aria-hidden="true"><use href="#i-trends"/></svg><span>Trends</span></a>
   <a class="tab" href="#library" data-tab="library"><svg class="ic l" aria-hidden="true"><use href="#i-lib"/></svg><span>Library</span></a>
-  <a class="tab" href="#guide" data-tab="guide"><svg class="ic l" aria-hidden="true"><use href="#i-guide"/></svg><span>Guide</span></a>
 </div></nav>
 
 <main id="main" class="wrap" tabindex="-1">
@@ -726,6 +763,7 @@ legend{font-weight:650;font-size:.95rem;padding:0;margin-bottom:8px}
       <p class="help" id="storeNote">Readings are saved in this browser only. Download a backup regularly: clearing browser data deletes them.</p>
       <div style="display:flex;flex-wrap:wrap;gap:8px">
         <button class="btn" type="button" id="expBtn">Download backup</button>
+        <button class="btn" type="button" id="sqlBtn">Download as SQL</button>
         <button class="btn" type="button" id="impBtn">Restore from backup</button>
         <input type="file" id="impFile" accept="application/json,.json" hidden>
         <button class="btn" type="button" id="loadDemo">Load example data</button>
@@ -735,6 +773,31 @@ legend{font-weight:650;font-size:.95rem;padding:0;margin-bottom:8px}
   </details>
 </section>
 
+<section id="mind" class="view" aria-labelledby="h-mind" hidden>
+  <div class="vhead"><div><p class="eyebrow">Private to you</p><h1 id="h-mind">Mind</h1></div>
+    <p class="muted" style="max-width:56ch">A friend for the long days: check in, feel close to home, and use short exercises that help. Nothing here leaves this device.</p></div>
+  <article class="card friend" aria-labelledby="h-friend">
+    <div class="friend-h"><div class="friend-av" aria-hidden="true"><span></span></div><div><h2 id="h-friend"></h2><p id="friendMsg" class="friend-msg"></p></div></div>
+    <p class="lbl" id="feelL">How are you, really?</p>
+    <div class="feel" role="group" aria-labelledby="feelL">
+      <button type="button" data-feel="2">Rough</button><button type="button" data-feel="3">Low</button><button type="button" data-feel="5">Okay</button><button type="button" data-feel="7">Good</button><button type="button" data-feel="9">Great</button></div>
+    <div id="friendReply" aria-live="polite"></div>
+  </article>
+  <div id="mindSafety"></div>
+  <article class="card gap" aria-labelledby="h-close">
+    <div class="card-h"><h2 id="h-close">Close to home</h2></div>
+    <div class="close-grid">
+      <div><p class="eyebrow">Their time now</p><div id="clocks" class="clocks"></div>
+        <div class="btn-row gap"><input class="in q" id="pName" maxlength="30" placeholder="Name" aria-label="Name" style="flex:1 1 120px"><select class="select" id="pTz" aria-label="Their time zone" style="flex:1 1 160px"></select><button type="button" class="btn" id="pAdd">Add</button></div></div>
+      <div><p class="eyebrow">Counting down</p><div id="dates" class="clocks"></div>
+        <div class="btn-row gap"><input class="in q" id="dLabel" maxlength="40" placeholder="Next family call" aria-label="What" style="flex:1 1 140px"><input class="in q" id="dDate" type="date" aria-label="Date" style="flex:1 1 140px"><button type="button" class="btn" id="dAdd">Add</button></div></div>
+    </div>
+    <div class="gap"><p class="eyebrow">Letters and voice notes from home</p><p class="help">Kept encrypted on this device. Open them on a hard day.</p><div id="letters" class="gap"></div></div>
+  </article>
+  <article class="card gap" aria-labelledby="h-ex"><div class="card-h"><h2 id="h-ex">Exercises that help</h2><span class="eyebrow">2 to 15 minutes</span></div><div id="exList" class="g-grid"></div></article>
+  <article class="card gap" aria-labelledby="h-vault"><div class="card-h"><h2 id="h-vault">Your private space</h2><span class="eyebrow" id="vaultState"></span></div><div id="vault"></div></article>
+  <p class="help gap" style="display:flex;gap:8px;max-width:72ch"><svg class="ic" aria-hidden="true" style="margin-top:3px"><use href="#i-shield"/></svg><span>Mind is not therapy and not a medical record. Your journal, letters and team check-ins are encrypted with your PIN and never sent anywhere. Reports leave out your mood and wellbeing answers unless you tick them yourself. If things feel heavy, you don’t have to carry it alone: talk to your crew medical officer or your behavioural health team.</span></p>
+</section>
 <section id="trends" class="view" aria-labelledby="h-trends" hidden>
   <div class="vhead"><div><p class="eyebrow">Over time</p><h1 id="h-trends">Trends</h1></div></div>
   <div class="filters">
@@ -859,7 +922,7 @@ legend{font-weight:650;font-size:.95rem;padding:0;margin-bottom:8px}
 <section id="library" class="view" aria-labelledby="h-library" hidden>
   <div class="vhead">
     <div><p class="eyebrow">Knowledge base</p><h1 id="h-library">Library</h1></div>
-    <p class="muted" style="max-width:58ch">Plain-language notes on the health problems crews meet most often in space, and on the medicines a flight kit carries. Every entry lists the sources it comes from.</p>
+    <p class="muted" style="max-width:58ch">Plain-language notes on the health problems crews meet most often in space, and on the medicines a flight kit carries. Every entry lists the sources it comes from. How the app decides is in the <a href="#guide">Guide</a>.</p>
   </div>
   <div class="lib-bar">
     <div class="field lib-q"><label class="lbl" for="libQ">Search the library</label><input id="libQ" class="in q" type="search" autocomplete="off" spellcheck="false" placeholder="For example: headache, sleep, kidney"></div>
@@ -1227,6 +1290,9 @@ function clean(s) {
     sym: Array.isArray(s.sym) ? s.sym.filter(x => x && n(x.t) && Array.isArray(x.s)).map(x => ({t: x.t, s: x.s.filter(k => own(SYMBY, k))})).filter(x => x.s.length).slice(-100) : [],
     emg: okRun(s.emg), spe: okRun(s.spe), last: {emg: okRun(s.last && s.last.emg), spe: okRun(s.last && s.last.spe)},
     kit: s.kit && typeof s.kit === 'object' ? Object.fromEntries(Object.entries(s.kit).filter(([id, v]) => KB.m.some(m => m.id === id) && v && n(v.n) && v.n >= 0 && v.n <= 9999 && /^\d{4}-\d{2}$/.test(v.exp)).map(([id, v]) => [id, {n: Math.round(v.n), exp: v.exp}])) : {},
+    people: Array.isArray(s.people) ? s.people.filter(x => x && typeof x.n === 'string' && typeof x.tz === 'string').map(x => ({n: x.n.slice(0, 30), tz: x.tz.slice(0, 60)})).slice(-8) : [],
+    dates: Array.isArray(s.dates) ? s.dates.filter(x => x && typeof x.l === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(x.d)).map(x => ({l: x.l.slice(0, 40), d: x.d})).slice(-12) : [],
+    nick: typeof s.nick === 'string' ? s.nick.slice(0, 30) : '', mindSeen: s.mindSeen && typeof s.mindSeen === 'object' ? {id: String(s.mindSeen.id || ''), d: +s.mindSeen.d || 0} : null,
     outbox: Array.isArray(s.outbox) ? s.outbox.filter(x => x && typeof x === 'object' && typeof x.summary === 'string').slice(-20) : []};
 }
 function okRun(r) { const n = x => typeof x === 'number' && Number.isFinite(x); return r && n(r.start) && Array.isArray(r.ev) ? {start: r.start, done: r.done && typeof r.done === 'object' ? Object.fromEntries(Object.entries(r.done).filter(([k, v]) => /^\d$/.test(k) && n(v))) : {}, ev: r.ev.filter(e => e && n(e.t) && typeof e.x === 'string').map(e => ({t: e.t, x: e.x.slice(0, 120)})).slice(-200)} : null; }
@@ -1239,7 +1305,21 @@ function load() {
   if (!s) { try { localStorage.setItem(`${KEY}.unreadable.${Date.now()}`, raw); } catch (_) {} setTimeout(() => toast('Saved data on this device could not be read. A copy was kept and example data is shown instead.', 1, true), 800); }
   return s;
 }
+/* on-device database (IndexedDB): a second, larger and more durable copy that needs no connection */
+const IDB = {db: null, open() {
+  if (this.db || !('indexedDB' in window)) return Promise.resolve(this.db);
+  return new Promise(res => { try { const r = indexedDB.open('void-voyagers', 2); r.onupgradeneeded = () => { for (const n of ['state', 'vault']) if (!r.result.objectStoreNames.contains(n)) r.result.createObjectStore(n); };
+    r.onsuccess = () => { this.db = r.result; res(this.db); }; r.onerror = () => res(null); } catch (_) { res(null); } });
+}, async put(v) { const db = await this.open(); if (!db) return; try { db.transaction('state', 'readwrite').objectStore('state').put(v, KEY); } catch (_) {} },
+  async get() { const db = await this.open(); if (!db) return null; return new Promise(res => { try { const q = db.transaction('state').objectStore('state').get(KEY); q.onsuccess = () => res(q.result || null); q.onerror = () => res(null); } catch (_) { res(null); } }); },
+  async clear() { const db = await this.open(); if (db) try { db.transaction('state', 'readwrite').objectStore('state').clear(); } catch (_) {} },
+  async vget(k) { const db = await this.open(); if (!db) return null; return new Promise(res => { try { const q = db.transaction('vault').objectStore('vault').get(k); q.onsuccess = () => res(q.result ?? null); q.onerror = () => res(null); } catch (_) { res(null); } }); },
+  async vput(k, v) { const db = await this.open(); if (!db) throw new Error('no database'); return new Promise((res, rej) => { const t = db.transaction('vault', 'readwrite'); t.objectStore('vault').put(v, k); t.oncomplete = res; t.onerror = () => rej(t.error); }); },
+  async vdel(k) { const db = await this.open(); if (db) try { db.transaction('vault', 'readwrite').objectStore('vault').delete(k); } catch (_) {} },
+  async vclear() { const db = await this.open(); if (db) try { db.transaction('vault', 'readwrite').objectStore('vault').clear(); } catch (_) {} }};
+let idbT = null, idbReady = false, hadLocal = true;
 function save(quiet) {
+  if (idbReady) { clearTimeout(idbT); idbT = setTimeout(() => IDB.put(JSON.stringify(S)), 300); }
   try { localStorage.setItem(KEY, JSON.stringify(S)); storageOK = true; return true; }
   catch (_) {
     if (storageOK && !quiet) toast('Could not save on this device (storage is full or blocked). Download a backup from Crew profile & data so nothing is lost.', 2, true);
@@ -1981,22 +2061,27 @@ const globe = (() => {
    Row-level security makes the table insert-only for this public key: nobody can read reports back through the API. ---------- */
 const SUPA = {url: 'https://uxzkuncbgsoaqvtpdogy.supabase.co', key: 'sb_publishable_eFPS59PGj09Zqk-u75Fd9Q_M2WIbTow'};
 let rptBusy = false, rptData = null;
-function buildReport() {
-  const F = findings(), e = ENVS[S.env], cur = IND.some(d => current(d.k)), lv = F.length ? F[0].lv : cur ? 0 : null, md = missionDay(Date.now());
-  const readings = IND.map(d => { const x = current(d.k); if (!x) return null; return {indicator: d.sn, value: fmt(x), unit: unit(d), status: lvName(assess(x).lv), time: new Date(x.t).toISOString(), ageHours: Math.round((Date.now() - x.t) / 36e5)}; }).filter(Boolean);
+const MINDK = ['mood', 'phq4']; /* mind data: only in a report when the crew member ticks it */
+let rptMind = false;
+function buildReport(mind = rptMind) {
+  const F = findings().filter(f => mind || !MINDK.includes(f.k)), e = ENVS[S.env], cur = IND.some(d => current(d.k) && (mind || !MINDK.includes(d.k))), lv = F.length ? F[0].lv : cur ? 0 : null, md = missionDay(Date.now());
+  const readings = IND.map(d => { const x = current(d.k); if (!x || (!mind && MINDK.includes(d.k))) return null; return {indicator: d.sn, value: fmt(x), unit: unit(d), status: lvName(assess(x).lv), time: new Date(x.t).toISOString(), ageHours: Math.round((Date.now() - x.t) / 36e5)}; }).filter(Boolean);
   const symptoms = (S.sym || []).filter(x => Date.now() - x.t < 864e5).map(x => ({time: new Date(x.t).toISOString(), symptoms: x.s.map(k => SYMBY[k] ? SYMBY[k].n : k)}));
   const emg = S.emg || (S.last && S.last.emg), emergencyLog = emg ? emg.ev.map(e => ({time: new Date(e.t).toISOString(), entry: e.x})) : [];
   const head = lv == null ? 'No current readings' : ['All nominal', 'Some things to watch', 'Action needed today', 'Possible emergency'][lv];
   return {lv, env: S.env, summary: `${head} · ${e.s} · mission day ${md}`,
     payload: {app: 'Void Voyagers', version: 1, environment: e.n, missionDay: md, exampleData: !!S.demo, findings: F.map(f => ({title: f.t, status: lvName(f.lv), advice: f.msg})), readings, symptoms, emergencyLog, profile: {preflightMassKg: S.prof.mass, boneMedication: S.prof.med}}};
 }
-function openReport() {
+function openReport(keep) {
+  if (!keep) rptMind = false;
+  const call0 = keep && $('#rptCall') ? $('#rptCall').value : '';
   const r = rptData = buildReport();
   $('#rptForm').innerHTML = `<div class="dlg-h"><div><p class="eyebrow">Flight-surgeon inbox</p><h2 id="rptTitle">Send a report</h2></div><button type="button" class="icon-btn" data-rclose aria-label="Close">${ic('x', 'ic l')}</button></div>
     <div class="dlg-b">
       <p class="muted">In this prototype the Void Voyagers team reads this inbox. It is not a real flight surgeon, it is not watched around the clock, and nobody will reply with medical advice.</p>
       ${r.lv === 3 ? '<p class="err">If you need help now, alert your crew and start the emergency procedure, or contact your doctor or local emergency services. Don’t wait for this report.</p>' : ''}
-      <label class="field"><span class="lbl">Callsign (optional: letters and numbers only, no real names)</span><input class="in" id="rptCall" maxlength="40" autocomplete="off" style="font-size:1rem"></label>
+      <label class="field"><span class="lbl">Callsign (optional: letters and numbers only, no real names)</span><input class="in" id="rptCall" maxlength="40" autocomplete="off" style="font-size:1rem" value="${esc(call0)}"></label>
+      <label class="steps2" style="display:block"><label><input type="checkbox" id="rptMind"${rptMind ? ' checked' : ''}><span><b style="color:var(--ink)">Include my mood and wellbeing answers</b><span class="t">Off unless you choose. Your journal, letters and team check-ins are never sent.</span></span></label></label>
       <div class="interp lv-${lvKey(r.lv)}"><div>${pill(r.lv)}</div><p><b style="color:var(--ink)">${esc(r.summary)}</b></p>
         ${r.payload.findings.length ? `<ul style="padding-left:1.1em;color:var(--ink-2);display:grid;gap:4px">${r.payload.findings.map(x => `<li>${esc(x.title)}: ${esc(x.status)}</li>`).join('')}</ul>` : '<p class="help">No findings.</p>'}
         <p class="help">${r.payload.readings.length} current reading${r.payload.readings.length === 1 ? '' : 's'}${r.payload.symptoms.length ? `, ${r.payload.symptoms.length} symptom report${r.payload.symptoms.length === 1 ? '' : 's'}` : ''}${r.payload.emergencyLog.length ? ', the emergency log' : ''} included${S.demo ? ' (example data)' : ''}.</p></div>
@@ -2009,7 +2094,8 @@ function openReport() {
   $('#rpt').showModal();
   $('#rptCall').focus();
 }
-$('#rptBtn').addEventListener('click', openReport);
+$('#rptBtn').addEventListener('click', () => openReport());
+$('#rptForm').addEventListener('change', ev => { if (ev.target.id === 'rptMind') { rptMind = ev.target.checked; openReport(true); $('#rptMind').focus(); } });
 $('#rptForm').addEventListener('click', ev => { if (ev.target.closest('[data-rclose]')) $('#rpt').close(); });
 $('#rpt').addEventListener('close', () => $('#rptBtn').focus());
 $('#rptForm').addEventListener('submit', async ev => {
@@ -2399,6 +2485,176 @@ function shortCode(r) {
     sym.length ? `SYM=${[...new Set(sym)].join(',')}` : '', S.emg ? `EMG=${since(S.emg.start)}` : ''].filter(Boolean).join('|');
 }
 
+/* ---------- Mind: a friend for the long days (content: docs/evidence/mind-*.md). Private by design: the vault is AES-GCM encrypted with a key
+   derived from the crew member's PIN (PBKDF2-SHA-256, 600,000 iterations), auto-locks after 3 minutes or when the app is hidden, and is never sent. ---------- */
+const MIND = /*MIND*/{"messages":[{"id":"ci_early_any","phase":"early","mood":"any","text":"The first weeks ask a lot of you: new sounds, new sleep, new routines. Go easy on yourself. What is one thing that went right today?","suggest":"gratitude_three"},{"id":"ci_early_low","phase":"early","mood":"low","text":"Settling in can feel harder than you expected, and that is common. Shall we take five slow minutes of breathing together, then pick one small thing to look forward to tomorrow?","suggest":"paced_breathing"},{"id":"ci_middle_good","phase":"middle","mood":"good","text":"Good to hear. Would you like to save a few lines about today, so you can read them on a harder day?","suggest":"expressive_writing"},{"id":"ci_middle_steady","phase":"middle","mood":"steady","text":"Around now the days can start to look alike. Is there something new you could try this week, such as an Earth photo target, a new recipe or a skill you have been meaning to learn?","suggest":"ba_micro_plan"},{"id":"ci_third_any","phase":"third_quarter","mood":"any","text":"You are past the halfway point. Some crews notice a dip in this stretch and some do not. If it shows up, it is not a sign that you are failing. What would make this week a little lighter?","suggest":"ba_micro_plan"},{"id":"ci_third_low","phase":"third_quarter","mood":"low","text":"That sounds heavy. You do not have to sort it all out today. Would it help to put the worries down on the page for ten minutes, or would you rather listen to a message from home?","suggest":"worry_time"},{"id":"ci_any_low_repeat","phase":"any","mood":"low","text":"Yesterday was hard too. Thank you for still checking in. Is there someone on board you could spend a little time with today?","suggest":"connect_reach_out"},{"id":"ci_any_good","phase":"any","mood":"good","text":"Glad today was a good one. Who on board, or at home, might like to hear about it?","suggest":"connect_reach_out"},{"id":"ci_return_any","phase":"return","mood":"any","text":"Home is getting closer. It is normal to feel excited and unsettled at the same time. What do you want to remember about this mission?","suggest":"earth_view_pause"},{"id":"ci_return_low","phase":"return","mood":"low","text":"Coming home is an adjustment of its own. Support from the behavioural health team and the family support office carries on after landing, so you do not have to manage this alone.","suggest":"paced_breathing"}],"exercises":[{"id":"paced_breathing","name":"Slow breathing","minutes":5,"steps":["Sit or float so your back is supported, and loosen anything tight.","Let your breath move down towards your belly, only as deep as feels comfortable.","Breathe in through your nose, gently and steadily, counting 1 to 5 if that helps.","Breathe out through your mouth, counting 1 to 5 again. It is fine if you do not reach 5 at first.","Keep going for at least 5 minutes. The timer will tell you when."],"when":"When you feel stressed, tense or wound up. Works best if you practise it regularly, not only in hard moments.","evidence":[{"t":"NHS: Breathing exercises for stress","u":"https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/breathing-exercises-for-stress/"}]},{"id":"grounding_54321","name":"5-4-3-2-1 grounding","minutes":3,"steps":["Wherever you are, pause for a moment.","Name 5 things you can see, such as a panel light or a photo on the wall.","Name 4 things you can feel or touch, such as your sleeve or a handrail.","Name 3 things you can hear, such as the fans or a crewmate's voice.","Name 2 things you can smell.","Name 1 thing you can taste."],"when":"When you feel yourself becoming distressed or overwhelmed and want to come back to the present.","evidence":[{"t":"Hull University Teaching Hospitals NHS Trust: 5-4-3-2-1 grounding technique","u":"https://www.hey.nhs.uk/wp/wp-content/uploads/2023/02/HEY1318-2022-5-4-3-2-1-Grounding-Technique.pdf"}]},{"id":"expressive_writing","name":"Write it out","minutes":15,"steps":["Find a private moment. What you write stays on this device.","Write about what is on your mind today: what happened and how you feel about it.","Do not worry about spelling or neatness. Keep the pen moving.","If the writing brings up more than feels manageable, stop and try slow breathing.","When the timer ends, you can keep it, lock it or delete it."],"when":"When something keeps going round in your head, or to vent frustration in private before it spills into a conversation.","evidence":[{"t":"Frattaroli J. Experimental disclosure and its moderators: a meta-analysis. Psychol Bull 2006","u":"https://doi.org/10.1037/0033-2909.132.6.823"},{"t":"Stuster J. Behavioral Issues Associated with Long Duration Space Expeditions: Review and Analysis of Astronaut Journals. NASA, 2010","u":"https://ntrs.nasa.gov/citations/20100026549"}]},{"id":"gratitude_three","name":"Three good things","minutes":5,"steps":["Think back over today or this week.","Write down up to three things you are grateful for, however small.","For one of them, add a line on why it mattered to you.","Read them back once before closing."],"when":"At the end of a day, or when the days are starting to blur together.","evidence":[{"t":"Emmons RA, McCullough ME. Counting blessings versus burdens: gratitude and subjective well-being in daily life. J Pers Soc Psychol 2003","u":"https://doi.org/10.1037/0022-3514.84.2.377"}]},{"id":"ba_micro_plan","name":"One small plan","minutes":5,"steps":["List a few activities you enjoy or that feel worthwhile up here.","Choose one that is small enough to do even on a flat day.","Decide when and where you will do it, and set a reminder.","Do it, then rate your mood from 0 to 10 afterwards.","After a week or two, look back and change the plan if it is not helping."],"when":"When mood is low or you are doing less of what you used to enjoy. Start small and build up.","evidence":[{"t":"HSE (Ireland): Low mood - self-help","u":"https://www.hse.ie/mental-health/self-help/balancing-stress/low-mood/"},{"t":"Ekers D et al. Behavioural activation for depression; an update of meta-analysis of effectiveness and sub group analysis. PLoS One 2014","u":"https://doi.org/10.1371/journal.pone.0100100"},{"t":"NHS: Get help with loneliness","u":"https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/feeling-lonely/"}]},{"id":"sleep_wind_down","name":"Sleep wind-down","minutes":10,"steps":["Aim to go to your sleep station at roughly the same time each night.","Start winding down well before sleep: put the tablet away and pick up a book or music.","Skip coffee and tea in the 6 hours before bed where your schedule allows.","Make your space dark and quiet. An eye mask and earplugs can help.","If worries are buzzing, write them down to deal with tomorrow.","Finish with a few minutes of slow breathing."],"when":"In the hour before planned sleep, especially after a shift change or a poor night.","evidence":[{"t":"NHS Every Mind Matters: Sleep","u":"https://www.nhs.uk/every-mind-matters/mental-health-issues/sleep/"},{"t":"NHS: Insomnia","u":"https://www.nhs.uk/conditions/insomnia/"},{"t":"NHS Every Mind Matters: Tackling your worries","u":"https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/self-help-cbt-techniques/tackling-your-worries/"},{"t":"NASA Human Research Program: Hazard - Isolation and Confinement","u":"https://www.nasa.gov/hrp/hazard-isolation-and-confinement/"}]},{"id":"worry_time","name":"Worry time","minutes":15,"steps":["Set a regular 10 to 15 minute slot, often before sleep.","Write down each worry so it is out of your head and on the page.","Sort each one: can I do something about this, or not?","For the ones you can act on, write what you will do, how and when.","For the ones you cannot, acknowledge them and let them rest.","During the day, when a worry pops up, park it until your next worry time."],"when":"When worries keep coming back through the day or keep you awake.","evidence":[{"t":"NHS Every Mind Matters: Tackling your worries","u":"https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/self-help-cbt-techniques/tackling-your-worries/"}]},{"id":"thought_record","name":"Catch it, check it, change it","minutes":10,"steps":["Catch it: write down the thought that is bothering you.","Notice if it is a common trap, such as expecting the worst, all-or-nothing thinking or blaming yourself.","Check it: how likely is it? What is the evidence for and against?","Ask what you would say to a crewmate who had this thought.","Change it: write a more balanced version of the thought.","It is fine if the problem is still there. A new angle can still help."],"when":"When a thought keeps pulling your mood down, or after a tense exchange with the ground or the crew.","evidence":[{"t":"NHS Every Mind Matters: Reframing unhelpful thoughts","u":"https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/self-help-cbt-techniques/reframing-unhelpful-thoughts/"}]},{"id":"mindful_moment","name":"One mindful minute, five times","minutes":5,"steps":["Choose an everyday moment, such as a meal or moving through a module.","Pay attention to the sensations: taste, temperature, the air moving past you.","If your mind wanders into replaying the past or worrying about what is ahead, gently bring it back.","Silently name what you feel, for example: this is tiredness.","If this makes you feel worse, stop. Mindfulness does not suit everyone."],"when":"As a daily habit, or when you notice you have been stuck in your head for a while.","evidence":[{"t":"NHS: Mindfulness","u":"https://www.nhs.uk/mental-health/self-help/tips-and-support/mindfulness/"},{"t":"NHS: 5 steps to mental wellbeing","u":"https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/five-steps-to-mental-wellbeing/"}]},{"id":"earth_view_pause","name":"Earth view pause","minutes":10,"steps":["Open Window to Earth, or a saved nature scene you like.","Choose the view you prefer. People relax more with the scene they would pick.","Breathe slowly and simply look for a few minutes.","If you like, note one detail you had not noticed before.","Before closing, rate how you feel from 0 to 10."],"when":"After a stressful task, or when the habitat feels small.","evidence":[{"t":"Anderson AP et al. Relaxation with Immersive Natural Scenes Presented Using Virtual Reality. Aerosp Med Hum Perform 2017","u":"https://doi.org/10.3357/AMHP.4747.2017"},{"t":"Ihle EC, Ritsher JB, Kanas N. Positive psychological outcomes of spaceflight: an empirical study. Aviat Space Environ Med 2006","u":"https://pubmed.ncbi.nlm.nih.gov/16491575/"},{"t":"Stuster J. Behavioral Issues Associated with Long Duration Space Expeditions: Review and Analysis of Astronaut Journals. NASA, 2010","u":"https://ntrs.nasa.gov/citations/20100026549"}]},{"id":"connect_reach_out","name":"Reach out","minutes":5,"steps":["Pick one person, on board or at home.","Send a short note or record a voice message. It does not need to be perfect.","Ask how they are, and leave room for their answer.","Or offer a small kindness to a crewmate: a thank-you, a hand with a task, a shared meal.","Set a reminder to reach out again in a few days."],"when":"When you feel lonely, cut off or flat, or simply to keep connections warm.","evidence":[{"t":"NHS: 5 steps to mental wellbeing","u":"https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/five-steps-to-mental-wellbeing/"},{"t":"NHS: Get help with loneliness","u":"https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/feeling-lonely/"},{"t":"Stuster J. Behavioral Issues Associated with Long Duration Space Expeditions: Review and Analysis of Astronaut Journals. NASA, 2010","u":"https://ntrs.nasa.gov/citations/20100026549"}]}],"safety":[{"id":"trigger_safety_yes","level":"urgent","action":"Stop the companion flow at once. Show the Urgent card: 'Please talk to your crew medical officer now. You do not have to find the right words.' Offer to show the CMO this screen. Then show the flight surgeon and behavioural health contact for the next comms window, and remind them that messages to Earth take up to about 20 minutes one way, so the CMO on board comes first. Suggest staying with a crewmate. Never offer an exercise in place of this card."},{"id":"trigger_phq4_6","level":"contact","action":"Show the contact card: 'Your answers suggest it is worth talking this through with your crew medical officer or at your next private psychological conference.' Exercises are still offered, after the card. Show the score as a prompt to talk, not a diagnosis."},{"id":"trigger_phq4_9","level":"urgent","action":"Show the Urgent card with the CMO first, and suggest a same-day contact with the flight surgeon or behavioural health team."},{"id":"trigger_low_mood_3_days","level":"contact","action":"Show the contact card: 'Your mood has been low for a few days. That is worth sharing with your crew medical officer or the behavioural health team. Would you like help putting it into words?' Offer a short note the user can choose to share."}]}/*/MIND*/;
+const EXBY = Object.fromEntries(MIND.exercises.map(x => [x.id, x]));
+const FEELS = [[2, 'Rough'], [3, 'Low'], [5, 'Okay'], [7, 'Good'], [9, 'Great']];
+const band = v => v == null ? null : v <= 3 ? 'low' : v <= 6 ? 'steady' : 'good';
+function phase() { const f = missionDay(Date.now()) / Math.max(1, S.prof.len); return f < .25 ? 'early' : f < .5 ? 'middle' : f < .75 ? 'third_quarter' : 'return'; }
+function checkin(v) {
+  const ph = phase(), b = band(v), M = MIND.messages, last = (S.mindSeen || {});
+  const ok = m => m.id !== last.id || sod(Date.now()) !== last.d;
+  const pick = [m => m.phase === ph && m.mood === b, m => m.phase === ph && m.mood === 'any', m => m.phase === 'any' && m.mood === b, m => m.phase === 'any' && m.mood === 'any']
+    .map(f => M.filter(m => f(m) && ok(m))).find(l => l.length);
+  return pick ? pick[0] : M[0];
+}
+function moodDays() { const by = {}; S.log.filter(x => x.k === 'mood').forEach(x => { by[sod(x.t)] = x.v; }); return Object.entries(by).sort((a, b) => b[0] - a[0]).map(e => e[1]); }
+function mindRisk() {
+  const p = latest('phq4'), fresh14 = p && Date.now() - p.t < 14 * DAY;
+  if (fresh14 && p.m && p.m.sh) return 'trigger_safety_yes';
+  if (fresh14 && p.v >= 9) return 'trigger_phq4_9';
+  if (fresh14 && p.v >= 6) return 'trigger_phq4_6';
+  const d = moodDays(); if (d.length >= 3 && d.slice(0, 3).every(v => v <= 3)) return 'trigger_low_mood_3_days';
+  return null;
+}
+function safetyCard(id) {
+  const r = MIND.safety.find(x => x.id === id); if (!r) return '';
+  const urgent = r.level === 'urgent', q = (r.action.match(/'([^']+)'/) || [])[1];
+  return `<div class="safety" style="${urgent ? 'border-color:var(--urgent);background:color-mix(in oklab,var(--urgent) 8%,var(--surface))' : ''}" role="${urgent ? 'alert' : 'note'}">
+    <b style="color:var(--ink)">${urgent ? 'Please talk to your crew medical officer now.' : 'This is worth talking through.'}</b>
+    <p class="muted">${esc(q || (urgent ? 'You do not have to find the right words.' : 'Your crew medical officer or your next private psychological conference is the right place.'))}</p>
+    <p class="muted">${urgent ? `Messages to Earth take ${esc(chipDelay(S.env))} each way, so the crew medical officer on board comes first. Stay with a crewmate if you can.` : 'You don’t have to carry it alone. This app doesn’t send anything to anyone; you choose who to tell.'}</p></div>`;
+}
+const timeIn = tz => { try { return new Intl.DateTimeFormat([], {timeZone: tz, hour: '2-digit', minute: '2-digit', weekday: 'short'}).format(new Date()); } catch (_) { return '—'; } };
+const partOfDay = tz => { try { const h = +new Intl.DateTimeFormat('en-GB', {timeZone: tz, hour: '2-digit', hour12: false}).format(new Date()); return h < 5 ? 'night' : h < 12 ? 'morning' : h < 18 ? 'afternoon' : h < 22 ? 'evening' : 'night'; } catch (_) { return ''; } };
+function renderMind() {
+  const h = new Date().getHours(), hi = h < 5 ? 'Still up?' : h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening';
+  $('#h-friend').textContent = `${hi}${S.nick ? `, ${S.nick}` : ''}.`;
+  const risk = mindRisk();
+  $('#mindSafety').innerHTML = risk ? safetyCard(risk) : '';
+  const today = S.log.filter(x => x.k === 'mood' && sod(x.t) === sod(Date.now())).pop();
+  $('#friendMsg').textContent = risk === 'trigger_safety_yes' ? 'I’m here with you. The most important thing right now is to talk to someone on board.' : today ? 'Thanks for checking in today. Want to do something small for yourself?' : `Day ${missionDay(Date.now())} of ${S.prof.len}. Tap how you feel; it takes a second and stays on this device.`;
+  $$('[data-feel]').forEach(b => b.setAttribute('aria-pressed', String(!!today && +b.dataset.feel === today.v)));
+  const sel = $('#pTz');
+  if (!sel.options.length) { let z = []; try { z = Intl.supportedValuesOf('timeZone'); } catch (_) { z = ['UTC', 'Europe/London', 'America/Chicago', 'Asia/Tokyo']; } sel.innerHTML = z.map(t => `<option${t === 'America/Chicago' ? ' selected' : ''}>${esc(t)}</option>`).join(''); }
+  $('#clocks').innerHTML = (S.people || []).map((x, i) => `<div class="clock-row"><div><b>${esc(timeIn(x.tz))}</b><div class="sub">${esc(x.n)}: it’s ${partOfDay(x.tz)} there</div></div><button type="button" class="btn ghost" data-pdel="${i}" aria-label="Remove ${esc(x.n)}">${ic('x')}</button></div>`).join('') || '<p class="help">Add the people you miss to see their time and day.</p>';
+  $('#dates').innerHTML = (S.dates || []).map((x, i) => { const d = Math.ceil((Date.parse(x.d) - sod(Date.now())) / DAY); return `<div class="clock-row"><div><b>${d > 0 ? `${d} day${d === 1 ? '' : 's'}` : d === 0 ? 'Today' : 'Done'}</b><div class="sub">${esc(x.l)} · ${esc(x.d)}</div></div><button type="button" class="btn ghost" data-ddel="${i}" aria-label="Remove ${esc(x.l)}">${ic('x')}</button></div>`; }).join('') || '<p class="help">Count down to the next family call, a birthday or the trip home.</p>';
+  $('#exList').innerHTML = MIND.exercises.map(x => `<button type="button" class="g-card ex-card" data-ex="${esc(x.id)}"><h3>${esc(x.name)}</h3><p>${esc(x.when)}</p><span class="eyebrow">${x.minutes} min</span></button>`).join('');
+  renderVault();
+}
+/* the vault */
+const V = {key: null, data: null, fails: 0, until: 0, t: null, urls: []};
+const te = new TextEncoder(), td = new TextDecoder();
+async function vKey(pin, salt) { const base = await crypto.subtle.importKey('raw', te.encode(pin), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({name: 'PBKDF2', salt, iterations: 600000, hash: 'SHA-256'}, base, {name: 'AES-GCM', length: 256}, false, ['encrypt', 'decrypt']); }
+async function seal(bytes) { const iv = crypto.getRandomValues(new Uint8Array(12)); return {iv, ct: await crypto.subtle.encrypt({name: 'AES-GCM', iv}, V.key, bytes)}; }
+const unseal = box => crypto.subtle.decrypt({name: 'AES-GCM', iv: box.iv}, V.key, box.ct);
+async function vSave() { await IDB.vput('data', await seal(te.encode(JSON.stringify(V.data)))); }
+function vLock() { V.key = null; V.data = null; V.urls.forEach(u => URL.revokeObjectURL(u)); V.urls = []; clearTimeout(V.t); if (view === 'mind') renderVault(); }
+function vTouch() { clearTimeout(V.t); if (V.key) V.t = setTimeout(vLock, 180000); }
+document.addEventListener('visibilitychange', () => { if (document.hidden) vLock(); });
+async function renderVault() {
+  const el = $('#vault'), meta = await IDB.vget('meta');
+  if (!V.key) $('#letters').innerHTML = `<p class="help">${meta ? 'Unlock your private space below to read letters from home.' : 'Set up your private space below to keep letters from home.'}</p>`;
+  $('#vaultState').textContent = !meta ? 'Not set up' : V.key ? 'Unlocked · locks after 3 minutes' : 'Locked';
+  if (!crypto.subtle) { el.innerHTML = '<p class="help">This browser cannot encrypt here, so the private space is switched off. Open the website over https.</p>'; return; }
+  if (!meta) { el.innerHTML = `<p class="muted">Your journal, letters from home and team check-ins live here, encrypted with a PIN only you know. Nobody else can read them, not even the team that made this app. If you forget the PIN, they cannot be recovered.</p>
+    <div class="btn-row gap"><input class="in q" id="vPin" type="password" inputmode="numeric" autocomplete="new-password" minlength="6" placeholder="Choose a PIN (6+ digits)" aria-label="Choose a PIN" style="flex:1 1 200px"><button type="button" class="btn primary" id="vSet">Set PIN</button></div><p class="err" id="vErr" role="alert" hidden></p>`; return; }
+  if (!V.key) { const wait = V.until > Date.now(); el.innerHTML = `<div class="btn-row"><input class="in q" id="vPin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="PIN" aria-label="PIN" style="flex:1 1 200px"${wait ? ' disabled' : ''}><button type="button" class="btn primary" id="vOpen"${wait ? ' disabled' : ''}>Unlock</button></div>
+    <p class="err" id="vErr" role="alert"${wait ? '' : ' hidden'}>${wait ? 'Too many wrong tries. Unlocking is paused for a few minutes.' : ''}</p>`; return; }
+  const D = V.data, now = sod(Date.now());
+  el.innerHTML = `<div class="journal"><label class="lbl" for="jText">Journal: write what you can’t say out loud</label><textarea class="in q" id="jText" maxlength="5000"></textarea><div class="btn-row"><button type="button" class="btn" id="jSave">Save entry</button></div>
+      ${D.journal.slice(-5).reverse().map(j => `<div class="jentry"><span class="ago">${esc(new Date(j.t).toLocaleString())}</span>\n${esc(j.x)}</div>`).join('')}</div>
+    <div class="gap"><p class="lbl">Add a letter, photo or voice note</p><div class="btn-row"><input class="in q" id="lFrom" maxlength="40" placeholder="From" aria-label="From" style="flex:1 1 140px"><input class="in q" id="lOpen" type="date" aria-label="Open on (optional)" title="Open on (optional)" style="flex:1 1 150px"></div>
+      <textarea class="in q gap" id="lText" maxlength="5000" placeholder="Their words (optional if you add a file)" aria-label="Letter text"></textarea>
+      <div class="btn-row gap"><input type="file" id="lFile" accept="image/*,audio/*" aria-label="Photo or voice note"><button type="button" class="btn" id="lAdd">Keep it</button></div><p class="err" id="lErr" role="alert" hidden></p></div>
+    <div class="gap climate"><p class="lbl">Team check-in (1 minute, once a week)</p>${['I feel part of the team', 'Tension in the crew is low', 'I don’t feel lonely', 'I feel in touch with home'].map((q, i) => `<div><span>${q}</span><div class="scale">${[1, 2, 3, 4, 5].map(n => `<label><input type="radio" name="tc${i}" value="${n}">${n}</label>`).join('')}</div></div>`).join('')}
+      <div class="btn-row"><button type="button" class="btn" id="tcSave">Save check-in</button>${D.climate.length ? `<span class="help">Last: ${esc(new Date(D.climate[D.climate.length - 1].t).toLocaleDateString())}</span>` : ''}</div></div>
+    <div class="btn-row gap"><button type="button" class="btn ghost" id="vLock">${ic('shield')}Lock now</button><button type="button" class="btn danger" id="vWipe">Wipe my private space</button></div>`;
+  $('#letters').innerHTML = D.letters.map(l => { const shut = l.open && Date.parse(l.open) > now;
+    return `<div class="letter"><div><b>${esc(l.from || 'From home')}</b><span class="ago" style="display:block">${shut ? `opens on ${esc(l.open)}` : esc(new Date(l.t).toLocaleDateString())}${l.type ? ' · ' + (l.type.startsWith('audio') ? 'voice note' : 'photo') : ''}</span></div>${shut ? '' : `<button type="button" class="btn" data-lopen="${esc(l.id)}">Open</button>`}</div><div id="lv-${esc(l.id)}"></div>`; }).join('') || '<p class="help">Nothing yet. Letters stay encrypted until you open them here.</p>';
+}
+$('#letters') && document.addEventListener('click', async ev => {
+  const t = ev.target;
+  if (!t.closest('#mind')) return;
+  vTouch();
+  const f = t.closest('[data-feel]');
+  if (f) {
+    const v = +f.dataset.feel, e = {id: uid(), k: 'mood', t: Date.now(), v, v2: null, m: null};
+    S.log.push(e); S.log.sort((a, b) => a.t - b.t);
+    const m = checkin(v); S.mindSeen = {id: m && m.id, d: sod(Date.now())}; save(); renderAll();
+    const risk = mindRisk(), ex = m && EXBY[m.suggest];
+    $('#friendReply').innerHTML = risk === 'trigger_safety_yes' || risk === 'trigger_phq4_9' ? '' : `<div><p style="color:var(--ink)">${esc(m ? m.text : 'Thank you for telling me.')}</p>
+      <div class="btn-row">${ex ? `<button type="button" class="btn primary" data-ex="${esc(ex.id)}">${esc(ex.name)} · ${ex.minutes} min</button>` : ''}<button type="button" class="btn ghost" data-notnow>Not now</button></div></div>`;
+    renderMind(); return;
+  }
+  if (t.closest('[data-notnow]')) { $('#friendReply').innerHTML = ''; return; }
+  const ex = t.closest('[data-ex]');
+  if (ex) { openExercise(ex.dataset.ex); return; }
+  const pd = t.closest('[data-pdel]'); if (pd) { S.people.splice(+pd.dataset.pdel, 1); save(); renderMind(); return; }
+  const dd = t.closest('[data-ddel]'); if (dd) { S.dates.splice(+dd.dataset.ddel, 1); save(); renderMind(); return; }
+  if (t.closest('#pAdd')) { const n = $('#pName').value.trim(); if (n) { S.people = (S.people || []).concat({n: n.slice(0, 30), tz: $('#pTz').value}).slice(-8); save(); renderMind(); } return; }
+  if (t.closest('#dAdd')) { const l = $('#dLabel').value.trim(), d = $('#dDate').value; if (l && /^\d{4}-\d{2}-\d{2}$/.test(d)) { S.dates = (S.dates || []).concat({l: l.slice(0, 40), d}).sort((a, b) => a.d.localeCompare(b.d)).slice(-12); save(); renderMind(); } return; }
+  if (t.closest('#vSet')) {
+    const pin = $('#vPin').value, err = $('#vErr');
+    if (!/^\d{6,}$/.test(pin) && pin.length < 8) { err.hidden = false; err.textContent = 'Use at least 6 digits, or a passphrase of 8 or more characters.'; return; }
+    const salt = crypto.getRandomValues(new Uint8Array(16)); V.key = await vKey(pin, salt); V.data = {journal: [], letters: [], climate: []};
+    await IDB.vput('meta', {v: 1, salt, check: await seal(te.encode('void-voyagers'))}); await vSave();
+    try { if (navigator.storage && navigator.storage.persist) await navigator.storage.persist(); } catch (_) {}
+    vTouch(); toast('Private space ready. Remember your PIN: it cannot be recovered.', 0); renderVault(); return;
+  }
+  if (t.closest('#vOpen')) {
+    if (V.until > Date.now()) return;
+    const meta = await IDB.vget('meta'), err = $('#vErr');
+    try { V.key = await vKey($('#vPin').value, meta.salt); await unseal(meta.check); const box = await IDB.vget('data'); V.data = JSON.parse(td.decode(await unseal(box))); V.fails = 0; vTouch(); renderMind(); }
+    catch (_) { V.key = null; V.fails++; if (V.fails >= 10) { V.until = Date.now() + 5 * 60000; V.fails = 0; } err.hidden = false; err.textContent = V.until > Date.now() ? 'Too many wrong tries. Unlocking is paused for a few minutes.' : 'That PIN didn’t work.'; if (V.until > Date.now()) renderVault(); }
+    return;
+  }
+  if (t.closest('#vLock')) { vLock(); return; }
+  if (t.closest('#vWipe')) {
+    const typed = prompt('This deletes your journal, letters and team check-ins for good. Type WIPE to confirm.');
+    if (typed !== 'WIPE') return;
+    await IDB.vclear(); vLock(); renderMind(); toast('Your private space was wiped.', 0); return;
+  }
+  if (!V.key) return;
+  if (t.closest('#jSave')) { const x = $('#jText').value.trim(); if (x) { V.data.journal.push({t: Date.now(), x: x.slice(0, 5000)}); await vSave(); renderVault(); } return; }
+  if (t.closest('#tcSave')) { const a = [0, 1, 2, 3].map(i => +(($(`input[name=tc${i}]:checked`) || {}).value || 0)); if (a.every(Boolean)) { V.data.climate.push({t: Date.now(), a}); await vSave(); toast('Team check-in saved privately.', 0); renderVault(); } return; }
+  if (t.closest('#lAdd')) {
+    const file = $('#lFile').files[0], text = $('#lText').value.trim(), err = $('#lErr');
+    if (!file && !text) { err.hidden = false; err.textContent = 'Add their words or a photo or voice note.'; return; }
+    if (file && (file.size > 8e6 || !/^(image|audio)\//.test(file.type))) { err.hidden = false; err.textContent = 'Use a photo or voice note under 8 MB.'; return; }
+    const id = uid(); if (file) await IDB.vput(`blob:${id}`, await seal(await file.arrayBuffer()));
+    V.data.letters.push({id, t: Date.now(), from: $('#lFrom').value.trim().slice(0, 40), open: $('#lOpen').value || null, text: text.slice(0, 5000), type: file ? file.type : null}); await vSave(); renderVault(); return;
+  }
+  const lo = t.closest('[data-lopen]');
+  if (lo) {
+    const l = V.data.letters.find(x => x.id === lo.dataset.lopen), box = $(`#lv-${CSS.escape(l.id)}`);
+    let media = '';
+    if (l.type) { const b = await IDB.vget(`blob:${l.id}`); if (b) { const u = URL.createObjectURL(new Blob([await unseal(b)], {type: l.type})); V.urls.push(u); media = l.type.startsWith('audio') ? `<audio controls src="${u}"></audio>` : `<img src="${u}" alt="Photo from ${esc(l.from || 'home')}">`; } }
+    box.innerHTML = `<div class="letter-open">${esc(l.text || '')}${media}</div>`; return;
+  }
+});
+$('#mind').addEventListener('input', vTouch);
+/* guided exercises */
+let exT = null, exCur = '';
+function openExercise(id) {
+  const x = EXBY[id]; if (!x) return;
+  clearInterval(exT); exT = null; auxKind = 'ex'; exCur = id;
+  const breath = id === 'paced_breathing';
+  auxForm.innerHTML = `<div class="dlg-h"><div><p class="eyebrow">${x.minutes} minutes</p><h2 id="auxTitle">${esc(x.name)}</h2></div><button type="button" class="icon-btn" data-aclose aria-label="Close">${ic('x', 'ic l')}</button></div>
+    <div class="dlg-b">${breath ? '<div class="pacer" id="pacer"><b id="pacerT">Ready</b></div>' : ''}<ol class="steps2">${x.steps.map(t => `<li><label><span>${esc(t)}</span></label></li>`).join('')}</ol>
+      <p class="clock" id="exClock" aria-live="off">${String(x.minutes).padStart(2, '0')}:00</p><p class="help">${esc(x.when)}</p>${kbSrc(x.evidence || [])}
+      <p class="help">If this makes you feel worse, stop. That is fine; not every exercise suits everyone.</p></div>
+    <div class="dlg-f"><button type="button" class="btn ghost" data-aclose>Close</button><button type="button" class="btn primary" id="exGo">Start</button></div>`;
+  if (!aux.open) aux.showModal();
+}
+auxForm.addEventListener('click', ev => {
+  if (!ev.target.closest('#exGo')) return;
+  const b = ev.target.closest('#exGo'), x = EXBY[exCur];
+  if (exT) { clearInterval(exT); exT = null; b.textContent = 'Start'; return; }
+  let left = x.minutes * 60, i = 0; b.textContent = 'Pause';
+  const pc = $('#pacer'), pt = $('#pacerT');
+  exT = setInterval(() => {
+    left--; i++;
+    const c = $('#exClock'); if (!c) { clearInterval(exT); exT = null; return; }
+    c.textContent = `${String(Math.floor(left / 60)).padStart(2, '0')}:${String(left % 60).padStart(2, '0')}`;
+    if (pc) { const inhale = Math.floor((i - 1) / 5) % 2 === 0; pc.classList.toggle('in', inhale); pc.style.setProperty('--pd', '5s'); pt.textContent = inhale ? 'Breathe in' : 'Breathe out'; }
+    if (left <= 0) { clearInterval(exT); exT = null; c.textContent = 'Done. Well done for taking this time.'; b.textContent = 'Start'; }
+  }, 1000);
+});
+aux.addEventListener('close', () => { clearInterval(exT); exT = null; });
+
 /* ---------- library ---------- */
 const LIB = {tab: 'c', q: '', sys: '', open: null};
 const kbBy = id => KB.c.find(x => x.id === id) || KB.m.find(x => x.id === id);
@@ -2506,7 +2762,7 @@ document.addEventListener('click', ev => {
 $('#libQ').addEventListener('input', ev => { LIB.q = ev.target.value; renderLibrary(); });
 $('#libSys').addEventListener('change', ev => { LIB.sys = ev.target.value; renderLibrary(); });
 
-const ROUTES = ['home', 'today', 'trends', 'library', 'guide', 'privacy'];
+const ROUTES = ['home', 'today', 'mind', 'trends', 'library', 'guide', 'privacy'];
 let view = '';
 const defView = () => S.demo ? 'home' : 'today';
 function route(ev) {
@@ -2519,6 +2775,7 @@ function route(ev) {
   if (view === 'trends') renderTrends();
   if (view === 'today') load3d();
   if (view === 'library') renderLibrary();
+  if (view === 'mind') renderMind();
   globe.toggle(view === 'home');
   window.scrollTo(0, 0);
   if (ev && prev && prev !== view) { const h1 = $(`#${view} h1`); if (h1) { h1.tabIndex = -1; h1.focus({preventScroll: true}); } }
@@ -2576,7 +2833,7 @@ $('#startOwn').addEventListener('click', async () => { if (await confirmBox('Sta
 $('#resetAll').addEventListener('click', async () => {
   if (!(await confirmBox('Delete all your data?', 'Your readings, crew profile, symptoms, logs, medicine-kit list, unsent reports and settings on this device will be permanently deleted. Reports you already sent are not affected. This cannot be undone.', 'Delete all'))) return;
   try { Object.keys(localStorage).filter(k => [KEY, TKEY, OLD_TKEY, ...OLD_KEYS].some(p => k === p || k.startsWith(`${p}.`))).forEach(k => localStorage.removeItem(k)); } catch (_) {}
-  S = fresh(false); save(); applyTheme(null); fillProfile(); renderAll(); renderKitBadge();
+  IDB.clear(); IDB.vclear(); vLock(); S = fresh(false); save(); applyTheme(null); fillProfile(); renderAll(); renderKitBadge();
   toast('All your data on this device was deleted.');
 });
 $('#loadDemo').addEventListener('click', async () => {
@@ -2603,6 +2860,20 @@ async function exportBackup() {
   } catch (_) { toast('Your browser blocked the download.', 1, true); }
 }
 $('#expBtn').addEventListener('click', exportBackup);
+/* readings as an SQL script (SQLite, PostgreSQL or Azure SQL) for a crew medical officer's own tools */
+function toSQL() {
+  const q = v => v == null ? 'NULL' : typeof v === 'number' ? String(v) : `'${String(v).replace(/'/g, "''")}'`;
+  const rows = S.log.map(x => `INSERT INTO readings (id, checked_at, check_key, check_name, value, value2, unit, status) VALUES (${[x.id, new Date(x.t).toISOString(), x.k, BY[x.k].n, x.v, x.v2, unit(BY[x.k]), lvName(assess(x).lv)].map(q).join(', ')});`);
+  const sym = (S.sym || []).map(x => `INSERT INTO symptoms (noted_at, symptoms) VALUES (${q(new Date(x.t).toISOString())}, ${q(x.s.map(k => SYMBY[k] ? SYMBY[k].n : k).join('; '))});`);
+  return ['-- Void Voyagers export, ' + new Date().toISOString() + (S.demo ? ' (example data)' : ''), '-- Contains health data: keep it private.',
+    'CREATE TABLE IF NOT EXISTS readings (id TEXT PRIMARY KEY, checked_at TEXT NOT NULL, check_key TEXT NOT NULL, check_name TEXT, value REAL, value2 REAL, unit TEXT, status TEXT);',
+    'CREATE TABLE IF NOT EXISTS symptoms (noted_at TEXT NOT NULL, symptoms TEXT);', 'BEGIN;', ...rows, ...sym, 'COMMIT;', ''].join('\n');
+}
+$('#sqlBtn').addEventListener('click', () => {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([toSQL()], {type: 'application/sql'}));
+  a.download = `void-voyagers-${ymd(Date.now())}.sql`; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  toast('SQL file saved. It contains health data, so keep it private.', 0);
+});
 $('#impBtn').addEventListener('click', () => $('#impFile').click());
 $('#impFile').addEventListener('change', async ev => {
   const f = ev.target.files && ev.target.files[0];
@@ -2671,6 +2942,7 @@ function selfTest() {
 let th = null; try { th = localStorage.getItem(TKEY) ?? localStorage.getItem(OLD_TKEY); localStorage.removeItem(OLD_TKEY); if (th) localStorage.setItem(TKEY, th); } catch (_) {}
 applyTheme(th);
 matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => { if (!document.documentElement.dataset.theme) { applyTheme(null); globe.redraw(); } });
+try { hadLocal = [KEY, ...OLD_KEYS].some(k => localStorage.getItem(k) != null); } catch (_) {}
 S = load() || demoState();
 save(true);
 try { if (storageOK && localStorage.getItem(KEY) != null) OLD_KEYS.forEach(k => localStorage.removeItem(k)); } catch (_) {} /* migrated: keep no second copy */
@@ -2684,6 +2956,13 @@ catch (err) {
   $('#bannerLive').textContent = b.textContent;
 }
 window.addEventListener('hashchange', () => route(true));
+IDB.get().then(raw => {
+  let s = null;
+  if (!hadLocal && raw) try { s = clean(JSON.parse(raw)); } catch (_) {}
+  idbReady = true;
+  if (s && !s.demo) { S = s; save(true); fillProfile(); renderAll(); renderKitBadge(); toast('Your data was restored from this device’s database.', 0); }
+  else save(true);
+});
 renderKitBadge(); setTimeout(flushOutbox, 3000);
 if (location.protocol === 'file:') { const b = document.createElement('p'); b.className = 'help'; b.setAttribute('role', 'note'); b.style.margin = '0 0 12px'; b.textContent = 'Opened as a file: other web pages saved on this computer can read the readings stored here. For private use, open the website instead; it keeps working offline after the first visit.'; $('#main').prepend(b); }
 if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(() => {}); /* offline copy of the app */

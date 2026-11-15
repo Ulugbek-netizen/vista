@@ -46,7 +46,8 @@ def build():
         "default-src 'none'",
         f"script-src 'self' 'sha256-{sha}'",  # 'self': the 3D viewer module in assets/
         "style-src 'self' 'unsafe-inline'",
-        "img-src 'self' data: " + ' '.join(IMAGES),
+        "img-src 'self' data: blob: " + ' '.join(IMAGES),  # blob: photos from home, decrypted on the device
+        "media-src blob:",  # voice notes from home
         "font-src 'self'",
         "connect-src 'self' " + ' '.join(CONNECT),  # 'self': the offline service worker caches the app's own files
         "worker-src 'self'",
